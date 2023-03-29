@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use App\WebModel\Coupon;
 use App\WebModel\Store;
+use App\WebModel\Category;
+use App\WebModel\ProductCategory;
+use App\product;
 use App\WebModel\Banner;
 use App\WebModel\Site;
 use App\Store as ASTORE;
@@ -228,23 +231,209 @@ class HomeController extends Controller
     }
 
     //
-    public function stores()
+    public function stores($detail = "")
     {
         $data = [];
         try{
-            $data['pageCss'] = 'stores';
-            return view('web.home.stores')->with($data)->withShortcodes();
+            if($detail){
+                $data['pageCss'] = 'store-inner';
+                return view('web.home.stores.detail')->with($data)->withShortcodes();
+            }else{
+                $data['pageCss'] = 'stores';
+                return view('web.home.stores.index')->with($data)->withShortcodes();
+            }
         }catch (\Exception $e) {
             abort(404);
         }
     }
 
-    public function categories()
+    public function categories($detail = "")
     {
+        
         $data = [];
         try{
-            $data['pageCss'] = 'categories';
-            return view('web.home.categories')->with($data);
+            if($detail){
+                $data['pageCss']    = 'category-inner';
+                $siteid             = config('app.siteid');
+                $pageid             = PAGE_ID;
+                $dt                 = Carbon::now();
+                $date               = $dt->toDateString();
+
+                $data['detail']     = Cache::remember(
+                    "HomePage__Detail__{$siteid}__{$pageid}",
+                    21600,
+                    function () use ($siteid, $pageid) {
+                        return Category::select(
+                            'id',
+                            'title',
+                            'meta_title',
+                            'slug',
+                            'meta_description',
+                            'long_description',
+                            'category_banner_image'
+                        )
+                                                    
+                        ->CustomWhereBasedData($siteid)
+                        ->where('id', $pageid)
+                        ->first();
+                    }
+                );
+
+
+                $data['categoryStores'] = Cache::remember(
+                    "HomePage__CategoryStores__{$siteid}__{$pageid}",
+                    21600,
+                    function () use ($siteid, $pageid) {
+                        return Category::select(
+                            'id',
+                            'title',
+                            'meta_title',
+                            'meta_description',
+                            'long_description',
+                            'category_banner_image'
+                        )
+                        ->with(['categoryStores' => function ($query) use ($siteid) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'name',
+                                    'store_image'
+                                )
+                                ->CustomWhereBasedData($siteid);
+                        }])
+                        ->CustomWhereBasedData($siteid)
+                        ->where('id', $pageid)
+                        ->take(4)
+                        ->get()
+                        ->toArray();
+                    }
+                );
+
+
+               
+            $data['popularStores'] = Cache::remember(
+                "HomePage__PopularStores__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Store::select(
+                        'id',
+                        'name',
+                        'store_image'
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->where('popular', 1)
+                        ->take(10)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+
+            $data['trendingBlogs'] = Cache::remember(
+                "HomePage__TrendingBlogs__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Blog::select(
+                        'id',
+                        'title',
+                        'created_at',
+                        'user_id',
+                        'blog_image'
+                    )
+                       ->with(['categories' => function ($query) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                );
+                        }])
+                        ->with('user:id,name')
+                        ->CustomWhereBasedData($siteid)
+                        ->where(function ($query) {
+                            return $query
+                                ->where('trending', 1)
+                                ->orWhere('view', '>', 0);
+                        })
+                        ->orderBy('trending', 'desc')
+                        ->take(4)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+
+            $data['popularBlogs'] = Cache::remember(
+                "HomePage__PopularBlogs__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Blog::select(
+                        'id',
+                        'title',
+                        'created_at',
+                        'user_id',
+                        'blog_image'
+                    )
+                       ->with(['categories' => function ($query) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                );
+                        }])
+                        ->with('user:id,name')
+                        ->CustomWhereBasedData($siteid)
+                        ->where('popular', 1)
+                        ->orderBy('trending', 'desc')
+                        ->take(10)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['popularProducts'] = Cache::remember(
+                "HomePage__PopularProducts__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return ProductCategory::select('id','name','slug','product_category_image')
+                    ->CustomWhereBasedData($siteid)
+                    ->where('popular', 1)
+                    ->take(10)
+                    ->get()
+                    ->toArray();
+                    
+                }
+            );
+
+
+
+
+
+
+                if ($data['detail'] == null) {
+                    abort(404);
+                }
+
+
+
+// dd($data);
+
+                // dd($data['detail']->categoryStores);
+
+                // if (isset($data['detail']->categoryStores)) {
+
+                //     foreach ($data['detail']->categoryStores as $store){
+                //         dd($store);
+                //     }
+                // }
+
+                return view('web.home.categories.detail')->with($data)->withShortcodes();
+            }else{
+                $data['pageCss'] = 'categories';
+
+                // return view('web.home.categories.index')->with($data)->withShortcodes();
+            }
         }catch (\Exception $e) {
             abort(404);
         }

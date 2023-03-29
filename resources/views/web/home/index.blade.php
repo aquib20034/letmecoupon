@@ -42,7 +42,7 @@
 
             <!-- Popular Reviews Section Starts Here -->
             <section class="section">
-                @web_component([ 'postfixes' => 'reviews.popular.style1','data' => [] ])@endweb_component
+                @web_component([ 'postfixes' => 'reviews.popular.style2','data' => [] ])@endweb_component
             </section>
             <!-- Popular Reviews Section Ends Here -->
         </div>

@@ -30,10 +30,10 @@ Route::group(['namespace' => 'Web', 'prefix' => config('app.route_prefix')], fun
     Route::get('/search_blog', 'StoresController@searchBlog');
 
     //New Routes
-    Route::get('/stores', 'HomeController@stores')->name('stores');
-    Route::get('/categories', 'HomeController@categories')->name('categories');
-    Route::get('/blogs', 'HomeController@blogs')->name('blogs');
-    Route::get('/reviews', 'HomeController@reviews')->name('reviews');
+    Route::get('/stores/{detail?}', 'HomeController@stores')->name('stores');
+    Route::get('/categories/{detail?}', 'HomeController@categories')->name('categories');
+    Route::get('/blogs/{detail?}', 'HomeController@blogs')->name('blogs');
+    Route::get('/reviews/{detail?}', 'HomeController@reviews')->name('reviews');
 
     Route::get('/mediaffiliation.html', 'HomeController@masterEd');
 
@@ -53,6 +53,7 @@ Route::group(['namespace' => 'Web', 'prefix' => config('app.route_prefix')], fun
   if(defined('BLOG_CATEGORY')){
       Route::get('/'.BLOG_CATEGORY, 'BlogsController@categoryBlogs');
   }
+  
 //for old url to new url redirect work end
   if(defined('SLUG_LINK')){
       if(ROUTE_NAME == 'pages'){

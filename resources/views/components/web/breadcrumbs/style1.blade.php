@@ -1,15 +1,19 @@
 <div class="breadCrumbStyle1">
     <ul class="breadCrumbListing">
-        <?php foreach ($routes as $route) {
-        ?>
-            <li>
-                <a href="<?php echo "{{ config('app.app_path') }}/{$route["path"]}"; ?>" class="breadCrumb" aria-label="Visit <?php echo ($route['title']); ?>">
-                    <?php echo ($route['title']); ?>
-                </a>
-            </li>
-        <?php
-        }
-        ?>
+        @foreach ($routes as $route)
+            @if(isset($route["path"]))
+                <li>
+                    <a href="{{$route['path']}}" class="breadCrumb" aria-label="Visit {{($route['title'])}}">
+                        {!!($route['title'])!!}
+                    </a>
+                </li>
+            @else
+                <li>
+                    <a class="breadCrumb active" aria-label="Visit {{($route['title'])}}">
+                    {!!($route['title'])!!}
+                    </a>
+                </li>
+            @endif
+        @endforeach
     </ul>
-
 </div>

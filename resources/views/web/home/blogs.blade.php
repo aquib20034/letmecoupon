@@ -25,43 +25,13 @@
                                 <div class="sidebar sticky js-stickySidebar">
                                     <!-- Sidebar Categories Section Starts Here -->
                                     <div class="sidebar__section">
-                                        <h2 class="sidebar__heading">
-                                            Categories
-                                        </h2>
-
-                                        <ul class="sidebar__navList">
-                                            <?php for ($i = 0; $i < 3; $i++) { ?>
-                                                <li class="sidebar__navItem">
-                                                    <a href="{{config('app.app_path')}}/category-inner" class="sidebar__navLink" aria-label="Visit <?php echo ($i + 1); ?> Category Inner Page">
-                                                        Category <?php echo ($i + 1); ?>
-                                                    </a>
-                                                </li>
-                                            <?php } ?>
-
-                                            <li class="sidebar__navItem">
-                                                <a href="{{config('app.app_path')}}/categories" class="sidebar__navLink primary" aria-label="View All Categories">
-                                                    View All Categories
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        @web_component([ 'postfixes' => 'categories.sidebar.style1','data' => [] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Categories Section Ends Here -->
 
                                     <!-- Sidebar Meet the Authors Section Starts Here -->
                                     <div class="sidebar__section">
-                                        <h2 class="sidebar__heading">
-                                            Meet the Authors
-                                        </h2>
-
-                                        <ul class="sidebar__navList">
-                                            <?php for ($i = 0; $i < 3; $i++) { ?>
-                                                <li class="sidebar__navItem">
-                                                    <a href="{{config('app.app_path')}}/author" class="sidebar__navLink" aria-label="Visit Author <?php echo ($i + 1); ?> Page">
-                                                        Author <?php echo ($i + 1); ?>
-                                                    </a>
-                                                </li>
-                                            <?php } ?>
-                                        </ul>
+                                        @web_component([ 'postfixes' => 'authors.sidebar.style1','data' => [] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Meet the Authors Section Ends Here -->
                                 </div>
@@ -73,45 +43,13 @@
                             <div class="twoColumnLayout__wideColumn">
                                 <!-- Popular Blogs Section Starts Here -->
                                 <section class="section pd-top-none">
-                                    <div>
-                                        <h2 class="heading-1 primary">Popular Blogs</h2>
-                                    </div>
-
-                                    <div class="cardGrid-v2">
-                                        <div class="cardGrid">
-                                            <?php for ($i = 0; $i < 4; $i++) {
-                                            ?>
-                                                <div class="cardGrid__item">
-                                                    <?php //include('../components/Cards/Style3/index.php'); ?>
-                                                    @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => [] ])@endweb_component
-                                                </div>
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
+                                    @web_component([ 'postfixes' => 'blogs.popular.Style1','data' => [] ])@endweb_component
                                 </section>
                                 <!-- Popular Blogs Section Ends Here -->
 
                                 <!-- Recent Blogs Section Starts Here -->
                                 <section class="section">
-                                    <div>
-                                        <h2 class="heading-1">Recent Blogs</h2>
-                                    </div>
-
-                                    <div class="cardGrid-v2">
-                                        <div class="cardGrid">
-                                            <?php for ($i = 0; $i < 12; $i++) {
-                                            ?>
-                                                <div class="cardGrid__item">
-                                                    <?php //include('../components/Cards/Style3/index.php'); ?>
-                                                    @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => [] ])@endweb_component
-                                                </div>
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
+                                    @web_component([ 'postfixes' => 'blogs.recent.style1','data' => [] ])@endweb_component
                                 </section>
                                 <!-- Recent Blogs Section Ends Here -->
                             </div>
@@ -131,25 +69,7 @@
 
             <!-- Popular Reviews Section Starts Here -->
             <section class="section">
-                <div class="container-inner">
-                    <div>
-                        <h2 class="heading-1">Popular Reviews</h2>
-                    </div>
-
-                    <div class="cardGrid-v1">
-                        <div class="cardGrid">
-                            <?php for ($i = 0; $i < 6; $i++) {
-                            ?>
-                                <div class="cardGrid__item">
-                                    <?php //include('../components/Cards/Style3/index.php'); ?>
-                                    @web_component([ 'postfixes' => 'reviews.minimal.style2','data' => [] ])@endweb_component
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
+                @web_component([ 'postfixes' => 'reviews.recent.Style2','data' => [] ])@endweb_component
             </section>
             <!-- Popular Reviews Section Ends Here -->
         </div>

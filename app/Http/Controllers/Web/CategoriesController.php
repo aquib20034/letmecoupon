@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\WebModel\Category;
 use App\WebModel\Store;
+use App\WebModel\Blog;
 use App\Http\Controllers\Controller;
 use App\WebModel\Site;
 use App\Traits\MetaWriterTrait;
@@ -55,7 +56,8 @@ class CategoriesController extends Controller
                 function () use ($siteid) {
                     return Store::select(
                         'id',
-                        'name'
+                        'name',
+                        'store_image'
                     )
                         ->CustomWhereBasedData($siteid)
                         ->where('popular', 1)
@@ -112,6 +114,7 @@ class CategoriesController extends Controller
                         ->first();
                 }
             );
+            
 
             if (isset($page)) :
                 $data['meta'] = [
@@ -120,7 +123,82 @@ class CategoriesController extends Controller
                 ];
             endif;
 
-            return view('web.category.index')->with($data);
+
+            $data['trendingBlogs'] = Cache::remember(
+                "CategoryListingPage__TrendingBlogs__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Blog::select(
+                        'id',
+                        'title',
+                        'created_at',
+                        'user_id',
+                        'blog_image'
+                    )
+                       ->with(['categories' => function ($query) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                );
+                        }])
+                        ->with('user:id,name')
+                        ->CustomWhereBasedData($siteid)
+                        ->where(function ($query) {
+                            return $query
+                                ->where('trending', 1)
+                                ->orWhere('view', '>', 0);
+                        })
+                        ->orderBy('trending', 'desc')
+                        ->take(4)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+
+            $data['popularBlogs'] = Cache::remember(
+                "CategoryListingPage__PopularBlogs__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Blog::select(
+                        'id',
+                        'title',
+                        'created_at',
+                        'user_id',
+                        'blog_image'
+                    )
+                       ->with(['categories' => function ($query) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                );
+                        }])
+                        ->with('user:id,name')
+                        ->CustomWhereBasedData($siteid)
+                        ->where('popular', 1)
+                        ->orderBy('trending', 'desc')
+                        ->take(10)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+
+
+
+
+
+
+
+
+
+            // dd($data);
+            return view('web.home.categories.index')->with($data);
+            // return view('web.category.index')->with($data);
         } catch (\Exception $e) {
             dd($e);
             abort(404);

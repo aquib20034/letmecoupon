@@ -5,8 +5,11 @@
 
     <div class="cardGrid-v1">
         <div class="cardGrid">
-            <?php for ($i = 0; $i < 5; $i++) {
-            ?>
+            <?php  $i=0; ?>
+         
+            @if (isset($trendingBlogs)) 
+                @foreach ($trendingBlogs as $blog)
+              
                 <div class="cardGrid__item <?php echo ($i === 0 ? 'cardGrid__item--vertical' : 'cardGrid__item--horizontal'); ?>">
                     <?php
                     // include($i === 0 ?
@@ -15,15 +18,18 @@
                     //     '../components/Cards/Style3/index.php'
                     // );
                     ?>
-                    @if($i === 0)
-                        @web_component([ 'postfixes' => 'blogs.minimal.style1','data' => [] ])@endweb_component
+                    @if($i == 0)
+                 
+                        @web_component([ 'postfixes' => 'blogs.minimal.style1','data' => ['blog'=>$blog] ])@endweb_component
                     @else
-                        @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => [] ])@endweb_component
+                 
+                        @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => ['blog'=>$blog] ])@endweb_component
                     @endif
+
+                    <?php $i++; ?>
                 </div>
-            <?php
-            }
-            ?>
+                @endforeach
+                @endif
         </div>
     </div>
 </div>

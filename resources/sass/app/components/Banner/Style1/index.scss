@@ -1,0 +1,107 @@
+@import "../../../partials/mixins";
+
+.banner {
+  &__wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding: 0 0 calc(100% * 500 / 1820) 0;
+    overflow: hidden;
+    background-color: var(--primaryContrastColor);
+    border-radius: 20px;
+
+    @media only screen and (max-width: 768px) {
+      padding: 0 0 calc(100% * 150 / 396) 0;
+      border-radius: 10px;
+    }
+
+    @media only screen and (max-width: 420px) {
+      padding: 0 0 calc(100% * 200 / 400) 0;
+    }
+  }
+
+  &__background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    & svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__typography {
+    width: 100%;
+    max-width: min(calc(100% - 30px), 820px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    padding: 15px 15px;
+  }
+
+  &__title {
+    font-size: 62px;
+    font-family: "freightsans-book";
+    font-weight: 400;
+    line-height: 1.2em;
+    color: var(--primaryColor);
+    text-align: center;
+    margin-bottom: 8px;
+    @include trim(3);
+
+    @media only screen and (max-width: 1600px) {
+      font-size: 48px;
+    }
+
+    @media only screen and (max-width: 1280px) {
+      font-size: 36px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 30px;
+      margin-bottom: 0;
+    }
+
+    @media only screen and (max-width: 420px) {
+      font-size: 22px;
+    }
+
+    & .bold {
+      font-weight: 700;
+    }
+  }
+
+  &__subTitle {
+    font-size: 32px;
+    font-family: "freightsans-book";
+    font-weight: 400;
+    line-height: 1.75em;
+    color: var(--primaryTextColor);
+    text-align: center;
+
+    @media only screen and (max-width: 1600px) {
+      font-size: 26px;
+    }
+
+    @media only screen and (max-width: 1280px) {
+      font-size: 20px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 16px;
+    }
+
+    @media only screen and (max-width: 420px) {
+      font-size: 14px;
+    }
+  }
+}

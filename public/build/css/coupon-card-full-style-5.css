@@ -1,0 +1,842 @@
+:root {
+    --primaryContrastColor: var(--cms-tertiary-color);
+    --primaryTextColor: #000000;
+    --greyTextColor: #dadada;
+    --lightGreyColor: #b9b9b9;
+    --darkGreyColor: #707070;
+    --borderColor: #e6e6e6;
+    --transition: 0.4s;
+    --transition-short: 0.2s;
+    --transition-long: 0.6s;
+    --font-family-1: Open Sans, sans-serif;
+    --font-family-2: Open Sans, sans-serif;
+    --font-family-3: Open Sans, sans-serif;
+    --gap: 25px;
+}
+@media (max-width: 1440px) {
+    :root {
+        --gap: 15px;
+    }
+}
+@media (max-width: 768px) {
+    :root {
+        --gap: 10px;
+    }
+}
+.discountCardStyle5 .discountCard {
+    --outer-padding: 17px;
+    position: relative;
+    padding: var(--outer-padding) var(--outer-padding);
+    border-radius: 0;
+    border: 2px solid var(--primaryColor);
+    background-color: #fff;
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard {
+        padding-right: calc(var(--outer-padding) * 1.5);
+    }
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard {
+        padding: calc(var(--outer-padding) * 1.5) var(--outer-padding);
+    }
+}
+.discountCardStyle5 .discountCard__border {
+    display: block;
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    width: 14px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__border {
+        width: 100%;
+        height: 14px;
+    }
+}
+.discountCardStyle5 .discountCard__border--1 {
+    left: 0;
+    transform: translate(-3px, 0);
+    background-image: url("/build/svgs/FullWidthCardLeft.svg");
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard__border--1 {
+        transform: translate(-2px, 0);
+    }
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__border--1 {
+        top: -2px;
+        transform: translate(0, 0px);
+        background-image: url("/build/svgs/4ColumnTop.svg");
+        background-position: top;
+    }
+}
+.discountCardStyle5 .discountCard__border--2 {
+    right: 0;
+    transform: translate(3px, 0);
+    background-image: url("/build/svgs/FullWidthCardRight.svg");
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard__border--2 {
+        transform: translate(2px, 0);
+    }
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__border--2 {
+        top: unset;
+        bottom: -2px;
+        transform: translate(0, 0px);
+        background-image: url("/build/svgs/4ColumnBottom.svg");
+        background-position: bottom;
+    }
+}
+.discountCardStyle5 .discountCard__wrapper {
+    display: grid;
+    grid-template-columns: 226px 1fr 240px;
+    gap: 30px;
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard__wrapper {
+        grid-template-columns: 226px 1fr;
+        gap: 25px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+.discountCardStyle5 .discountCard__image {
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard__image {
+        grid-row: 1 / span 2;
+        padding-right: var(--outer-padding);
+    }
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__image {
+        grid-row: auto;
+        padding-right: 0;
+        padding-bottom: var(--outer-padding);
+    }
+}
+.discountCardStyle5 .discountCard__image::before,
+.discountCardStyle5 .discountCard__image::after {
+    display: block;
+    content: "";
+    position: absolute;
+    z-index: 2;
+    width: 24px;
+    height: 12px;
+    background-image: url("/build/svgs/half-circle.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+.discountCardStyle5 .discountCard__image::before {
+    top: 0;
+    right: 0;
+    transform: translate(
+        var(--outer-padding),
+        calc((var(--outer-padding) + 2px) * -1)
+    );
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__image::before {
+        right: unset;
+        top: unset;
+        left: 0;
+        bottom: 0;
+        transform: translate(calc((var(--outer-padding) + 8px) * -1), 0)
+            rotate(270deg);
+    }
+}
+.discountCardStyle5 .discountCard__image::after {
+    bottom: 0;
+    right: 0;
+    transform: translate(
+            var(--outer-padding),
+            calc(var(--outer-padding) + 2.3px)
+        )
+        rotate(180deg);
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__image::after {
+        transform: translate(calc((var(--outer-padding) + 8px) * 1), 0)
+            rotate(90deg);
+    }
+}
+.discountCardStyle5 .discountCard__image .dottedLine {
+    display: block;
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    transform: translate(
+        calc(var(--outer-padding) / 2.5),
+        calc(var(--outer-padding) * -1)
+    );
+    width: 2px;
+    height: calc(100% + var(--outer-padding) * 2);
+    border-left: 2px dashed var(--primaryColor);
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__image .dottedLine {
+        top: unset;
+        bottom: 0;
+        left: 0;
+        transform: translate(
+            calc(var(--outer-padding) * -1),
+            calc(var(--outer-padding) / 2.6 * -1)
+        );
+        width: calc(100% + var(--outer-padding) * 2);
+        height: 2px;
+        border-left: none;
+        border-bottom: 2px dashed var(--primaryColor);
+    }
+}
+.discountCardStyle5 .discountCard__image figure {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding: 0 0 50.4424778761% 0;
+    border-radius: 0;
+    overflow: hidden;
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__image figure {
+        padding: 0 0 23.5059760956% 0;
+    }
+}
+@media only screen and (max-width: 520px) {
+    .discountCardStyle5 .discountCard__image figure {
+        padding: 0 0 31.2749003984% 0;
+    }
+}
+.discountCardStyle5 .discountCard__image figure img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+    -o-object-position: center;
+    object-position: center;
+    border-radius: inherit;
+}
+.discountCardStyle5 .discountCard__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.discountCardStyle5 .discountCard__title {
+    font-size: 18px;
+    font-family: var(--font-family-1);
+    font-weight: 700;
+    line-height: 1.375em;
+    color: var(--primaryTextColor);
+    margin-bottom: 20px;
+    min-height: 2.4em;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+@media only screen and (max-width: 1600px) {
+    .discountCardStyle5 .discountCard__title {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__title {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+}
+.discountCardStyle5 .discountCard__attributes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: -15px -15px;
+}
+@media only screen and (max-width: 1600px) {
+    .discountCardStyle5 .discountCard__attributes {
+        margin: -8px -8px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__attributes {
+        margin: -5px -5px;
+    }
+}
+.discountCardStyle5 .discountCard__attributes > * {
+    padding: 5px;
+}
+@media only screen and (max-width: 1600px) {
+    .discountCardStyle5 .discountCard__attributes > * {
+        padding: 8px 8px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__attributes > * {
+        padding: 5px 5px;
+    }
+}
+@media only screen and (max-width: 440px) {
+    .discountCardStyle5 .discountCard__attributes .attribute {
+        flex: 1 1 50%;
+    }
+}
+.discountCardStyle5 .discountCard__attributes .attribute__wrapper {
+    display: flex;
+    align-items: center;
+}
+.discountCardStyle5 .discountCard__attributes .attribute__icon {
+    display: inline-block;
+    font-size: 18px;
+    color: var(--primaryTextColor);
+    margin-right: 10px;
+}
+@media only screen and (max-width: 1600px) {
+    .discountCardStyle5 .discountCard__attributes .attribute__icon {
+        font-size: 14px;
+        margin-right: 8px;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard__attributes .attribute__icon {
+        color: var(--primaryColor);
+    }
+}
+.discountCardStyle5 .discountCard__attributes .attribute__icon--primary {
+    color: var(--primaryColor);
+}
+.discountCardStyle5 .discountCard__attributes .attribute__key {
+    display: inline-block;
+    font-size: 14px;
+    font-family: var(--font-family-1);
+    font-weight: 400;
+    line-height: 1.35em;
+    color: var(--primaryTextColor);
+    white-space: nowrap;
+}
+@media only screen and (max-width: 1600px) {
+    .discountCardStyle5 .discountCard__attributes .attribute__key {
+        font-size: 16px;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard__attributes .attribute__key {
+        display: none;
+    }
+}
+.discountCardStyle5 .discountCard__attributes .attribute__value {
+    display: inline-block;
+    font-size: 14px;
+    font-family: var(--font-family-1);
+    font-weight: 400;
+    line-height: 1.35em;
+    color: var(--primaryTextColor);
+    max-width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+@media only screen and (max-width: 1600px) {
+    .discountCardStyle5 .discountCard__attributes .attribute__value {
+        font-size: 16px;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard__attributes .attribute__value {
+        font-weight: 400;
+    }
+}
+@media only screen and (max-width: 440px) {
+    .discountCardStyle5 .discountCard__attributes .attribute__value {
+        font-size: 14px;
+    }
+}
+.discountCardStyle5 .discountCard__attributes .attribute__value--primary {
+    color: var(--primaryColor);
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard__attributes .attribute__value--primary {
+        color: var(--primaryTextColor);
+    }
+}
+.discountCardStyle5 .discountCard__cta {
+    margin: auto 0;
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard__cta {
+        grid-column: 2/-1;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard__cta {
+        grid-column: 1/-1;
+    }
+}
+.discountCardStyle5 .discountCard__cta a,
+.discountCardStyle5 .discountCard__cta button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    padding: 14px;
+    border-radius: 10px;
+    background-color: var(--primaryColor);
+    background-image: linear-gradient(
+        45deg,
+        var(--primaryColor),
+        var(--secondaryColor)
+    );
+    transition: color var(--transition-short) linear,
+        background-color var(--transition-short) linear;
+}
+@media only screen and (max-width: 1600px) {
+    .discountCardStyle5 .discountCard__cta a,
+    .discountCardStyle5 .discountCard__cta button {
+        padding: 10px 15px;
+    }
+}
+.discountCardStyle5 .discountCard__cta a.active,
+.discountCardStyle5 .discountCard__cta a:active,
+.discountCardStyle5 .discountCard__cta a:focus,
+.discountCardStyle5 .discountCard__cta a:hover,
+.discountCardStyle5 .discountCard__cta button.active,
+.discountCardStyle5 .discountCard__cta button:active,
+.discountCardStyle5 .discountCard__cta button:focus,
+.discountCardStyle5 .discountCard__cta button:hover {
+    outline: none;
+    cursor: pointer;
+    background-color: var(--secondaryColor);
+    background-image: linear-gradient(
+        45deg,
+        var(--secondaryColor) 0,
+        var(--secondaryColor) 100%
+    );
+}
+.discountCardStyle5 .discountCard__cta a .text,
+.discountCardStyle5 .discountCard__cta button .text {
+    font-size: 18px;
+    font-family: var(--font-family-1);
+    font-weight: 700;
+    line-height: 1.39em;
+    color: inherit;
+}
+@media only screen and (max-width: 1600px) {
+    .discountCardStyle5 .discountCard__cta a .text,
+    .discountCardStyle5 .discountCard__cta button .text {
+        font-size: 20px;
+    }
+}
+.discountCardStyle5 .discountCard--expired .discountCard__title {
+    color: var(--lightGreyColor);
+}
+.discountCardStyle5 .discountCard--expired .discountCard__attributes .tag {
+    background-color: var(--lightGreyColor);
+}
+.discountCardStyle5 .discountCard--expired .discountCard__attributes span,
+.discountCardStyle5
+    .discountCard--expired
+    .discountCard__attributes
+    span.success {
+    color: var(--lightGreyColor);
+}
+.discountCardStyle5 .discountCard--expired .discountCard__cta a,
+.discountCardStyle5 .discountCard--expired .discountCard__cta button {
+    color: #fff;
+    border-color: var(--lightGreyColor);
+    background-color: var(--lightGreyColor);
+    cursor: not-allowed;
+}
+.discountCardStyle5 .discountCard--half {
+    padding-right: calc(var(--outer-padding) * 1.5);
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half {
+        padding: calc(var(--outer-padding) * 1.5) var(--outer-padding);
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__border {
+        width: 100%;
+        height: 14px;
+    }
+}
+.discountCardStyle5 .discountCard--half .discountCard__border--1 {
+    transform: translate(-2.5px, 0);
+    background-image: url("/build/svgs/6ColumnLeft.svg");
+    background-position: left;
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__border--1 {
+        top: -2px;
+        transform: translate(0, 0);
+        background-image: url("/build/svgs/4ColumnTop.svg");
+        background-position: top;
+    }
+}
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+    .discountCardStyle5 .discountCard--half .discountCard__border--1 {
+        background-image: url("/build/svgs/3ColumnTop.svg");
+    }
+}
+.discountCardStyle5 .discountCard--half .discountCard__border--2 {
+    transform: translate(2.5px, 0);
+    background-image: url("/build/svgs/6ColumnRight.svg");
+    background-position: right;
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__border--2 {
+        top: unset;
+        bottom: -2px;
+        transform: translate(0, 0);
+        background-image: url("/build/svgs/4ColumnBottom.svg");
+        background-position: bottom;
+    }
+}
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+    .discountCardStyle5 .discountCard--half .discountCard__border--2 {
+        background-image: url("/build/svgs/3ColumnBottom.svg");
+    }
+}
+.discountCardStyle5 .discountCard--half .discountCard__wrapper {
+    grid-template-columns: 226px 1fr;
+    gap: 25px;
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+.discountCardStyle5 .discountCard--half .discountCard__image {
+    grid-row: 1 / span 2;
+    padding-right: var(--outer-padding);
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__image {
+        grid-row: auto;
+        padding-right: 0;
+        padding-bottom: var(--outer-padding);
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__image::before {
+        right: unset;
+        top: unset;
+        left: 0;
+        bottom: 0;
+        transform: translate(calc((var(--outer-padding) + 8px) * -1), 0)
+            rotate(270deg);
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__image::after {
+        transform: translate(calc((var(--outer-padding) + 8px) * 1), 0)
+            rotate(90deg);
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__image .dottedLine {
+        top: unset;
+        bottom: 0;
+        left: 0;
+        transform: translate(
+            calc(var(--outer-padding) * -1),
+            calc(var(--outer-padding) / 2.6 * -1)
+        );
+        width: calc(100% + var(--outer-padding) * 2);
+        height: 2px;
+        border-left: none;
+        border-bottom: 2px dashed var(--primaryColor);
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__image figure {
+        padding: 0 0 23.5059760956% 0;
+    }
+}
+@media only screen and (max-width: 520px) {
+    .discountCardStyle5 .discountCard--half .discountCard__image figure {
+        padding: 0 0 31.2749003984% 0;
+    }
+}
+@media only screen and (max-width: 1800px) {
+    .discountCardStyle5 .discountCard--half .discountCard__attributes {
+        margin: -8px -8px;
+    }
+}
+@media only screen and (max-width: 1800px) {
+    .discountCardStyle5 .discountCard--half .discountCard__attributes > * {
+        padding: 8px 8px;
+    }
+}
+@media only screen and (max-width: 920px) {
+    .discountCardStyle5
+        .discountCard--half
+        .discountCard__attributes
+        .attribute {
+        flex: 1 1 50%;
+    }
+}
+.discountCardStyle5
+    .discountCard--half
+    .discountCard__attributes
+    .attribute__icon {
+    color: var(--primaryColor);
+}
+.discountCardStyle5
+    .discountCard--half
+    .discountCard__attributes
+    .attribute__key {
+    display: none;
+}
+@media only screen and (max-width: 1800px) {
+    .discountCardStyle5
+        .discountCard--half
+        .discountCard__attributes
+        .attribute__value {
+        font-size: 16px;
+    }
+}
+.discountCardStyle5
+    .discountCard--half
+    .discountCard__attributes
+    .attribute__value--primary {
+    color: var(--primaryTextColor);
+}
+.discountCardStyle5 .discountCard--half .discountCard__cta {
+    grid-column: 2/-1;
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--half .discountCard__cta {
+        grid-column: 1/-1;
+    }
+}
+.discountCardStyle5 .discountCard--vertical-1,
+.discountCardStyle5 .discountCard--vertical-2 {
+    padding: calc(var(--outer-padding) * 1.5) var(--outer-padding);
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__border,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__border {
+    width: 100%;
+    height: 14px;
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__border--1,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__border--1 {
+    top: -2px;
+    transform: translate(0, 0);
+    background-image: url("/build/svgs/4ColumnTop.svg");
+    background-position: top;
+}
+@media only screen and (max-width: 1200px) and (min-width: 769px) {
+    .discountCardStyle5 .discountCard--vertical-1 .discountCard__border--1,
+    .discountCardStyle5 .discountCard--vertical-2 .discountCard__border--1 {
+        background-image: url("/build/svgs/3ColumnTop.svg");
+    }
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__border--2,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__border--2 {
+    top: unset;
+    bottom: -2px;
+    transform: translate(0, 0);
+    background-image: url("/build/svgs/4ColumnBottom.svg");
+    background-position: bottom;
+}
+@media only screen and (max-width: 1200px) and (min-width: 769px) {
+    .discountCardStyle5 .discountCard--vertical-1 .discountCard__border--2,
+    .discountCardStyle5 .discountCard--vertical-2 .discountCard__border--2 {
+        background-image: url("/build/svgs/3ColumnBottom.svg");
+    }
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__wrapper,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__wrapper {
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__image,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__image {
+    grid-row: auto;
+    padding-right: 0;
+    padding-bottom: var(--outer-padding);
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__image::before,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__image::before {
+    right: unset;
+    top: unset;
+    left: 0;
+    bottom: 0;
+    transform: translate(calc((var(--outer-padding) + 8px) * -1), 0)
+        rotate(270deg);
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__image::after,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__image::after {
+    transform: translate(calc((var(--outer-padding) + 8px) * 1), 0)
+        rotate(90deg);
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__image .dottedLine,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__image .dottedLine {
+    top: unset;
+    bottom: 0;
+    left: 0;
+    transform: translate(
+        calc(var(--outer-padding) * -1),
+        calc(var(--outer-padding) / 2.6 * -1)
+    );
+    width: calc(100% + var(--outer-padding) * 2);
+    height: 2px;
+    border-left: none;
+    border-bottom: 2px dashed var(--primaryColor);
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__image figure,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__image figure {
+    padding: 0 0 23.5059760956% 0;
+}
+@media only screen and (max-width: 520px) {
+    .discountCardStyle5 .discountCard--vertical-1 .discountCard__image figure,
+    .discountCardStyle5 .discountCard--vertical-2 .discountCard__image figure {
+        padding: 0 0 31.2749003984% 0;
+    }
+}
+@media only screen and (max-width: 1800px) {
+    .discountCardStyle5 .discountCard--vertical-1 .discountCard__attributes,
+    .discountCardStyle5 .discountCard--vertical-2 .discountCard__attributes {
+        margin: -8px -8px;
+    }
+}
+@media only screen and (max-width: 1800px) {
+    .discountCardStyle5 .discountCard--vertical-1 .discountCard__attributes > *,
+    .discountCardStyle5
+        .discountCard--vertical-2
+        .discountCard__attributes
+        > * {
+        padding: 8px 8px;
+    }
+}
+@media only screen and (max-width: 920px) {
+    .discountCardStyle5
+        .discountCard--vertical-1
+        .discountCard__attributes
+        .attribute,
+    .discountCardStyle5
+        .discountCard--vertical-2
+        .discountCard__attributes
+        .attribute {
+        flex: 1 1 50%;
+    }
+}
+.discountCardStyle5
+    .discountCard--vertical-1
+    .discountCard__attributes
+    .attribute__icon,
+.discountCardStyle5
+    .discountCard--vertical-2
+    .discountCard__attributes
+    .attribute__icon {
+    color: var(--primaryColor);
+}
+.discountCardStyle5
+    .discountCard--vertical-1
+    .discountCard__attributes
+    .attribute__key,
+.discountCardStyle5
+    .discountCard--vertical-2
+    .discountCard__attributes
+    .attribute__key {
+    display: none;
+}
+@media only screen and (max-width: 1800px) {
+    .discountCardStyle5
+        .discountCard--vertical-1
+        .discountCard__attributes
+        .attribute__value,
+    .discountCardStyle5
+        .discountCard--vertical-2
+        .discountCard__attributes
+        .attribute__value {
+        font-size: 16px;
+    }
+}
+.discountCardStyle5
+    .discountCard--vertical-1
+    .discountCard__attributes
+    .attribute__value--primary,
+.discountCardStyle5
+    .discountCard--vertical-2
+    .discountCard__attributes
+    .attribute__value--primary {
+    color: var(--primaryTextColor);
+}
+.discountCardStyle5 .discountCard--vertical-1 .discountCard__cta,
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__cta {
+    grid-column: 1/-1;
+}
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__border--1 {
+    background-image: url("/build/svgs/3ColumnTop.svg");
+}
+@media only screen and (max-width: 1200px) {
+    .discountCardStyle5 .discountCard--vertical-2 .discountCard__border--1 {
+        background-image: url("/build/svgs/4ColumnTop.svg");
+    }
+}
+.discountCardStyle5 .discountCard--vertical-2 .discountCard__border--2 {
+    background-image: url("/build/svgs/3ColumnBottom.svg");
+}
+@media only screen and (max-width: 768px) {
+    .discountCardStyle5 .discountCard--vertical-2 .discountCard__border--2 {
+        background-image: url("/build/svgs/4ColumnBottom.svg");
+    }
+}
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+.grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+.grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+.grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+@media only screen and (max-width: 1200px) {
+    .grid--4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media only screen and (max-width: 768px) {
+    .grid--2,
+    .grid--3,
+    .grid--4 {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

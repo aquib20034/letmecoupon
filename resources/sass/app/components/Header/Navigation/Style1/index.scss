@@ -1,0 +1,137 @@
+.navigation {
+  &__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 -15px;
+
+    @media only screen and (max-width: 1600px) {
+      margin: 0 -10px;
+    }
+  }
+
+  &__item {
+    position: relative;
+    padding: 0 15px;
+
+    @media only screen and (max-width: 1600px) {
+      padding: 0 10px;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      .navigation__button {
+        outline: none;
+        cursor: pointer;
+        color: var(--primaryColor);
+
+        & .icon {
+          transform: rotate(180deg);
+        }
+      }
+
+      .navigation__dropdown {
+        display: block;
+      }
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: var(--primaryTextColor);
+    transition: color $transition-short linear;
+
+    & .text {
+      font-size: 26px;
+      font-family: "freightsans-medium", sans-serif;
+      // font-weight: 500;
+      line-height: 1.35em;
+      color: inherit;
+
+      @media only screen and (max-width: 1600px) {
+        font-size: 18px;
+      }
+
+      @media only screen and (max-width: 1024px) {
+        font-size: 16px;
+      }
+    }
+
+    & .icon {
+      margin-left: 5px;
+      font-size: 14px;
+      color: inherit;
+      transition: transform $transition-short linear;
+
+      @media only screen and (max-width: 1600px) {
+        font-size: 12px;
+      }
+    }
+  }
+
+  &__dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+
+    .dropdown {
+      min-width: 300px;
+      padding-top: 31px;
+
+      &__wrapper {
+        width: 100%;
+        padding: 15px 20px;
+        background-color: var(--white);
+        border-radius: 0px 0px 20px 20px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+      }
+
+      &__list {
+        max-height: 75vh;
+        overflow-y: auto;
+
+        & > *:not(:last-child) {
+          margin-bottom: 15px;
+
+          @media only screen and (max-width: 1600px) {
+            margin-bottom: 10px;
+          }
+        }
+      }
+
+      .title {
+        font-size: 24px;
+        font-family: "freightsans-medium", sans-serif;
+        //   font-weight: 500;
+        line-height: 1.3em;
+        color: var(--primaryTextColor);
+
+        @media only screen and (max-width: 1600px) {
+          font-size: 18px;
+        }
+
+        &.link {
+          transition: color $transition-short linear;
+
+          &:active,
+          &:focus,
+          &:hover {
+            outline: none;
+            cursor: pointer;
+            color: var(--primaryColor);
+          }
+        }
+
+        &.bold {
+          margin-top: 15px;
+          font-family: "freightsans-bold", sans-serif;
+        }
+      }
+    }
+  }
+}

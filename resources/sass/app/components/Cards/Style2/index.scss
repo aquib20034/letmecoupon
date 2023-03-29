@@ -1,0 +1,268 @@
+@import "../../../partials/mixins";
+
+.cardStyle2 {
+  .card {
+    height: 100%;
+    width: 100%;
+    padding: 20px 20px;
+    border-radius: 20px;
+    border: 1px solid var(--primaryContrastColor);
+    background-color: var(--white);
+
+    @media only screen and (max-width: 1024px) {
+      padding: 15px 15px;
+    }
+
+    &__wrapper {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__top {
+      padding-bottom: 15px;
+
+      @media only screen and (max-width: 1024px) {
+        padding-bottom: 11px;
+      }
+    }
+
+    &__bottom {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      & > *:not(:last-child) {
+        margin-bottom: 12px;
+
+        // @media only screen and (max-width: 1024px) {
+        //   margin-bottom: 12px;
+        // }
+      }
+    }
+
+    &__thumbnail {
+      position: relative; // For .card__tag
+
+      figure {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding: 0 0 calc(100% * 265 / 520) 0;
+        border-radius: 10px;
+        overflow: hidden;
+
+        @media only screen and (max-width: 1024px) {
+          padding: 0 0 calc(100% * 188 / 362) 0;
+        }
+
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 1;
+
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          border-radius: inherit;
+        }
+      }
+    }
+
+    /* Tag will be inside .card__thumbnail */
+    &__tag {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
+
+      display: inline-block;
+      padding: 3px 5px;
+      border-radius: 5px;
+      background-color: var(--white);
+
+      @media only screen and (max-width: 1024px) {
+        top: 15px;
+        left: 15px;
+      }
+
+      & span {
+        font-size: 18px;
+        font-family: "freightsans-bold";
+        font-weight: 100;
+        line-height: 1.2em;
+        color: var(--primaryColor);
+        min-height: 1.2em;
+        transition: color $transition-short linear;
+
+        @media only screen and (max-width: 1600px) {
+          font-size: 16px;
+        }
+
+        @media only screen and (max-width: 1024px) {
+          font-size: 14px;
+        }
+
+        &:active,
+        &:focus,
+        &:hover {
+          outline: none;
+          cursor: pointer;
+          color: var(--primaryContrastColor);
+        }
+      }
+    }
+
+    &__category {
+      font-size: 20px;
+      font-family: "freightsans-medium";
+      font-weight: 100;
+      line-height: 1.3em;
+      color: var(--primaryTextColor);
+      padding-bottom: 3px;
+      @include trim(1);
+
+      @media only screen and (max-width: 1600px) {
+        font-size: 16px;
+      }
+
+      @media only screen and (max-width: 1024px) {
+        font-size: 14px;
+        padding-bottom: 0;
+      }
+    }
+
+    &__title {
+      font-size: 26px;
+      font-family: "freightsans-bold";
+      font-weight: 100;
+      line-height: 1.385em;
+      color: var(--primaryTextColor);
+
+      @media only screen and (max-width: 1600px) {
+        font-size: 22px;
+      }
+
+      @media only screen and (max-width: 1024px) {
+        font-size: 18px;
+      }
+
+      a {
+        @include trim(2);
+      }
+    }
+
+    &__attributes {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: -5px -5px;
+
+      & > * {
+        padding: 5px 5px;
+      }
+
+      & > * {
+        &::before {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%);
+
+          content: "|";
+          display: block;
+          font-size: inherit;
+          font-family: inherit;
+          font-weight: inherit;
+          line-height: inherit;
+          color: var(--primaryTextColor);
+        }
+      }
+
+      & > *:nth-child(1) {
+        &::before {
+          content: "-";
+        }
+      }
+
+      & span {
+        position: relative;
+        display: inline-block;
+
+        font-size: 20px;
+        font-family: "freightsans-medium";
+        font-weight: 100;
+        line-height: 1.8em;
+        color: var(--primaryTextColor);
+        padding-left: 10px;
+        @include trim(1);
+
+        @media only screen and (max-width: 1600px) {
+          font-size: 18px;
+        }
+
+        @media only screen and (max-width: 1024px) {
+          font-size: 14px;
+        }
+      }
+    }
+
+    &__category,
+    &__title,
+    &__attributes {
+      a {
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        color: inherit;
+        transition: color $transition-short linear;
+
+        &:active,
+        &:focus,
+        &:hover {
+          outline: none;
+          cursor: pointer;
+          color: var(--primaryColor);
+        }
+      }
+    }
+
+    &__cta {
+      font-size: 26px;
+      font-family: "freightsans-medium";
+      font-weight: 100;
+      line-height: 1.385em;
+      color: var(--primaryColor);
+      margin-top: auto;
+
+      @media only screen and (max-width: 1600px) {
+        font-size: 22px;
+      }
+
+      @media only screen and (max-width: 1024px) {
+        font-size: 18px;
+      }
+
+      a {
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        color: inherit;
+        transition: color $transition-short linear;
+        @include trim(1);
+
+        &:active,
+        &:focus,
+        &:hover {
+          outline: none;
+          cursor: pointer;
+          color: var(--primaryContrastColor);
+        }
+      }
+    }
+  }
+}

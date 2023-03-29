@@ -1,0 +1,186 @@
+.popularListing-v1 {
+  .popularListing {
+    @media only screen and (max-width: 768px) {
+      margin: 0 -20px;
+    }
+
+    &__wrapper {
+      padding: 50px 50px;
+      background-color: var(--primaryContrastColor);
+      border-radius: 20px;
+
+      @media only screen and (max-width: 1440px) {
+        padding: 30px 35px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        padding: 15px 20px;
+        border-radius: 0;
+      }
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: -5px -5px;
+
+      & > * {
+        padding: 5px 5px;
+      }
+    }
+
+    &__content {
+      margin-top: 50px;
+
+      @media only screen and (max-width: 768px) {
+        margin-top: 45px;
+      }
+    }
+
+    &__list {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+
+      & > *:not(:last-child) {
+        padding-right: 56px;
+
+        @media only screen and (max-width: 1600px) {
+          padding-right: 50px;
+        }
+
+        @media only screen and (max-width: 1024px) {
+          padding-right: 40px;
+        }
+
+        @media only screen and (max-width: 445px) {
+          padding-right: 25px;
+        }
+      }
+    }
+
+    &__listItem {
+      flex-shrink: 0;
+    }
+
+    /* Grid 1, 2 & 3 Variant (.popularListing--grid-1, .popularListing--grid-2 & .popularListing--grid-3) Styles Starts Here */
+    &--grid-1,
+    &--grid-2,
+    &--grid-3 {
+      @media only screen and (max-width: 768px) {
+        margin: 0 0;
+        padding: 0 30px;
+      }
+
+      .popularListing {
+        &__wrapper {
+          padding: 0 0;
+          background-color: var(--bodyColor);
+          border-radius: 0;
+        }
+
+        &__content {
+          margin-top: 0;
+        }
+
+        &__listItem {
+          padding-right: 0;
+        }
+
+        &__gridCta {
+          margin-top: 40px;
+          margin-bottom: 5px;
+          text-align: center;
+        }
+      }
+
+      .cardStyle4 {
+        .card {
+          margin: 0 auto;
+
+          @media only screen and (max-width: 768px) {
+            width: 126px;
+          }
+
+          &__image {
+            &::before {
+              width: calc(100% - 14px);
+              height: calc(100% - 14px);
+            }
+          }
+        }
+      }
+    }
+    /* Grid 1 & 2 Variant (.popularListing--grid-1 & .popularListing--grid-2) Styles Ends Here */
+
+    /* Grid 1 Variant (.popularListing--grid-1) Styles Starts Here */
+    &--grid-1 {
+      .popularListing {
+        &__list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(126px, 1fr));
+          gap: 50px 100px;
+
+          @media only screen and (max-width: 1440px) {
+            gap: 50px 75px;
+          }
+
+          @media only screen and (max-width: 768px) {
+            grid-template-columns: repeat(auto-fit, minmax(101px, 1fr));
+            gap: 22px 75px;
+          }
+        }
+      }
+    }
+    /* Grid 1 Variant (.popularListing--grid-1) Styles Ends Here */
+
+    /* Grid 2 Variant (.popularListing--grid-2) Styles Starts Here */
+    &--grid-2 {
+      .popularListing {
+        &__list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(126px, 1fr));
+          gap: 50px 50px;
+
+          @media only screen and (max-width: 768px) {
+            grid-template-columns: repeat(auto-fit, minmax(101px, 1fr));
+            gap: 10px 6px;
+          }
+        }
+      }
+    }
+    /* Grid 2 Variant (.popularListing--grid-2) Styles Ends Here */
+
+    /* Grid 3 Variant (.popularListing--grid-3) Styles Starts Here */
+    &--grid-3 {
+      .popularListing {
+        &__list {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px 5px;
+
+          @media only screen and (max-width: 1200px) {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          @media only screen and (max-width: 1024px) {
+            grid-template-columns: repeat(auto-fit, minmax(101px, 1fr));
+            gap: 10px 10px;
+          }
+        }
+      }
+
+      .cardStyle4 {
+        .card {
+          margin: 0 auto;
+          max-width: 126px;
+          width: 100%;
+        }
+      }
+    }
+    /* Grid 3 Variant (.popularListing--grid-3) Styles Ends Here */
+  }
+}

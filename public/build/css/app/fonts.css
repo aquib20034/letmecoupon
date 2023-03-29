@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "freightsans-book";
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Freight-Sans-Book.otf?4743f5559bfcfc283a397ff3a9f8e49e) format("opentype");
+}
+@font-face {
+  font-family: "freightsans-medium";
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Freight-Sans-Medium.otf?31cbfd854f0002e88df6c32bd06a3d3a) format("opentype");
+}
+@font-face {
+  font-family: "freightsans-bold";
+  font-style: normal;
+  font-display: swap;
+  src: url(/fonts/Freight-Sans-Bold.otf?087430a0a85811ba93f326edb29f601f) format("opentype");
+}

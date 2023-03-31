@@ -1,4 +1,6 @@
 <div class="storeBoxStyle1">
+    @if(isset($data) && (!(empty($data))))
+
     @foreach ($data as $key => $item)
     <div id="{{ $key }}" class="storeBox">
         <div class="storeBox__wrapper">
@@ -17,4 +19,5 @@
         </div>
     </div>
     @endforeach
+    @endif
 </div>

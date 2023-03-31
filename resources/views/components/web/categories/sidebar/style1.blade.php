@@ -3,16 +3,18 @@
 </h2>
 
 <ul class="sidebar__navList">
-    <?php for ($i = 0; $i < 3; $i++) { ?>
+@if (isset($categories)) 
+    @foreach ($categories as $category)
         <li class="sidebar__navItem">
-            <a href="{{config('app.app_path')}}/category-inner" class="sidebar__navLink" aria-label="Visit <?php echo ($i + 1); ?> Category Inner Page">
-                Category <?php echo ($i + 1); ?>
+            <a href="{{ config('app.app_path') }}/{{ isset($category['slugs']) ? $category['slugs']['slug'] : '#' }}" class="sidebar__navLink" aria-label="Visit Category Inner Page">
+                {{isset($category['title']) ? ($category['title']) : "" }}
             </a>
         </li>
-    <?php } ?>
+    @endforeach
+@endif
 
     <li class="sidebar__navItem">
-        <a href="{{config('app.app_path')}}/categories" class="sidebar__navLink primary" aria-label="View All Categories">
+        <a href="{{config('app.app_path')}}/category" class="sidebar__navLink primary" aria-label="View All Categories">
             View All Categories
         </a>
     </li>

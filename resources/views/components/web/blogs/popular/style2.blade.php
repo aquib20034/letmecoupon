@@ -1,19 +1,18 @@
+@if( isset($popular_blogs) && !empty($popular_blogs) )
 <div class="container-inner">
     <div>
-        <h2 class="heading-1">Popular Blogs</h2>
+        <h2 class="heading-1">{{trans('sentence.popular_blogs')}}</h2>
     </div>
 
     <div class="cardGrid-v1">
         <div class="cardGrid">
-            <?php for ($i = 0; $i < 3; $i++) {
-            ?>
+            @foreach($popular_blogs as $blog)
                 <div class="cardGrid__item">
                     <?php //include('../components/Cards/Style3/index.php'); ?>
-                    @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => [] ])@endweb_component
+                    @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => [ 'blog' => $blog ] ])@endweb_component
                 </div>
-            <?php
-            }
-            ?>
+            @endforeach
         </div>
     </div>
 </div>
+@endif

@@ -22,7 +22,7 @@
 
                 <div class="card__title">
                     <h2>
-                        <a href="{{ config('app.app_path') }}/{{ ($blog['slugs']) ? $blog['slugs']['slug'] : '' }}" aria-label="Visit Blog Inner Page">
+                        <a href="{{ config('app.app_path') }}/{{ isset($blog['slugs']) ? $blog['slugs']['slug'] : '' }}" aria-label="Visit Blog Inner Page">
                             {{isset($blog['title']) ? $blog['title'] : ""}}
                         </a>
                     </h2>
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="card__cta">
-                    <a href="{{ config('app.app_path') }}/{{ ($blog['slugs']) ? $blog['slugs']['slug'] : '' }}" aria-label="Visit Blog Inner Page">Start Reading</a>
+                    <a href="{{ config('app.app_path') }}/{{ isset($blog['slugs']) ? $blog['slugs']['slug'] : '' }}" aria-label="Visit Blog Inner Page">Start Reading</a>
                 </div>
             </div>
         </div>

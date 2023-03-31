@@ -23,7 +23,7 @@
 
             <div class="card__bottom">
                 <h3 class="card__title">
-                    {!! $category['title'] !!}
+                    {!! isset($category['title']) ? $category['title']: "" !!}
                 </h3>
             </div>
         </div>

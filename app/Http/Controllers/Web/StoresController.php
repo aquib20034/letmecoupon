@@ -28,7 +28,7 @@ class StoresController extends Controller
         try {
             $data = [];
 
-            $data['pageCss'] = 'all-store';
+            $data['pageCss'] = 'stores';
 
             $siteid = config('app.siteid');
 
@@ -81,7 +81,8 @@ class StoresController extends Controller
                 'description' => $page->meta_description ?? ''
             ];
 
-            return view('web.store.index')->with($data);
+            // return view('web.store.index')->with($data);
+            return view('web.home.stores.index')->with($data)->withShortcodes();
         } catch (\Exception $e) {
             abort(404);
         }
@@ -91,7 +92,7 @@ class StoresController extends Controller
     {
         $data = [];
         try {
-            $data['pageCss'] = 'store';
+            $data['pageCss'] = 'store-inner';
 
             $siteid = config('app.siteid');
 

@@ -35,6 +35,12 @@ Route::group(['namespace' => 'Web', 'prefix' => config('app.route_prefix')], fun
     Route::get('/blogs/{detail?}', 'HomeController@blogs')->name('blogs');
     Route::get('/reviews/{detail?}', 'HomeController@reviews')->name('reviews');
 
+
+    Route::get('/about-us', 'PagesController@detail')->name('about-us');
+    Route::get('/advertise-with-us', 'PagesController@advertiseWithUs')->name('advertise-with-us');   
+    Route::get('/privacy-policy', 'PagesController@privacyPolicy')->name('privacy-policy');   
+    Route::get('/contact-us', 'PagesController@contactUs')->name('contact-us');  
+
     Route::get('/mediaffiliation.html', 'HomeController@masterEd');
 
   //Route::get('{slug?}', 'SlugController@slugFinder')->name('slugFinder');

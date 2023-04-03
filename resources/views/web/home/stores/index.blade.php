@@ -34,16 +34,15 @@
                                                 <div class="popularListing__wrapper">
                                                     <div class="popularListing__content">
                                                         <ul class="popularListing__list">
-                                                            <?php for ($i = 1; $i <= 9; $i++) {
-                                                            ?>
-                                                                <?php $variant = '3'; ?>
-                                                                <li class=" popularListing__listItem">
-                                                                    <?php //include('../components/Cards/Style4/index.php'); ?>
-                                                                    @web_component([ 'postfixes' => 'stores.minimal.style1','data' => ['variant' => $variant] ])@endweb_component
-                                                                </li>
-                                                            <?php
-                                                            }
-                                                            ?>
+                                                            @if (!empty($popular))
+                                                                @foreach ($popular as $store)
+                                                                    <?php $variant = '3'; ?>
+                                                                    <li class=" popularListing__listItem">
+                                                                        <?php //include('../components/Cards/Style4/index.php'); ?>
+                                                                        @web_component([ 'postfixes' => 'stores.minimal.style2','data' => ['variant' => $variant, 'store'=>$store] ])@endweb_component
+                                                                    </li>
+                                                                @endforeach
+                                                            @endif
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -53,6 +52,33 @@
                                     <!-- Sidebar Popular Stores Section Ends Here -->
 
                                     <!-- Sidebar Store Index Section Starts Here -->
+
+                                    @php
+                                        $newArray = [];
+                                        if (isset($list) && count($list) > 0) {
+                                            foreach ($list as $item) {
+                                                $letter = trim(strtolower($item['name'][0]));
+                                        
+                                                if (ctype_alpha($letter)) {
+                                                    if (isset($newArray[$letter])) {
+                                                        $newArray[$letter][] = $item;
+                                                    } else {
+                                                        $newArray[$letter] = [$item];
+                                                    }
+                                                } elseif (is_numeric(substr($letter, 0, 1))) {
+                                                    if (isset($newArray['0-9']) && count($newArray['0-9'])) {
+                                                        $newArray['0-9'][] = $item;
+                                                    } else {
+                                                        $newArray['0-9'] = [$item];
+                                                    }
+                                                } else {
+                                                    $newArray['0-9'][] = $item;
+                                                }
+                                            }
+                                        }
+                                    @endphp
+
+                                    
                                     <div class="sidebar__section">
                                         <h2 class="sidebar__heading">
                                             Index
@@ -60,7 +86,7 @@
 
                                         <div class="sidebar__storeFilter">
                                             <?php //include('../components/StoreFilter/Style1/index.php'); ?>
-                                            @web_component([ 'postfixes' => 'stores.filter.style1','data' => ['alphabet_store' => ''] ])@endweb_component
+                                            @web_component([ 'postfixes' => 'stores.filter.style1','data' => ['alphabet_store' => $newArray] ])@endweb_component
                                         </div>
                                     </div>
                                     <!-- Sidebar Store Index Section Starts Here -->
@@ -78,18 +104,12 @@
                                         </div>
 
                                         <div class="storeListing__dropdown onlyMobile">
-                                            <?php //include('../components/Inputs/Select/Style1/index.php'); ?>
+                                            <?php  //include('../components/Inputs/Select/Style1/index.php'); ?>
                                         </div>
-
-                                        <?php $sort_by_alphabet = ['0-9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']; ?>
-
                                         <ul class="storeListing__list">
-                                            <?php foreach ($sort_by_alphabet as $alphabet) { ?>
-                                                <li>
-                                                    <?php //include('../components/StoreBox/Style1/index.php'); ?>
-                                                    @web_component([ 'postfixes' => 'stores.indexes.style1','data' => ['alphabet' => $alphabet] ])@endweb_component
-                                                </li>
-                                            <?php }; ?>
+                                            <li>
+                                                @web_component([ 'postfixes' => 'stores.indexes.style1','data' => ['alphabet' => $newArray] ])@endweb_component
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>

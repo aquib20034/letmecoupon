@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Blog;
+use App\Review;
 use App\Category;
 use App\Slug;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
-use App\Http\Requests\MassDestroyBlogRequest;
-use App\Http\Requests\StoreBlogRequest;
-use App\Http\Requests\UpdateBlogRequest;
+use App\Http\Requests\MassDestroyReviewRequest;
+use App\Http\Requests\StoreReviewRequest;
+use App\Http\Requests\UpdateReviewRequest;
 use App\Site;
 use App\Store;
 use App\Tag;
@@ -26,22 +26,22 @@ class ReviewController extends Controller
         $this->slug = new Slug;
     }
 
-    protected $table   = 'blogs';
+    protected $table   = 'reviews';
     protected $primaryKey   = 'id';
-    protected $slug_prefix  = 'blog/';
+    protected $slug_prefix  = 'review/';
     protected $page_type    = 'categories';
 
     use MediaUploadingTrait;
 
     public function index(Request $request)
     {
-        abort_if(Gate::denies('blog_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('review_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
 
         if ($request->ajax()) {
-            $query = Blog::with(['sites'])->select(sprintf('%s.*', (new Blog)->table));
+            $query = Review::with(['sites'])->select(sprintf('%s.*', (new Review)->table));
 
             if(isset($request->bid)) {
                 $query = $query->where('id', $request->bid);
@@ -64,10 +64,10 @@ class ReviewController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'blog_show';
-                $editGate      = 'blog_edit';
-                $deleteGate    = 'blog_delete';
-                $crudRoutePart = 'blogs';
+                $viewGate      = 'review_show';
+                $editGate      = 'review_edit';
+                $deleteGate    = 'review_delete';
+                $crudRoutePart = 'reviews';
 
                 return view('partials.datatablesActions', compact(
                     'viewGate',
@@ -103,12 +103,12 @@ class ReviewController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.blogs.index');
+        return view('admin.reviews.index');
     }
 
     public function create()
     {
-        abort_if(Gate::denies('blog_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('review_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
@@ -125,19 +125,19 @@ class ReviewController extends Controller
             $q->where('site_id', isset(request()->test_id) ? request()->test_id : getSiteID());
         })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.blogs.create', compact('sites', 'categories', 'tags', 'users', 'stores'));
+        return view('admin.reviews.create', compact('sites', 'categories', 'tags', 'users', 'stores'));
     }
 
-    public function store(StoreBlogRequest $request)
+    public function store(StoreReviewRequest $request)
     {
-        $blog = Blog::create($request->all());
-        $blog->sites()->sync($request->input('sites', []));
-        $blog->categories()->sync($request->input('categories', []));
-        $blog->store_details()->sync($request->input('stores', []));
-        $blog->tags()->sync($request->input('tags', []));
+        $review = Review::create($request->all());
+        $review->sites()->sync($request->input('sites', []));
+        $review->categories()->sync($request->input('categories', []));
+        $review->store_details()->sync($request->input('stores', []));
+        $review->tags()->sync($request->input('tags', []));
 
-        $last_id    = $blog->id;
-        $slug       = $blog->slug;
+        $last_id    = $review->id;
+        $slug       = $review->slug;
 
         $return = $this->slug->insertSlug($last_id, $this->slug_prefix . $slug, $this->table, $request->input('sites', []));
         if (isset($return['status']) && $return['status'] === false) {
@@ -146,35 +146,35 @@ class ReviewController extends Controller
 
         if (\App::environment('production')) {
             if ($request->input('image', false)) {
-                $blog->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->addCustomHeaders([
+                $review->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->addCustomHeaders([
                     'ACL' => 'public-read'
                 ])->toMediaCollection('image','s3');
             }
         } else {
             if ($request->input('image', false)) {
-                $blog->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
+                $review->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
             }
         }
 
-        $blogUpdate = Blog::select('id','title','blog_image')->where('id',$last_id)->first();
-        $img = $blogUpdate['image'] ? $blogUpdate['image']['url'] : '';
+        $reviewUpdate = Review::select('id','title','review_image')->where('id',$last_id)->first();
+        $img = $reviewUpdate['image'] ? $reviewUpdate['image']['url'] : '';
         if ($request->input('image', false)) {
-            $path['blog_image'] = $img;
-            Blog::where('id', $last_id)->update($path);
+            $path['review_image'] = $img;
+            Review::where('id', $last_id)->update($path);
         }
 
         if(isset($request->test_id)) {
-            $url = route('admin.blogs.index') . $request->test_id;
+            $url = route('admin.reviews.index') . $request->test_id;
         } else {
-            $url = route('admin.blogs.index');
+            $url = route('admin.reviews.index');
         }
 
         return redirect($url);
     }
 
-    public function edit(Blog $blog)
+    public function edit(Review $review)
     {
-        abort_if(Gate::denies('blog_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('review_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
@@ -187,29 +187,29 @@ class ReviewController extends Controller
 
         $tags = Tag::all()->pluck('title', 'id');
         
-        $stores = Store::with('sites')->whereHas('sites', function($q) use($blog) {
-            if($blog->sites()->pluck('site_id')->count() > 0) {
-                $q->whereIn('site_id', $blog->sites()->pluck('site_id'));
+        $stores = Store::with('sites')->whereHas('sites', function($q) use($review) {
+            if($review->sites()->pluck('site_id')->count() > 0) {
+                $q->whereIn('site_id', $review->sites()->pluck('site_id'));
             } else {
                 $q->where('site_id', isset(request()->test_id) ? request()->test_id : getSiteID());
             }
         })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $blog->load('sites', 'categories', 'tags','user');
+        $review->load('sites', 'categories', 'tags','user');
 
-        return view('admin.blogs.edit', compact('sites', 'categories', 'tags', 'blog', 'users', 'stores'));
+        return view('admin.reviews.edit', compact('sites', 'categories', 'tags', 'review', 'users', 'stores'));
     }
 
-    public function update(UpdateBlogRequest $request, Blog $blog)
+    public function update(UpdateReviewRequest $request, Review $review)
     {
-        $blog->update($request->all());
-        $blog->sites()->sync($request->input('sites', []));
-        $blog->categories()->sync($request->input('categories', []));
-        $blog->store_details()->sync($request->input('stores', []));
-        $blog->tags()->sync($request->input('tags', []));
+        $review->update($request->all());
+        $review->sites()->sync($request->input('sites', []));
+        $review->categories()->sync($request->input('categories', []));
+        $review->store_details()->sync($request->input('stores', []));
+        $review->tags()->sync($request->input('tags', []));
 
-        $last_id    = $blog->id;
-        $slug       = $blog->slug;
+        $last_id    = $review->id;
+        $slug       = $review->slug;
 
         $return = $this->slug->updateSlug($last_id, $this->slug_prefix . $slug, $this->table, $request->input('sites', []));
 
@@ -220,68 +220,68 @@ class ReviewController extends Controller
 
         if (\App::environment('production')) {
             if ($request->input('image', false)) {
-                if (!$blog->image || $request->input('image') !== $blog->image->file_name) {
-                    $blog->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->addCustomHeaders([
+                if (!$review->image || $request->input('image') !== $review->image->file_name) {
+                    $review->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->addCustomHeaders([
                         'ACL' => 'public-read'
                     ])->toMediaCollection('image','s3');
                 }
-            } elseif ($blog->image) {
-                $blog->image->delete();
+            } elseif ($review->image) {
+                $review->image->delete();
             }
         } else {
             if ($request->input('image', false)) {
-                if (!$blog->image || $request->input('image') !== $blog->image->file_name) {
-                    $blog->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
+                if (!$review->image || $request->input('image') !== $review->image->file_name) {
+                    $review->addMedia(storage_path('tmp/uploads/' . $request->input('image')))->toMediaCollection('image');
                 }
-            } elseif ($blog->image) {
-                $blog->image->delete();
+            } elseif ($review->image) {
+                $review->image->delete();
             }
         }
 
-        $blogUpdate = Blog::select('id','title','blog_image')->where('id',$last_id)->first();
-        $img = $blogUpdate['image'] ? $blogUpdate['image']['url'] : '';
+        $reviewUpdate = Review::select('id','title','review_image')->where('id',$last_id)->first();
+        $img = $reviewUpdate['image'] ? $reviewUpdate['image']['url'] : '';
         if ($request->input('image', false)) {
-            $path['blog_image'] = $img;
-            Blog::where('id', $last_id)->update($path);
+            $path['review_image'] = $img;
+            Review::where('id', $last_id)->update($path);
         }
 
         if(isset($request->test_id)) {
-            $url = route('admin.blogs.index') . $request->test_id;
+            $url = route('admin.reviews.index') . $request->test_id;
         } else {
-            $url = route('admin.blogs.index');
+            $url = route('admin.reviews.index');
         }
 
         return redirect($url);
 
     }
 
-    public function show(Blog $blog)
+    public function show(Review $review)
     {
-        abort_if(Gate::denies('blog_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('review_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
 
-        $blog->load('sites', 'categories', 'tags');
+        $review->load('sites', 'categories', 'tags');
 
-        return view('admin.blogs.show', compact('blog'));
+        return view('admin.reviews.show', compact('review'));
     }
 
-    public function destroy(Blog $blog)
+    public function destroy(Review $review)
     {
-        abort_if(Gate::denies('blog_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('review_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
 
-        $blog->delete();
-        $this->slug->deleteSlug($blog->id, $this->table);
+        $review->delete();
+        $this->slug->deleteSlug($review->id, $this->table);
         return back();
     }
 
-    public function massDestroy(MassDestroyBlogRequest $request)
+    public function massDestroy(MassDestroyReviewRequest $request)
     {
-        Blog::whereIn('id', request('ids'))->delete();
+        Review::whereIn('id', request('ids'))->delete();
         $this->slug->massdeleteSlug(request('ids'), $this->table);
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -29,6 +29,9 @@ class CreateReviewsTable extends Migration
             $table->integer('created_by')->nullable();
             $table->integer('update_by')->nullable();
             $table->string('slug');
+            $table->string('review_image')->nullable();
+            $table->string('trending')->nullable();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

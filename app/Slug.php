@@ -18,6 +18,10 @@ class Slug extends Model
         return $this->belongsTo('App\Blog', 'obj_id', 'blog_id');
     }
 
+    public function Review() {
+        return $this->belongsTo('App\Review', 'obj_id', 'review_id');
+    }
+
     public function deleteSlug($obj_id, $table_name){
         $this->where($this->forignKey, $obj_id)->where($this->table_field_name, $table_name)->delete();
         return true;

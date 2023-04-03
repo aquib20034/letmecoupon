@@ -8,6 +8,7 @@ use App\Category;
 use App\Event;
 use App\Slug;
 use App\ProductCategory;
+use App\Review;
 use Request;
 use App\Http\Controllers\Controller;
 
@@ -24,6 +25,7 @@ class SlugController extends Controller {
         $this->category = new Category;
         $this->event = new Event;
         $this->productcategory = new ProductCategory;
+        $this->review = new Review;
     }
 
     public function uniqueSlug() {

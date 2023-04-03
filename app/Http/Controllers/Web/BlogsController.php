@@ -11,6 +11,7 @@ use App\SiteSetting;
 use App\WebModel\Slug;
 use App\User;
 use App\Author;
+use App\Review;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Controllers\Controller;
 use App\WebModel\Site;
@@ -139,6 +140,36 @@ class BlogsController extends Controller
                         ->toArray();
                 }
             );
+
+            $data['popularReviews'] = Cache::remember(
+                "BlogListingPage__PopularReviews__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Review::select(
+                        'id',
+                        'title',
+                        'created_at',
+                        'user_id',
+                        'review_image'
+                    )
+                       ->with(['categories' => function ($query) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                );
+                        }])
+                        ->with('user:id,name')
+                        ->CustomWhereBasedData($siteid)
+                        ->where('popular', 1)
+                        ->orderBy('trending', 'desc')
+                        ->take(10)
+                        ->get()
+                        ->toArray();
+                }
+            );
+         
          
             $page = Cache::remember(
                 "BlogListingPage__CurrentPage__{$siteid}",
@@ -185,6 +216,21 @@ class BlogsController extends Controller
             $data['pageCss'] = "blog-inner";
 
 
+            $data['categoryLists'] = Cache::remember(
+                "BlogListingPage__CategoryLists__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Category::select(
+                            'id',
+                            'title',
+                        )
+                        ->CustomWhereBasedData($siteid)
+                        ->take(3)
+                        ->get()
+                        ->toArray();
+                }
+            );
+            
             $data['list'] = Cache::remember(
                 "BlogDetailPage__CategoryList__{$siteid}",
                 21600,
@@ -385,10 +431,13 @@ class BlogsController extends Controller
                     : ''
             ];
 
-            return view(
-                'web.blog.detail'
-            )
-                ->with($data);
+            return view('web.home.blogs.detail')->with($data);
+
+
+            // return view(
+            //     'web.blog.detail'
+            // )
+            //     ->with($data);
         } catch (\Exception $e) {
             abort(404);
         }

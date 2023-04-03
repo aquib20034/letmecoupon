@@ -101,7 +101,7 @@
 
             <!-- Popular Reviews Section Starts Here -->
             <section class="section">
-                @web_component([ 'postfixes' => 'reviews.popular.style2','data' => ['popularBlogs'=>$popularBlogs] ])@endweb_component
+                @web_component([ 'postfixes' => 'reviews.popular.style2','data' => ['popularReviews'=>$popularReviews] ])@endweb_component
             </section>
             <!-- Popular Reviews Section Ends Here -->
         </div>

@@ -15,6 +15,9 @@ use App\Category as ACategory;
 use App\Blog as ABlog;
 use App\Banner as ABanner;
 use App\Blog;
+use App\Review;
+use App\Author;
+use App\Page;
 use App\WebModel\WebsiteSetting;
 use App\Traits\CouponCardTrait;
 
@@ -417,7 +420,7 @@ class HomeController extends Controller
 
 
 
-// dd($data);
+                // dd($data);
 
                 // dd($data['detail']->categoryStores);
 
@@ -454,8 +457,124 @@ class HomeController extends Controller
     {
         $data = [];
         try{
+            
             $data['pageCss'] = 'reviews';
-            return view('web.home.reviews')->with($data);
+
+            $siteid             = config('app.siteid');
+
+            $data['categoryLists'] = Cache::remember(
+                "ReviewListingPage__CategoryLists__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Category::select(
+                            'id',
+                            'title',
+                        )
+                        ->CustomWhereBasedData($siteid)
+                        ->take(3)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['authorLists'] = Cache::remember(
+                "ReviewListingPage__AuthorLists__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Author::select(
+                            'id',
+                            'first_name',
+                        )
+                        ->take(3)
+                        ->get()
+                        ->toArray();
+                }
+            );
+            
+            $data['latestReviews'] = Cache::remember(
+                "ReviewListingPage__LatestReviews__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Review::select(
+                        'id',
+                        'title',
+                        'created_at',
+                        'user_id',
+                        'review_image'
+                    )
+                       ->with(['categories' => function ($query) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                );
+                        }])
+                        ->with('user:id,name')
+                        ->CustomWhereBasedData($siteid)
+                        ->orderBy('id', 'DESC')
+                        ->take(10)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['popularReviews'] = Cache::remember(
+                "ReviewListingPage__PopularReviews__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Review::select(
+                            'id',
+                            'title',
+                            'created_at',
+                            'user_id',
+                            'review_image'
+                        )
+                       ->with(['categories' => function ($query) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                );
+                        }])
+                        ->with('user:id,name')
+                        ->where('popular', 1)
+                        ->CustomWhereBasedData($siteid)
+                        ->orderBy('id', 'DESC')
+                        ->take(10)
+                        ->get()
+                        ->toArray();
+
+                   
+                }
+            );
+
+            
+            $page = Cache::remember(
+                "ReviewListingPage__CurrentPage__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Page::where(
+                        'title',
+                        'meta_title',
+                        'meta_description'
+                    )
+                        // ->CustomWhereBasedDataForMetaInfo($siteid)
+                        ->first();
+                }
+            );
+         
+            if (isset($page)) {
+                $data['meta'] = [
+                    'title' => $page->meta_title ?? '',
+                    'description' => $page->meta_description ?? ''
+                ];
+            }
+
+// dd($data);
+
+            return view('web.home.reviews.index')->with($data);
         }catch (\Exception $e) {
             abort(404);
         }

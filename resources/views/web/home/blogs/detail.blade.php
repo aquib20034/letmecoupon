@@ -6,7 +6,7 @@
             <section class="section pd-none onlyDesktop">
                 <div class="container-inner">
                     <?php
-                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => "All Blogs", "path" => config('app.app_path')."/blogs"], ["title" => "Blog Detail", "path" => ""]];
+                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => "All Blogs", "path" => config('app.app_path')."/blog"], ["title" => "Blog Detail", "path" => ""]];
                     //include('../components/Breadcrumbs/Style1/index.php');
                     ?>
                     @web_component([ 'postfixes' => 'breadcrumbs.style1','data' => ['routes' => $routes] ])@endweb_component
@@ -36,7 +36,7 @@
                                     <!-- Sidebar Meet the Author Section Ends Here -->
 
                                     <!-- Sidebar Table of Content Section Starts Here -->
-                                    {{--<div class="sidebar__section">
+                                    <div class="sidebar__section">
                                         <h2 class="sidebar__heading">
                                             Table of Content
                                         </h2>
@@ -60,12 +60,13 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </div>--}}
+                                    </div>
                                     <!-- Sidebar Table of Content Section Ends Here -->
 
                                     <!-- Sidebar Related Categories Section Starts Here -->
                                     <div class="sidebar__section">
-                                        @web_component([ 'postfixes' => 'categories.sidebar.style2','data' => [] ])@endweb_component
+                                        
+                                        @web_component([ 'postfixes' => 'categories.sidebar.style1','data' => ['categories'=>$categoryLists] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Related Categories Section Ends Here -->
 
@@ -201,7 +202,7 @@
                                         <!-- Newsletter v2 Section Starts Here -->
                                         <section class="section">
                                             <?php //include('../components/NewsLetterForm/Style2/index.php'); ?>
-                                            @web_component([ 'postfixes' => 'newsletter.style2','data' => [] ])@endweb_component
+                                            @web_component([ 'postfixes' => 'newsletter.style1','data' => [] ])@endweb_component
                                         </section>
                                         <!-- Newsletter v2 Section Starts Here -->
 

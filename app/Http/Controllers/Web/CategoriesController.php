@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\WebModel\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App\Review;
 
 class CategoriesController extends Controller
 {
@@ -168,6 +169,35 @@ class CategoriesController extends Controller
                         'created_at',
                         'user_id',
                         'blog_image'
+                    )
+                       ->with(['categories' => function ($query) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                );
+                        }])
+                        ->with('user:id,name')
+                        ->CustomWhereBasedData($siteid)
+                        ->where('popular', 1)
+                        ->orderBy('trending', 'desc')
+                        ->take(10)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['popularReviews'] = Cache::remember(
+                "CategoryListingPage__PopularReviews__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Review::select(
+                        'id',
+                        'title',
+                        'created_at',
+                        'user_id',
+                        'review_image'
                     )
                        ->with(['categories' => function ($query) {
                             $query

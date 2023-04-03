@@ -4,14 +4,12 @@
 
 <div class="cardGrid-v2">
     <div class="cardGrid">
-        <?php for ($i = 0; $i < 4; $i++) {
-        ?>
-            <div class="cardGrid__item">
-                <?php //include('../components/Cards/Style3/index.php'); ?>
-                @web_component([ 'postfixes' => 'reviews.minimal.style2','data' => [] ])@endweb_component
-            </div>
-        <?php
-        }
-        ?>
+         @if (isset($popularReviews)) 
+            @foreach ($popularReviews as $review)
+                <div class="cardGrid__item">
+                    @web_component([ 'postfixes' => 'reviews.minimal.style2','data' => ['review'=>$review] ])@endweb_component
+                </div>
+            @endforeach
+        @endif
     </div>
 </div>

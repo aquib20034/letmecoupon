@@ -65,7 +65,6 @@
 
                                     <!-- Sidebar Related Categories Section Starts Here -->
                                     <div class="sidebar__section">
-                                        
                                         @web_component([ 'postfixes' => 'categories.sidebar.style1','data' => ['categories'=>$categoryLists] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Related Categories Section Ends Here -->

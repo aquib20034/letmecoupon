@@ -314,100 +314,100 @@ class HomeController extends Controller
 
 
                
-            $data['popularStores'] = Cache::remember(
-                "HomePage__PopularStores__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return Store::select(
-                        'id',
-                        'name',
-                        'store_image'
-                    )
+                $data['popularStores'] = Cache::remember(
+                    "HomePage__PopularStores__{$siteid}",
+                    21600,
+                    function () use ($siteid) {
+                        return Store::select(
+                            'id',
+                            'name',
+                            'store_image'
+                        )
+                            ->CustomWhereBasedData($siteid)
+                            ->where('popular', 1)
+                            ->take(10)
+                            ->get()
+                            ->toArray();
+                    }
+                );
+
+
+                $data['trendingBlogs'] = Cache::remember(
+                    "HomePage__TrendingBlogs__{$siteid}",
+                    21600,
+                    function () use ($siteid) {
+                        return Blog::select(
+                            'id',
+                            'title',
+                            'created_at',
+                            'user_id',
+                            'blog_image'
+                        )
+                        ->with(['categories' => function ($query) {
+                                $query
+                                    ->select(
+                                        'id',
+                                        'title',
+                                        'slug'
+                                    );
+                            }])
+                            ->with('user:id,name')
+                            ->CustomWhereBasedData($siteid)
+                            ->where(function ($query) {
+                                return $query
+                                    ->where('trending', 1)
+                                    ->orWhere('view', '>', 0);
+                            })
+                            ->orderBy('trending', 'desc')
+                            ->take(4)
+                            ->get()
+                            ->toArray();
+                    }
+                );
+
+
+                $data['popularBlogs'] = Cache::remember(
+                    "HomePage__PopularBlogs__{$siteid}",
+                    21600,
+                    function () use ($siteid) {
+                        return Blog::select(
+                            'id',
+                            'title',
+                            'created_at',
+                            'user_id',
+                            'blog_image'
+                        )
+                        ->with(['categories' => function ($query) {
+                                $query
+                                    ->select(
+                                        'id',
+                                        'title',
+                                        'slug'
+                                    );
+                            }])
+                            ->with('user:id,name')
+                            ->CustomWhereBasedData($siteid)
+                            ->where('popular', 1)
+                            ->orderBy('trending', 'desc')
+                            ->take(10)
+                            ->get()
+                            ->toArray();
+                    }
+                );
+
+                $data['popularProducts'] = Cache::remember(
+                    "HomePage__PopularProducts__{$siteid}",
+                    21600,
+                    function () use ($siteid) {
+                        return ProductCategory::select('id','name','slug','product_category_image')
                         ->CustomWhereBasedData($siteid)
                         ->where('popular', 1)
                         ->take(10)
                         ->get()
                         ->toArray();
-                }
-            );
-
-
-            $data['trendingBlogs'] = Cache::remember(
-                "HomePage__TrendingBlogs__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return Blog::select(
-                        'id',
-                        'title',
-                        'created_at',
-                        'user_id',
-                        'blog_image'
-                    )
-                       ->with(['categories' => function ($query) {
-                            $query
-                                ->select(
-                                    'id',
-                                    'title',
-                                    'slug'
-                                );
-                        }])
-                        ->with('user:id,name')
-                        ->CustomWhereBasedData($siteid)
-                        ->where(function ($query) {
-                            return $query
-                                ->where('trending', 1)
-                                ->orWhere('view', '>', 0);
-                        })
-                        ->orderBy('trending', 'desc')
-                        ->take(4)
-                        ->get()
-                        ->toArray();
-                }
-            );
-
-
-            $data['popularBlogs'] = Cache::remember(
-                "HomePage__PopularBlogs__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return Blog::select(
-                        'id',
-                        'title',
-                        'created_at',
-                        'user_id',
-                        'blog_image'
-                    )
-                       ->with(['categories' => function ($query) {
-                            $query
-                                ->select(
-                                    'id',
-                                    'title',
-                                    'slug'
-                                );
-                        }])
-                        ->with('user:id,name')
-                        ->CustomWhereBasedData($siteid)
-                        ->where('popular', 1)
-                        ->orderBy('trending', 'desc')
-                        ->take(10)
-                        ->get()
-                        ->toArray();
-                }
-            );
-
-            $data['popularProducts'] = Cache::remember(
-                "HomePage__PopularProducts__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return ProductCategory::select('id','name','slug','product_category_image')
-                    ->CustomWhereBasedData($siteid)
-                    ->where('popular', 1)
-                    ->take(10)
-                    ->get()
-                    ->toArray();
-                    
-                }
-            );
+                        
+                    }
+                );
 
 
 
@@ -453,14 +453,22 @@ class HomeController extends Controller
         }
     }
 
-    public function reviews()
+    public function reviews($slug = "")
     {
+
         $data = [];
         try{
-            
-            $data['pageCss'] = 'reviews';
+            $siteid     = config('app.siteid');
+            $pageid     = PAGE_ID;
 
-            $siteid             = config('app.siteid');
+            $detail     = Review::CustomWhereBasedData($siteid)
+                            ->where('slug',$slug)
+                            ->with('user')
+                            ->first();
+
+            if ($detail) $data['detail'] = $detail->toArray();
+            else abort(404);
+
 
             $data['categoryLists'] = Cache::remember(
                 "ReviewListingPage__CategoryLists__{$siteid}",
@@ -572,8 +580,34 @@ class HomeController extends Controller
                 ];
             }
 
-// dd($data);
+            $data['relatedStores'] = Cache::remember(
+                "ReviewListingPage__RelatedStores__{$siteid}__{$pageid}",
+                21600,
+                function () use ($siteid, $pageid) {
+                    return Review::select(
+                        'id',
+                        'title'
+                    )
+                        ->with('categories')
+                        ->with('store_details')
+                        ->CustomWhereBasedData($siteid)
+                        ->where('id', $pageid)
+                        ->first();
+                }
+            );
 
+            // dd($data);
+            if($slug){
+                $data['pageCss'] = 'review-inner';
+                return view('web.home.reviews.detail')->with($data);
+
+            }else{
+                $data['pageCss'] = 'reviews';
+                return view('web.home.reviews.index')->with($data);
+
+            }
+
+            dd("wrong");
             return view('web.home.reviews.index')->with($data);
         }catch (\Exception $e) {
             abort(404);

@@ -6,7 +6,7 @@
             <section class="section pd-none onlyDesktop">
                 <div class="container-inner">
                     <?php
-                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => "All Blogs", "path" => config('app.app_path')."/blog"], ["title" => "Blog Detail", "path" => ""]];
+                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => "All Blogs", "path" => config('app.app_path')."/blog"], ["title" => isset($detail['title'])?$detail['title']:"", "path" => ""]];
                     //include('../components/Breadcrumbs/Style1/index.php');
                     ?>
                     @web_component([ 'postfixes' => 'breadcrumbs.style1','data' => ['routes' => $routes] ])@endweb_component
@@ -19,19 +19,51 @@
                 <div class="container-inner">
                     <div class="twoColumnLayout-v1">
                         <div class="twoColumnLayout">
-                            <!-- Short Column Starts Here -->
-                            <div class="twoColumnLayout__shortColumn onlyLargeDesktop">
+                           <!-- Short Column Starts Here -->
+                           <div class="twoColumnLayout__shortColumn onlyLargeDesktop">
                                 <!-- Sidebar Starts Here -->
                                 <div class="sidebar sticky js-stickySidebar onlyDesktop">
                                     <!-- Sidebar Share Via Section Starts Here -->
                                     <div class="sidebar__section">
-                                        @web_component([ 'postfixes' => 'social.sidebar.style1','data' => [] ])@endweb_component
+                                        <h2 class="sidebar__heading">
+                                            Share Via
+                                        </h2>
+
+                                        <ul class="sidebar__navList">
+                                            <li class="sidebar__navItem">
+                                                <a href="index.php" class="sidebar__navLink" aria-label="Visit Our Facebook Profile">
+                                                    Facebook
+                                                </a>
+                                            </li>
+
+                                            <li class="sidebar__navItem">
+                                                <a href="index.php" class="sidebar__navLink" aria-label="Visit Our Twitter Profile">
+                                                    Twitter
+                                                </a>
+                                            </li>
+
+                                            <li class="sidebar__navItem">
+                                                <a href="index.php" class="sidebar__navLink" aria-label="Visit Our Instagram Profile">
+                                                    Instagram
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <!-- Sidebar Share Via Section Ends Here -->
 
-                                    <!-- Sidebar Meet the Author Section Starts Here -->
-                                    <div class="sidebar__section">
-                                        @web_component([ 'postfixes' => 'authors.sidebar.style1','data' => [] ])@endweb_component
+                                     <!-- Sidebar Meet the Author Section Starts Here -->
+                                     <div class="sidebar__section">
+                                        <h2 class="sidebar__heading">
+                                            Meet the Author
+                                        </h2>
+
+                                        <div class="sidebar__author">
+                                            <figure>
+                                                <img src="{{ ((isset($detail['user']['user_image'])) && ($detail['user']['user_image']!='')) ? $detail['user']['user_image'] : config('app.image_path') . '/build/images/user-image-1.webp' }}">
+                                            </figure>
+                                            <h5>{{ isset($detail['user']['name'])?$detail['user']['name']:"" }}</h5>
+                                            <p>{{ isset($detail['user']['name'])?$detail['user']['name']:"" }}, {{ isset($detail['user']['short_description'])?$detail['user']['short_description']:"" }}</p>
+                                        </div>
                                     </div>
                                     <!-- Sidebar Meet the Author Section Ends Here -->
 
@@ -63,15 +95,38 @@
                                     </div>
                                     <!-- Sidebar Table of Content Section Ends Here -->
 
-                                    <!-- Sidebar Related Categories Section Starts Here -->
-                                    <div class="sidebar__section">
+                                     <!-- Sidebar Related Categories Section Starts Here -->
+                                     <div class="sidebar__section">
                                         @web_component([ 'postfixes' => 'categories.sidebar.style1','data' => ['categories'=>$categoryLists] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Related Categories Section Ends Here -->
 
                                     <!-- Sidebar Related Stores Section Starts Here -->
                                     <div class="sidebar__section onlyLargeDesktop">
-                                        @web_component([ 'postfixes' => 'stores.sidebar.style2','data' => [] ])@endweb_component
+                                        <h2 class="sidebar__heading">
+                                            Related Stores
+                                        </h2>
+
+                                        <div class="popularListing-v1">
+                                            <div class="popularListing popularListing--grid-3">
+                                                <div class="popularListing__wrapper">
+                                                    <div class="popularListing__content">
+                                                        <ul class="popularListing__list">
+                                                            @if (isset($relatedStores)) 
+                                                                @foreach ($relatedStores['store_details'] as $store)
+                                                                    <?php $variant = '2'; ?>
+                                                                    <li class="popularListing__listItem">
+                                                                        <?php //include('../components/Cards/Style4/index.php'); ?>
+                                                                        @web_component([ 'postfixes' => 'stores.minimal.style4','data' => ['variant' => $variant,'store' => $store] ])@endweb_component
+                                                                    </li>
+                                                                @endforeach
+                                                            @endif
+                                                            
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- Sidebar Related Stores Section Ends Here -->
                                 </div>
@@ -85,14 +140,14 @@
                                 <section class="section pd-none">
                                     <div class="blogInner__heading">
                                         <h1 class="heading-2 primary m-0">
-                                            All you need to know about the
-                                            best rubber work boots
+                                            {{isset($detail['title'])?$detail['title']:""}}
                                         </h1>
                                     </div>
 
                                     <div class="blogInner__date">
                                         <span>
-                                            Last updated: Dec 9, 2022
+                                            Last updated: 
+                                            {{ isset(($detail['created_at'])) ? (date('j F Y', strtotime($detail['created_at']) )) : "" }}
                                         </span>
                                     </div>
                                 </section>
@@ -103,46 +158,43 @@
                                     <div class="richTextContent-v1">
                                         <!-- 1 -->
                                         <figure>
-                                            <img src="../../build/images/blog-image-1.webp" alt="Blog">
+                                            <img src="{{ ((isset($detail['blog_image'])) && ($detail['blog_image']!='')) ? $detail['blog_image'] : config('app.image_path') . 'build/images/blog-image-1.webp' }}" alt="Review">
                                         </figure>
-
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+                                        <p>{!!isset($detail['long_description'])?$detail['long_description']:""!!}</p>
 
                                         <!-- 2 -->
-                                        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi placeat quas distinctio iure?</h2>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+                                        <h2>{{isset($detail['title'])?$detail['title']:""}}</h2>
+                                        <p>{!!isset($detail['short_description'])?$detail['short_description']:""!!}</p>
 
-                                        <figure>
-                                            <img src="../../build/images/blog-image-1.webp" alt="Blog">
-                                        </figure>
+                                        <div class="blogDetailLeftCard">
+                                            <figure>
+                                                <img src="{{ ((isset($detail['blog_image'])) && ($detail['blog_image']!='')) ? $detail['blog_image'] : config('app.image_path') . 'build/images/blog-image-1.webp' }}" alt="Review">
+                                            </figure>
 
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+                                            <p>{!!isset($detail['short_description'])?$detail['short_description']:""!!}</p>
+                                            
+                                            <ul>
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
 
-                                        <ul>
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
 
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
 
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
 
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
-
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
-                                        </ul>
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
+                                            </ul>
+                                        </div>
 
                                         <!-- 3 -->
                                         <div>

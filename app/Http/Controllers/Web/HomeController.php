@@ -455,19 +455,41 @@ class HomeController extends Controller
 
     public function reviews($slug = "")
     {
-
         $data = [];
         try{
             $siteid     = config('app.siteid');
-            $pageid     = PAGE_ID;
+                  
+            if($slug){   
+                $data['pageCss'] = 'review-inner';
 
-            $detail     = Review::CustomWhereBasedData($siteid)
+                $pageid     = PAGE_ID;
+                $detail     = Review::CustomWhereBasedData($siteid)
                             ->where('slug',$slug)
                             ->with('user')
                             ->first();
 
-            if ($detail) $data['detail'] = $detail->toArray();
-            else abort(404);
+                if ($detail) $data['detail'] = $detail->toArray();
+                else abort(404);
+
+                $data['relatedStores'] = Cache::remember(
+                    "ReviewListingPage__RelatedStores__{$siteid}__{$pageid}",
+                    21600,
+                    function () use ($siteid, $pageid) {
+                        return Review::select(
+                            'id',
+                            'title'
+                        )
+                            ->with('categories')
+                            ->with('store_details')
+                            ->CustomWhereBasedData($siteid)
+                            ->where('id', $pageid)
+                            ->first();
+                    }
+                );
+    
+            }else{
+                $data['pageCss'] = 'reviews';
+            }
 
 
             $data['categoryLists'] = Cache::remember(
@@ -580,33 +602,15 @@ class HomeController extends Controller
                 ];
             }
 
-            $data['relatedStores'] = Cache::remember(
-                "ReviewListingPage__RelatedStores__{$siteid}__{$pageid}",
-                21600,
-                function () use ($siteid, $pageid) {
-                    return Review::select(
-                        'id',
-                        'title'
-                    )
-                        ->with('categories')
-                        ->with('store_details')
-                        ->CustomWhereBasedData($siteid)
-                        ->where('id', $pageid)
-                        ->first();
-                }
-            );
-
-            // dd($data);
+        //    dd($data);
+       
             if($slug){
-                $data['pageCss'] = 'review-inner';
                 return view('web.home.reviews.detail')->with($data);
 
             }else{
-                $data['pageCss'] = 'reviews';
                 return view('web.home.reviews.index')->with($data);
 
             }
-
             dd("wrong");
             return view('web.home.reviews.index')->with($data);
         }catch (\Exception $e) {

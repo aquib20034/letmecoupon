@@ -7,7 +7,7 @@
             <section class="section pd-none onlyDesktop">
                 <div class="container-inner">
                 <?php
-                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => "Popular Reviews", "path" => config('app.app_path')."/reviews"]];
+                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => "Reviews", "path" => config('app.app_path')."/reviews"]];
                     //include('../components/Breadcrumbs/Style1/index.php');
                     ?>
                     @web_component([ 'postfixes' => 'breadcrumbs.style1','data' => ['routes' => $routes] ])@endweb_component

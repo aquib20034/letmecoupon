@@ -13,12 +13,14 @@
 
             <div class="popularListing__content">
                 <ul class="popularListing__list" onmousedown="mouseDownHandler(this, event)" onmouseup="mouseUpHandler(this)" ontouchend="mouseUpHandler(this)" ontouchstart="mouseDownHandler(this, event)">
-                    @foreach ($popularStores as $popularStore)
-                        @php($variant = 2)
-                        <li class=" popularListing__listItem">
-                            @web_component([ 'postfixes' => 'stores.minimal.style1','data' => ['variant' => $variant, 'store' => $popularStore ] ])@endweb_component
-                        </li>
-                    @endforeach
+                    @if(isset($popularStores))
+                        @foreach ($popularStores as $popularStore)
+                            @php($variant = 2)
+                            <li class=" popularListing__listItem">
+                                @web_component([ 'postfixes' => 'stores.minimal.style1','data' => ['variant' => $variant, 'store' => $popularStore ] ])@endweb_component
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>

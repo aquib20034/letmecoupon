@@ -423,14 +423,18 @@
                 success: function(data) {
                     var rc_str = '';
                     $.each(data, function(i) {
-                        rc_str += "<li><a href='" + data[i].url + "'>" + data[i]
+                        rc_str += "<li class='dropdown__listItem'><a href='" + data[i].url + "'>" + data[i]
                             .name +
                             "</a></li>";
                     });
-                    if (rc_str) {
-                        $("#storeResult").html(rc_str);
-                    } else {
-                        $("#storeResult").html(
+                    if(rc_str){
+                        $('.search__dropdown').show();
+                        $("#serarch__dropdown__list").html(rc_str);
+                    }else{
+                        if((data == 0) && ($value == "")){
+                            $('.search__dropdown').hide();
+                        }
+                        $("#serarch__dropdown__list").html(
                             '<li><a href="javascript:;">{{ trans('sentence.search_return_msg') }} "' +
                             $value + '"</a></li>');
                     }

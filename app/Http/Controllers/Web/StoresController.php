@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use App\WebModel\Page;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
-
+use App\WebModel\Review;
 class StoresController extends Controller
 {
     use MetaWriterTrait;
@@ -21,17 +21,18 @@ class StoresController extends Controller
 
     public function __construct()
     {
+       
+
         $this->store_model = new Store();
     }
     public function index(Request $request)
     {
+       
         try {
             $data = [];
-
             $data['pageCss'] = 'stores';
-
             $siteid = config('app.siteid');
-
+          
             if ($request->Input('q')) {
                 $queryTerm = $request->Input('q');
 
@@ -55,7 +56,7 @@ class StoresController extends Controller
                     }
                 );
             }
-
+        
             $data['popular'] = Cache::remember(
                 "StoreListingPage__PopularStores__{$siteid}",
                 3600,
@@ -66,6 +67,8 @@ class StoresController extends Controller
                 }
             );
 
+           
+        
             $page = Cache::remember(
                 "StoreListingPage__CurrentPage__{$siteid}",
                 21600,
@@ -75,14 +78,48 @@ class StoresController extends Controller
                         ->first();
                 }
             );
-
+           
             $data['meta'] = [
                 'title' => $page->meta_title ?? '',
                 'description' => $page->meta_description ?? ''
             ];
 
-            // return view('web.store.index')->with($data);
-            return view('web.home.stores.index')->with($data)->withShortcodes();
+           
+            Cache::forget("BlogListingPage__LatestBlogs__{$siteid}");
+            $data['recent_blogs'] = Cache::remember(
+                "BlogListingPage__LatestBlogs__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Blog::select(
+                        'id',
+                        'title',
+                        'blog_image',
+                        'created_at',
+                        'author_id'
+                )
+                ->with('author:id,first_name,last_name')
+                    ->with(['categories' => function ($query) use ($siteid) {
+                        $query
+                            ->select(
+                                'id',
+                                'title',
+                                'slug'
+                            )
+                            ->CustomWhereBasedData($siteid);
+                    }])
+                   
+                    ->CustomWhereBasedData($siteid)
+                    ->orderBy('blogs.id', 'DESC')
+                    ->take(3)
+                    ->get()
+                    ->toArray();
+                }
+            );
+
+    
+            
+            // echo "<pre>"; print_r($data['popular']); exit();
+            return view('web.store.index')->with($data);
         } catch (\Exception $e) {
             abort(404);
         }
@@ -99,9 +136,11 @@ class StoresController extends Controller
             $dt = Carbon::now();
 
             $date = $dt->toDateString();
-
+            // echo $date;
+            // exit();
             $pageid = PAGE_ID;
-
+        
+            Cache::forget("StoreDetailPage__StoreDetail__{$siteid}__{$pageid}__{$date}");
             $data['detail'] = Cache::remember(
                 "StoreDetailPage__StoreDetail__{$siteid}__{$pageid}__{$date}",
                 3600,
@@ -112,11 +151,11 @@ class StoresController extends Controller
                         ->CustomWhereBasedData($siteid)
                         ->with(['storeCoupons' => function ($s) use ($date, $siteid) {
                             $s
-                                ->where(function ($q) use ($date) {
-                                    return $q
-                                        ->where('date_expiry', '>=', $date)
-                                        ->orWhere('on_going', 1);
-                                })
+                                // ->where(function ($q) use ($date) {
+                                //     return $q
+                                //         ->where('date_expiry', '>=', $date)
+                                //         ->orWhere('on_going', 1);
+                                // })
                                 ->orderBy('sort', 'ASC')
                                 ->CustomWhereBasedData($siteid);
                         }])
@@ -136,14 +175,17 @@ class StoresController extends Controller
                 }
             );
 
+
+
             if ($data['detail']) $data['detail'] = $data['detail']->toArray();
             else abort(404);
 
+            Cache::forget("StoreDetailPage__PopularStores__{$siteid}");
             $data['popularStores'] = Cache::remember(
                 "StoreDetailPage__PopularStores__{$siteid}",
                 21600,
                 function () use ($siteid) {
-                    return Store::select('id', 'name')
+                    return Store::select('id', 'name', 'store_image')
                         ->CustomWhereBasedData($siteid)
                         ->where('popular', 1)
                         ->orderBy('id', 'desc')
@@ -165,18 +207,21 @@ class StoresController extends Controller
                         ->toArray();
                 }
             );
-
+            Cache::forget("StoreDetailPage__PopularCategories__{$siteid}");
             $data['popularCategories'] = Cache::remember(
                 "StoreDetailPage__PopularCategories__{$siteid}",
                 21600,
                 function () use ($siteid) {
-                    return Category::select('id', 'title')
+                    return Category::select('id', 'title','category_image')
                         ->CustomWhereBasedData($siteid)
                         ->where('popular', 1)
                         ->get()
                         ->toArray();
                 }
             );
+
+            
+          
 
             $metaTemplates = $this
                 ->getMetaTemplates($siteid);
@@ -200,6 +245,73 @@ class StoresController extends Controller
                     ?? $data['detail']['meta_description']
             ];
 
+
+
+            Cache::forget("Popular_blogs__{$siteid}");
+            $data['popular_blogs'] = Cache::remember(
+                "Popular_blogs__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Blog::select(
+                        'id',
+                        'title',
+                        'blog_image',
+                        'created_at',
+                        'author_id'
+                )
+                    ->with('author:id,first_name,last_name')
+                    ->with(['categories' => function ($query) use ($siteid) {
+                        $query
+                            ->select(
+                                'id',
+                                'title',
+                                'slug'
+                            )
+                            ->CustomWhereBasedData($siteid);
+                    }])
+                    ->CustomWhereBasedData($siteid)
+                    ->orderBy('blogs.id', 'DESC')
+                    ->where('popular', 1)
+                    ->take(3)
+                    ->get()
+                    ->toArray();
+                }
+            );
+
+
+            Cache::forget("popular_reviews_{$siteid}");
+            $data['popular_reviews'] = Cache::remember(
+                "popular_reviews_{$siteid}",
+                86400,
+                function () use ($siteid) {
+                    return Review::select(
+                        'id',
+                        'title',
+                        'review_image',
+                        'created_at',
+                        'author_id'
+                    )
+                    ->with('author:id,first_name,last_name')
+                    ->where('popular', 1)
+                    ->CustomWhereBasedData($siteid)
+                    ->with(['categories' => function ($query) use ($siteid) {
+                        $query
+                            ->select(
+                                'id',
+                                'title',
+                                'slug'
+                            )
+                            ->CustomWhereBasedData($siteid);
+                    }])
+                    ->orderBy('id','ASC')
+                    ->get()
+                    ->toArray();
+                }
+            );
+
+            
+        //   echo "<pre>";
+//             print_r( $data['detail']);exit();
             return view('web.store.detail')->with($data);
         } catch (\Exception $e) {
             abort(404);

@@ -1,5 +1,5 @@
 <div>
-    <h2 class="heading-1">{{ trans('sentence.popular') }} {!! $detail['name'] !!}  {{ trans('sentence.promo_codes_sales') }}</h2>
+    <h2 class="heading-1">{{ trans('sentence.popular') }} {!!isset( $detail['title']) ?  $detail['title'] : "" !!}  {{ trans('sentence.promo_codes_sales') }}</h2>
 </div>
 <div>
     <div class="tabularDetailsStyle1">
@@ -11,10 +11,11 @@
                         <th>{{ trans('sentence.cp_tbl_detail') }}</th>
                         <th>{{ trans('sentence.cp_tbl_end_date') }}</th>
                     </tr>
-                    @foreach ($detail['store_coupons'] as $key => $coupon)
+                    @if((isset($detail['coupons'])) && (count($detail['coupons']) > 0))
+                    @foreach ($detail['coupons'] as $key => $coupon)
                             @if ($key == 5)
-                            @break
-                        @endif
+                                @break
+                            @endif
                         @php
                             $expiry = $coupon['on_going'] == 1 ? trans('sentence.exp_on_going') : date('M-j-Y', strtotime($coupon['date_expiry']));
                         @endphp
@@ -24,6 +25,7 @@
                             <td>{!! $expiry !!}</td>
                         </tr>
                     @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

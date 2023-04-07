@@ -1,21 +1,19 @@
 <h2 class="sidebar__heading">
-    Categories
+    Stores
 </h2>
 
 <ul class="sidebar__navList">
-@if (isset($categories)) 
-    @foreach ($categories as $category)
+    <?php for ($i = 0; $i < 3; $i++) { ?>
         <li class="sidebar__navItem">
-            <a href="{{ config('app.app_path') }}/{{ isset($category['slugs']) ? $category['slugs']['slug'] : '#' }}" class="sidebar__navLink" aria-label="Visit Category Inner Page">
-                {{isset($category['title']) ? ($category['title']) : "" }}
+            <a href="{{config('app.app_path')}}/store-inner" class="sidebar__navLink" aria-label="Visit <?php echo ($i + 1); ?> Store Inner Page">
+                Store <?php echo ($i + 1); ?>
             </a>
         </li>
-    @endforeach
-@endif
+    <?php } ?>
 
     <li class="sidebar__navItem">
-        <a href="{{config('app.app_path')}}/category" class="sidebar__navLink primary" aria-label="View All Categories">
-            View All Categories
+        <a href="{{config('app.app_path')}}/stores" class="sidebar__navLink primary" aria-label="View All Stores">
+            View All Stores
         </a>
     </li>
 </ul>

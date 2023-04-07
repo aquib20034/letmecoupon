@@ -10,16 +10,19 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Http\Controllers\Controller;
 use App\WebModel\WebsiteSetting;
 use Carbon\Carbon;
+use App\WebModel\Category;
 use Illuminate\Support\Facades\Cache;
 
 class EventsController extends Controller
 {
     public function detail()
     {
+    
         $data = [];
         try {
             $siteid = config('app.siteid');
-            $data['pageCss'] = 'store';
+            $data['pageCss'] = 'store-inner';  // it should be "events" css but now it's not ready
+       
             $dt = Carbon::now();
             $date = $dt->toDateString();
             $pageid = PAGE_ID;
@@ -35,7 +38,8 @@ class EventsController extends Controller
                         'long_description',
                         'meta_title',
                         'meta_description',
-                        'event_image'
+                        'event_image',
+                        'created_at'
                     )
                         ->with('categories')
                         ->with('stores')
@@ -76,11 +80,32 @@ class EventsController extends Controller
             if ($data['detail']) $data['detail'] = $data['detail']->toArray();
             else abort(404);
 
+            
+
+            $data['categoryLists'] = Cache::remember(
+                "EventDetailPage__CategoryLists__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Category::select(
+                            'id',
+                            'title',
+                        )
+                        ->CustomWhereBasedData($siteid)
+                        ->take(3)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+
             $data['meta'] = [
                 'title' => $data['detail']['meta_title'],
                 'description' => $data['detail']['meta_description']
             ];
-
+            // dd($data);
+            
+            return view('web.home.events.detail')->with($data);
+            
             return view(
                 'web.event.detail'
             )

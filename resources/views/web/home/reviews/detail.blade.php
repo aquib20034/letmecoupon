@@ -160,7 +160,7 @@
                                     <div class="richTextContent-v1">
                                         <!-- 1 -->
                                         <figure>
-                                            <img src="{{ ((isset($detail['review_image'])) && ($detail['review_image']!='')) ? $detail['review_image'] : config('app.image_path') . 'build/images/blog-image-1.webp' }}" alt="Review">
+                                            <img src="{{ ((isset($detail['review_image'])) && ($detail['review_image']!='')) ? $detail['review_image'] : config('app.image_path') . '/build/images/blog-image-1.webp' }}" alt="Review">
                                         </figure>
                                         <p>{!!isset($detail['long_description'])?$detail['long_description']:""!!}</p>
                                         <p>{!!isset($detail['long_description'])?$detail['long_description']:""!!}</p>
@@ -178,7 +178,7 @@
 
                                         <div class="blogDetailLeftCard">
                                             <figure>
-                                                <img src="{{ ((isset($detail['review_image'])) && ($detail['review_image']!='')) ? $detail['review_image'] : config('app.image_path') . 'build/images/blog-image-1.webp' }}" alt="Review">
+                                                <img src="{{ ((isset($detail['review_image'])) && ($detail['review_image']!='')) ? $detail['review_image'] : config('app.image_path') . '/build/images/blog-image-1.webp' }}" alt="Review">
                                             </figure>
 
                                             <p>{!!isset($detail['short_description'])?$detail['short_description']:""!!}</p>
@@ -223,7 +223,7 @@
                                         <!-- 6 -->
                                         <div class="blogDetailLeftCard">
                                             <figure>
-                                                <img src="{{ ((isset($detail['review_image'])) && ($detail['review_image']!='')) ? $detail['review_image'] : config('app.image_path') . 'build/images/blog-image-1.webp' }}" alt="Review">
+                                                <img src="{{ ((isset($detail['review_image'])) && ($detail['review_image']!='')) ? $detail['review_image'] : config('app.image_path') . '/build/images/blog-image-1.webp' }}" alt="Review">
                                             </figure>
 
                                             <p>{!!isset($detail['short_description'])?$detail['short_description']:""!!}</p>

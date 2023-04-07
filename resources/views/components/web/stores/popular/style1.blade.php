@@ -3,26 +3,22 @@
         <div class="popularListing__wrapper">
             <div class="popularListing__header">
                 <div>
-                    <h2 class="heading-1 m-0">Popular Stores & Brands</h2>
+                    <h2 class="heading-1 m-0">{{trans('sentence.popular_stores_brands')}}</h2>
                 </div>
 
                 <div>
-                    <a href="#" class="btn-1 responsive" aria-label="View All">View All</a>
+                    <a href="{{ config('app.app_path') }}/sitemap" class="btn-1 responsive" aria-label="{{trans('global.view_all')}}">{{trans('global.view_all')}}</a>
                 </div>
             </div>
 
             <div class="popularListing__content">
                 <ul class="popularListing__list" onmousedown="mouseDownHandler(this, event)" onmouseup="mouseUpHandler(this)" ontouchend="mouseUpHandler(this)" ontouchstart="mouseDownHandler(this, event)">
-                    <?php for ($i = 1; $i <= 10; $i++) {
-                    ?>
-                        <?php $variant = '2'; ?>
+                    @foreach ($popularStores as $popularStore)
+                        @php($variant = 2)
                         <li class=" popularListing__listItem">
-                            <?php //include('../components/Cards/Style4/index.php'); ?>
-                            @web_component([ 'postfixes' => 'stores.minimal.style1','data' => [] ])@endweb_component
+                            @web_component([ 'postfixes' => 'stores.minimal.style1','data' => ['variant' => $variant, 'store' => $popularStore ] ])@endweb_component
                         </li>
-                    <?php
-                    }
-                    ?>
+                    @endforeach
                 </ul>
             </div>
         </div>

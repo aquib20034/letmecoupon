@@ -1,0 +1,21 @@
+<div class="cardStyle4">
+ 
+
+    <a href="{{ config('app.app_path') }}/{{ isset($store['slugs']) ? $store['slugs']['slug'] : '#' }}" class="card card--2" aria-label="Visit Page" draggable="false">
+        <div class="card__wrapper">
+            <div class="card__top">
+                <div class="card__image">
+                    <figure>
+                        <img src="{{ isset($store['store_image']) ? $store['store_image'] : config('app.app_image') . '/build/images/placeholder.png' }}" alt="" draggable="false">
+                    </figure>
+                </div>
+            </div>
+
+            <div class="card__bottom">
+                <h3 class="card__title">
+                    {!! isset($store['name']) ? $store['name']:'' !!}
+                </h3>
+            </div>
+        </div>
+    </a>
+</div>

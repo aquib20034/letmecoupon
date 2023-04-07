@@ -618,6 +618,99 @@ class HomeController extends Controller
         }
     }
     //
+    public function products($slug = ""){
+        $data = [];
+        try{
+            $siteid = config('app.siteid');
+            if($slug){   
+                $data['pageCss'] = "blog-inner";
+                // $pageid         = PAGE_ID;
+                $detail         = Product::select('id','title','short_description','long_description','product_image','created_at')
+                                    ->where('title', $slug)
+                                    ->CustomWhereBasedData($siteid)
+                                    ->first();
+
+                if ($detail) $data['detail'] = $detail->toArray();
+                else abort(404);
+                
+                $data['categoryLists'] = Cache::remember(
+                    "ProductListingPage__CategoryLists__{$siteid}",
+                    21600,
+                    function () use ($siteid) {
+                        return Category::select(
+                                'id',
+                                'title',
+                            )
+                            ->CustomWhereBasedData($siteid)
+                            ->take(3)
+                            ->get()
+                            ->toArray();
+                    }
+                );
+
+                return view('web.home.products.detail')->with($data);
+            }else{
+                $data['pageCss']    = 'categories';
+                $data['products']   = Product::select('id','title','product_image')
+                                        ->CustomWhereBasedData($siteid)
+                                        ->paginate(20);
+
+                return view('web.home.products.index')->with($data);
+
+            }
+            dd("Someting went wrong");
+        }catch (\Exception $e) {
+            abort(404);
+        }
+    }
+
+    public function authors($slug = ""){
+      
+        $data = [];
+        try{
+            $siteid = config('app.siteid');
+            if($slug){   
+                $data['pageCss'] = "blog-inner";
+                // $pageid         = PAGE_ID;
+                $detail         = Author::select('id','first_name','last_name','email','phone','short_description','long_description','image','created_at')
+                                    ->where('id', $slug)
+                                    // ->CustomWhereBasedData($siteid)
+                                    ->first();
+
+                if ($detail) $data['detail'] = $detail->toArray();
+                else abort(404);
+                
+                $data['categoryLists'] = Cache::remember(
+                    "AuthorListingPage__CategoryLists__{$siteid}",
+                    21600,
+                    function () use ($siteid) {
+                        return Category::select(
+                                'id',
+                                'title',
+                            )
+                            ->CustomWhereBasedData($siteid)
+                            ->take(3)
+                            ->get()
+                            ->toArray();
+                    }
+                );
+
+                return view('web.home.authors.detail')->with($data);
+            }else{
+             
+                $data['pageCss']    = 'categories';
+                $data['authors']    = Author::select('id','first_name','last_name','email','image','phone','created_at')
+                                        // ->CustomWhereBasedData($siteid)
+                                        ->paginate(20);
+                                        // dd($data);
+                return view('web.home.authors.index')->with($data);
+
+            }
+            dd("Someting went wrong");
+        }catch (\Exception $e) {
+            abort(404);
+        }
+    }
 
     public function _404()
     {

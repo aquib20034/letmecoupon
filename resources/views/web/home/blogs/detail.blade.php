@@ -160,11 +160,11 @@
                                         <figure>
                                             <img src="{{ ((isset($detail['blog_image'])) && ($detail['blog_image']!='')) ? $detail['blog_image'] : config('app.image_path') . 'build/images/blog-image-1.webp' }}" alt="Review">
                                         </figure>
-                                        <p>{!!isset($detail['long_description'])?$detail['long_description']:""!!}</p>
+                                        <p>{!!isset($detail['long_description'])?html_entity_decode($detail['long_description']):""!!}</p>
 
                                         <!-- 2 -->
                                         <h2>{{isset($detail['title'])?$detail['title']:""}}</h2>
-                                        <p>{!!isset($detail['short_description'])?$detail['short_description']:""!!}</p>
+                                        <p>{!!isset($detail['short_description'])?html_entity_decode($detail['short_description']):""!!}</p>
 
                                         <div class="blogDetailLeftCard">
                                             <figure>

@@ -34,6 +34,9 @@ Route::group(['namespace' => 'Web', 'prefix' => config('app.route_prefix')], fun
     Route::get('/categories/{detail?}', 'HomeController@categories')->name('categories');
     Route::get('/blogs/{detail?}', 'HomeController@blogs')->name('blogs');
     Route::get('/reviews/{detail?}', 'HomeController@reviews')->name('reviews');
+    Route::get('/products/{detail?}', 'HomeController@products')->name('products');
+    Route::get('/authors/{detail?}', 'HomeController@authors')->name('authors');
+
 
 
     Route::get('/about-us', 'PagesController@detail')->name('about-us');

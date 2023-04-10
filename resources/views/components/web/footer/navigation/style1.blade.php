@@ -46,9 +46,9 @@
             @endforeach
         @endif
         @if ($blogs_count > 0)
-            <li class="navigation__item"><a href="{{ config('app.app_path') }}/blog" class="navigation__link" aria-label="{!! $event['title'] !!}">{{ trans('sentence.blog_page') }}</a></li>
+            <li class="navigation__item"><a href="{{ config('app.app_path') }}/blog" class="navigation__link" aria-label="{{ trans('sentence.blog_page') }}">{{ trans('sentence.blog_page') }}</a></li>
         @endif
-        <li class="navigation__item"><a href="{{ config('app.app_path') }}/sitemap" class="navigation__link" aria-label="{!! $event['title'] !!}">{{ trans('sentence.sitemap_page') }}</a></li>
-        <li class="navigation__item"><a href="{{ config('app.app_path') }}/contact" class="navigation__link" aria-label="{!! $event['title'] !!}">{{ trans('sentence.contact_us') }}</a></li>
+        <li class="navigation__item"><a href="{{ config('app.app_path') }}/sitemap" class="navigation__link" aria-label="{{ trans('sentence.sitemap_page') }}">{{ trans('sentence.sitemap_page') }}</a></li>
+        <li class="navigation__item"><a href="{{ config('app.app_path') }}/contact" class="navigation__link" aria-label="{{ trans('sentence.contact_us') }}">{{ trans('sentence.contact_us') }}</a></li>
     </ul>
 </div>

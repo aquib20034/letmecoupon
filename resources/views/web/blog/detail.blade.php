@@ -1,190 +1,278 @@
 @extends('web.layouts.app')
 @section('content')
-    <main class="main">
+    <div class="container">
         <div class="section">
-            <div class="container">
-                <div class="flex rowbar">
-                    <div class="wide-column small">
-                        <!-- Featured post section starts here -->
-                        <div class="featured">
-                            <figure>
-                                <img src="{{ config('app.image_path') }}/build/images/placeholder.png" data-src="{{ isset($detail['blog_image']) ? $detail['blog_image'] : config('app.image_path').'/build/images/placeholder.png' }}" alt="{{ $detail['title'] }}" />
-                            </figure>
-                            <div class="featured__content">
-                                <h2 class="title">{{ $detail['title'] }}</h2>
-                                <p>
-                                    @if(isset($detail['categories']))
-                                        @foreach($detail['categories'] as $cats)
-                                            <a class="cat" href="{{ config('app.app_path') }}/blog?category={{ $cats['slugs']['slug'] }}">{{ $cats['title'] }}</a>
-                                        @endforeach
-                                    @endif<span class="date">
-                                @php
-                                    $temp = explode(' ', $detail['created_at']);
-                                    $date = date('M, j Y', strtotime($temp[0]));
-                                @endphp {{ $date }}</span><span class="author_name">{{ ($detail['user']) ? $detail['user']['name'] : '' }}</span> </p>
-                            </div>
-                        </div>
-                        <!-- Featured post section ends here -->
-                        <div class="richtext noPd">
-                            <p>{!! html_entity_decode($detail['long_description']) !!}</p>
-                        </div>
-                    </div>
-                    <div class="short-column sticky small">
-                        @if(isset($trendingBlogs) && count($trendingBlogs) > 0)
-                            <div class="similar-store small">
-                                <h2 class="secondary-heading left small">{{ trans('sentence.trending_topics') }}</h2>
-                                <ul>
-                                    @foreach($trendingBlogs as $item)
-                                        <li>
-                                            <a href="{{ config('app.app_path') }}/{{ ($item['slugs']) ? $item['slugs']['slug'] : '' }}" class="tag">{{ $item['title'] ?? '' }}</a>
-                                        </li>
-                                    @endforeach
-                                    <li class="all-categories">
-                                        <a href="{{ config('app.app_path') }}/blog">{{ trans('sentence.view_all_blogs') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        @endif
+            <!-- Breadcrumbs Section Starts Here -->
+            <section class="section pd-none onlyDesktop">
+                <div class="container-inner">
+                    <?php
+                    $routes = [["title" => trans('sentence.home'), "path" => config('app.app_path')], ["title" => trans('sentence.view_all_blogs'), "path" => config('app.app_path')."/blog"], ["title" => $detail['title'], "path" => ""]];
+                    //include('../components/Breadcrumbs/Style1/index.php');
+                    ?>
+                    @web_component([ 'postfixes' => 'breadcrumbs.style1','data' => ['routes' => $routes] ])@endweb_component
+                </div>
+            </section>
+            <!-- Breadcrumbs Section Ends Here -->
 
-                        @if(isset($relatedBlog) && count($relatedBlog) > 0)
-                            <div class="similar-store small">
-                                <h2 class="secondary-heading left small">{{ trans('sentence.related_blog') }}</h2>
-                                <ul>
-                                    @foreach ($relatedBlog as $relateBlog)
-                                        @if($relateBlog['id'] != $detail['id'])
+            <!-- Two Column Layout Section Starts Here -->
+            <section class="section">
+                <div class="container-inner">
+                    <div class="twoColumnLayout-v1">
+                        <div class="twoColumnLayout">
+                            <!-- Short Column Starts Here -->
+                            <div class="twoColumnLayout__shortColumn onlyLargeDesktop">
+                                <!-- Sidebar Starts Here -->
+                                <div class="sidebar sticky js-stickySidebar onlyDesktop">
+                                    <!-- Sidebar Share Via Section Starts Here -->
+                                    <div class="sidebar__section">
+                                        @web_component([ 'postfixes' => 'social.sidebar.style1','data' => ['detail' => $detail] ])@endweb_component
+                                    </div>
+                                    <!-- Sidebar Share Via Section Ends Here -->
+
+                                    <!-- Sidebar Meet the Author Section Starts Here -->
+                                    <div class="sidebar__section">
+                                        @web_component([ 'postfixes' => 'authors.sidebar.info.style1','data' => ['author' => $detail  ] ])@endweb_component
+                                    </div>
+                                    <!-- Sidebar Meet the Author Section Ends Here -->
+
+                             
+
+                                    <!-- Sidebar Related Categories Section Starts Here -->
+                                    <div class="sidebar__section">
+                                        @web_component([ 'postfixes' => 'categories.sidebar.style2','data' => ['categories' => $list ] ])@endweb_component
+                                    </div>
+                                    <!-- Sidebar Related Categories Section Ends Here -->
+
+                                    <!-- Sidebar Related Stores Section Starts Here -->
+                                    <div class="sidebar__section onlyLargeDesktop">
+                                        @web_component([ 'postfixes' => 'stores.sidebar.style2','data' => ['relatedStores' => $relatedStores] ])@endweb_component
+                                    </div>
+                                    <!-- Sidebar Related Stores Section Ends Here -->
+                                </div>
+                                <!-- Sidebar Ends Here -->
+                            </div>
+                            <!-- Short Column Ends Here -->
+
+                            <!-- Wide Column Starts Here -->
+                            <div class="twoColumnLayout__wideColumn">
+                                <!-- Intro Section Starts Here -->
+                                <section class="section pd-none">
+                                    <div class="blogInner__heading">
+                                        <h1 class="heading-2 primary m-0">
+                                            {{$detail['title'] ? $detail['title']:''}}
+                                        </h1>
+                                    </div>
+
+                                    <div class="blogInner__date">
+                                        <span>
+                                            @php
+                                                $temp = explode(' ', $detail['updated_at']);
+                                                $date = date('M j, Y', strtotime($temp[0]));
+                                            @endphp
+                                            Last updated: {{$date}}
+                                        </span>
+                                    </div>
+                                </section>
+                                <!-- Intro Section Ends Here -->
+
+                                <!-- Ricttext Content Section Starts Here -->
+                                <section class="section">
+                                    <div class="richTextContent-v1">
+                                        <!-- 1 -->
+                                        <figure>
+                                            <img src="../../build/images/blog-image-1.webp" alt="Blog">
+                                        </figure>
+
+                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+
+                                        <!-- 2 -->
+                                        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi placeat quas distinctio iure?</h2>
+                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+
+                                        <figure>
+                                            <img src="../../build/images/blog-image-1.webp" alt="Blog">
+                                        </figure>
+
+                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+
+                                        <ul>
                                             <li>
-                                                <a href="{{ config('app.app_path') }}/{{ ($relateBlog['slugs']) ? $relateBlog['slugs']['slug'] : '' }}" class="tag"> <?php echo $relateBlog['title'] ?></a>
+                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
                                             </li>
-                                        @endif
-                                    @endforeach
-                                    <li class="all-categories">
-                                        <a href="{{ config('app.app_path') }}/blog">{{ trans('sentence.view_all_blogs') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        @endif
 
-                        @if(count($list)>0)
-                            <div class="similar-store small">
-                                <h2 class="secondary-heading left small">{{ trans('sentence.related_topics') }}</h2>
-                                @php
-                                    $totalCategories = count($list);
-                                    $categoryListingOutput = array_slice($list, 0, 10, true);
-                                @endphp
-                                <ul>
-                                    @foreach($categoryListingOutput as $categoryList)
-                                        <li>
-                                            <a href="{{ config('app.app_path') }}/blog?category={{ $categoryList['slugs']['slug'] }}" class="tag">{{ $categoryList['title'] }}</a>
-                                        </li>
-                                    @endforeach
-                                    <li class="all-categories">
-                                        <a href="{{ config('app.app_path') }}/blog-categories">{{ trans('sentence.blog_view_all_categories') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        @endif
+                                            <li>
+                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                            </li>
 
-                        @if($relatedStores->store_details !== null)
-                            <div class="similar-store small">
-                                <h2 class="secondary-heading left small">{{ trans('sentence.blog_related_brands') }}</h2>
-                                <ul>
-                                    @foreach($relatedStores->store_details as $relatedStore)
-                                        <li> <a href="{{ config('app.app_path') }}/{{ isset($relatedStore['slug']) ? $relatedStore['slug'] : 'javascript:;' }}" class="tag">{{ $relatedStore['name'] }}</a> </li>
-                                    @endforeach
-                                    <li class="all-categories">
-                                        <a href="{{ config('app.app_path') }}/sitemap">{{ trans('sentence.blog_view_all_brands') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        @endif
-                    </div>
+                                            <li>
+                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                            </li>
 
-                </div>
-            </div>
-        </div>
-        
-        <!-- Author section starts here -->
-        <div class="section padding-top-none padding-bottom-none">
-            <div class="container">
-                <div class="author">
-                    <div class="author__img">
-                        <figure>
-                            <img src="{{ config('app.image_path') }}/build/images/author.png" data-src="{{ isset($detail) ? $detail['user']['user_image'] : config('app.image_path').'/build/images/placeholder.png' }}" alt="{{ isset($detail['user']) ? $detail['user']['name'] : '' }}" width="168" height="168" data-src="build/images/author.png" />
-                        </figure>
-                    </div>
-                    <div class="author__content">
-                        <h2>{{ ($detail['user']) ? $detail['user']['name'] : '' }}</h2>
-                        <p>{!! $detail['user'] ? $detail['user']['short_description'] : '' !!}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Author section starts end -->
+                                            <li>
+                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                            </li>
 
-        <!-- Related blog section starts here -->
-        @if(!empty($latestBlog))
-            <div class="section">
-                <div class="container">
-                    <div class="related_blogs">
-                        <h2 class="top-heading">{{ trans('sentence.you_may_also_like') }}</h2>
-                        <div class="blogs_grid">
-				            @foreach($latestBlog as $readMoreBlog)
-                                @if($readMoreBlog['id'] != $detail['id'])
-                                    <a href="{{ config('app.app_path') }}/{{ isset($readMoreBlog['slugs']) ? $readMoreBlog['slugs']['slug'] : 'javascript:;' }}">
-                                        <div class="post">
-                                            <figure>
-                                                <img src="{{config('app.image_path')}}/build/images/placeholder.png" data-src="{{ isset($readMoreBlog['blog_image']) ? $readMoreBlog['blog_image'] : config('app.image_path').'/build/images/placeholder.png' }}" alt="" />
-                                            </figure>
-                                            <div class="content">
-                                                @php
-                                                    $postTitle       = substr($readMoreBlog['title'], 0, 68);
-                                                    $postTitleLength = strlen($readMoreBlog['title']);
-                                                @endphp
-                                                <h2>{{ $postTitle }} @if($postTitleLength > 68) ... @endif</h2>
-                                                <p>{{ isset($readMoreBlog['categories'][0]['title']) ? $readMoreBlog['categories'][0]['title'] : '' }}</p>
-                                            </div>
+                                            <li>
+                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                            </li>
+                                        </ul>
+
+                                        <!-- 3 -->
+                                        <div>
+                                            <?php //include('../components/DiscountCard/Style2/index.php'); ?>
+                                            @web_component([ 'postfixes' => 'coupon.minimal.style1','data' => [] ])@endweb_component
                                         </div>
-                                    </a>
-                                @endif
-                            @endforeach
+
+                                        <!-- 4 -->
+                                        <div class="blogDetailLeftCard">
+                                            <figure class="left">
+                                                <img src="../../build/images/blog-image-1.webp" alt="Blog">
+                                            </figure>
+
+                                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+                                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+                                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
+
+                                            <ul>
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
+
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
+
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
+
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
+
+                                                <li>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- 5 -->
+                                        <div>
+                                            <?php
+                                            $isDeal = 1;
+                                            $isExpired = 0;
+
+                                            // if ($i % 2 === 0) {
+                                            //     $isDeal = 0;
+                                            // }
+                                            ?>
+                                            <?php //include('../components/DiscountCard/Style2/index.php'); ?>
+                                            @web_component([ 'postfixes' => 'coupon.minimal.style1','data' => [] ])@endweb_component
+                                        </div>
+
+                                        <!-- 6 -->
+                                        <!-- Newsletter v2 Section Starts Here -->
+                                        <section class="section">
+                                            <?php //include('../components/NewsLetterForm/Style2/index.php'); ?>
+                                            @web_component([ 'postfixes' => 'newsletter.style2','data' => [] ])@endweb_component
+                                        </section>
+                                        <!-- Newsletter v2 Section Starts Here -->
+
+                                        <!-- 7 -->
+                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+
+                                        <!-- 8 -->
+                                        <!-- 1st Coupons Grid Section Starts Here -->
+                                        <div class="blogInnerGrid">
+                                            <?php for ($i = 0; $i < 3; $i++) { ?>
+                                                <?php
+                                                $isDeal = 1;
+                                                $isExpired = 0;
+
+                                                if ($i % 2 === 0) {
+                                                    $isDeal = 0;
+                                                }
+                                                ?>
+
+                                                <?php //include('../components/DiscountCard/Style1/index.php'); ?>
+                                                @web_component([ 'postfixes' => 'coupon.minimal.style2','data' => [] ])@endweb_component
+                                            <?php } ?>
+                                        </div>
+                                        <!-- 1st Coupons Grid Section Ends Here -->
+
+                                        <!-- 9 -->
+                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+
+                                        <!-- 10 -->
+                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+
+                                        <!-- 11 -->
+                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+
+                                        <!-- 12 -->
+                                        <!-- 2nd Coupons Grid Section Starts Here -->
+                                        <div class="blogInnerGrid">
+                                            <?php for ($i = 0; $i < 3; $i++) { ?>
+                                                <?php
+                                                $isDeal = 1;
+                                                $isExpired = 0;
+
+                                                if ($i % 2 === 0) {
+                                                    $isDeal = 0;
+                                                }
+                                                ?>
+
+                                                <?php //include('../components/DiscountCard/Style1/index.php'); ?>
+                                                @web_component([ 'postfixes' => 'coupon.minimal.style2','data' => [] ])@endweb_component
+                                            <?php } ?>
+                                        </div>
+                                        <!-- 2nd Coupons Grid Section Ends Here -->
+
+                                        <!-- 13 -->
+                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+
+                                        <!-- 14 -->
+                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+                                    </div>
+                                </section>
+                                <!-- Richtext Content Section Ends Here -->
+
+                            </div>
+                            <!-- Wide Column Ends Here -->
                         </div>
                     </div>
                 </div>
-            </div>
-        @endif
-        <!-- Related blog section ends here -->
+            </section>
+            <!-- Two Column Layout Section Ends Here -->
 
-        <!-- Leave A Reply Section Starts Here -->
-        <div class="section replybox padding-top-none">
-            <div class="container">
-                <div class="review_section">
-                    <h1 class="heading">Leave A Reply</h1>
-                    <p>Your email address will not be published. Required fields are marked *</p>
-                    <form>
-                        <div class="main-input-wrp">
-                            <div class="inptWrapr">
-                                <input type="text" name="name" placeholder="Full Name" required="" value="">
-                            </div>
-                            <div class="inptWrapr">
-                                <input type="email" name="email" placeholder="Email" required="" value="">
-                            </div>
-                            <div class="inptWrapr">
-                                <input type="number" name="phone" placeholder="Phone" required="" value="">
-                            </div>
-                        </div>
-                        <textarea class="txtAreaFeild" placeholder="Enter your message" name="Message"></textarea>
-                        <ul class="styled-checkox-list">
-                            <li>
-                                <input class="styled-checkbox" id="styled-checkbox-1" type="checkbox" value="value1">
-                                <label for="styled-checkbox-1">Save my name, email, and website in this browser for the next time I comment.</label>
-                            </li>
-                        </ul>
-                        <div class="btnWrapr">
-                            <button type="submit" class="sbmtBtn">Post Comment</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <!-- Newsletter Section Starts Here -->
+            <section class="section">
+                @web_component([ 'postfixes' => 'newsletter.style1','data' => [] ])@endweb_component
+            </section>
+            <!-- Newsletter Section Starts Here -->
+
+            <!-- Recent Blogs Section Starts Here -->
+            <section class="section">
+                @web_component([ 'postfixes' => 'blogs.recent.style2','data' => ['recent_blogs' => $latestBlog] ])@endweb_component
+            </section>
+            <!-- Recent Blogs Section Ends Here -->
         </div>
-    </main>
+    </div>
 @endsection

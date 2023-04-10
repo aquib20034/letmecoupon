@@ -137,7 +137,7 @@
                 <span class="help-block">{{ trans('cruds.review.fields.publish_helper') }}</span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group d-none">
                 <label for="users">User</label>
                 <select class="form-control select2 {{ $errors->has('users') ? 'is-invalid' : '' }}" name="user_id" id="user_id">
                     @foreach($users as $id => $user)
@@ -152,6 +152,19 @@
 
             </div>
 
+            <div class="form-group">
+                <label for="author_id">Author</label>
+                <select class="form-control select2 {{ $errors->has('author_id') ? 'is-invalid' : '' }}" name="author_id" id="author_id">
+                    @foreach($authors as $id => $author)
+                        <option value="{{ $id }}" {{ ($review->author_id ? $review->author->id : old('author_id')) == $id ? 'selected' : '' }}>{{ $author }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('author_id'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('author_id') }}
+                    </div>
+                @endif
+            </div>
 
             <div class="form-group">
                 <label for="categories">{{ trans('cruds.review.fields.category') }}</label>
@@ -171,6 +184,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.review.fields.category_helper') }}</span>
             </div>
+
             <div class="form-group">
                 <label for="tags">{{ trans('cruds.review.fields.tag') }}</label>
                 <div style="padding-bottom: 4px">
@@ -189,6 +203,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.review.fields.tag_helper') }}</span>
             </div>
+
             <div class="form-group">
                 <label for="stores">{{ trans('cruds.review.fields.store') }}</label>
                 <div style="padding-bottom: 4px">
@@ -207,6 +222,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.review.fields.store_helper') }}</span>
             </div>
+
             <div class="form-group">
                 <label class="required" for="meta_title">{{ trans('cruds.review.fields.meta_title') }}</label>
                 <input class="form-control {{ $errors->has('meta_title') ? 'is-invalid' : '' }}" type="text" name="meta_title" id="meta_title" value="{{ old('meta_title', $review->meta_title) }}" required>
@@ -217,6 +233,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.review.fields.meta_title_helper') }}</span>
             </div>
+
             <div class="form-group">
                 <label class="required" for="meta_keywords">{{ trans('cruds.review.fields.meta_keywords') }}</label>
                 <input class="form-control {{ $errors->has('meta_keywords') ? 'is-invalid' : '' }}" type="text" name="meta_keywords" id="meta_keywords" value="{{ old('meta_keywords', $review->meta_keywords) }}" required>
@@ -227,6 +244,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.review.fields.meta_keywords_helper') }}</span>
             </div>
+
             <div class="form-group">
                 <label class="required" for="meta_description">{{ trans('cruds.review.fields.meta_description') }}</label>
                 <input class="form-control {{ $errors->has('meta_description') ? 'is-invalid' : '' }}" type="text" name="meta_description" id="meta_description" value="{{ old('meta_description', $review->meta_description) }}" required maxlength="500" minlength="70">

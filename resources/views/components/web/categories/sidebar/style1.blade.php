@@ -1,21 +1,15 @@
-<h2 class="sidebar__heading">
-    Categories
-</h2>
-
+@if(isset($categories) && count($categories) > 0)
+<h2 class="sidebar__heading">{{trans('sentence.menu_categories')}}</h2>
 <ul class="sidebar__navList">
-@if (isset($categories)) 
-    @foreach ($categories as $category)
+    @foreach($categories as $category)
         <li class="sidebar__navItem">
-            <a href="{{ config('app.app_path') }}/{{ isset($category['slugs']) ? $category['slugs']['slug'] : '#' }}" class="sidebar__navLink" aria-label="Visit Category Inner Page">
-                {{isset($category['title']) ? ($category['title']) : "" }}
-            </a>
+            <a href="{{config('app.app_path')}}/blog?category={{ $category['slugs']['slug'] }}" class="sidebar__navLink" aria-label="Visit Category">{!! $category['title'] !!}</a>
         </li>
     @endforeach
-@endif
-
     <li class="sidebar__navItem">
-        <a href="{{config('app.app_path')}}/category" class="sidebar__navLink primary" aria-label="View All Categories">
-            View All Categories
+        <a href="{{config('app.app_path')}}/blog-categories" class="sidebar__navLink primary" aria-label="View All Categories">
+            {{trans('sentence.view_all_categories')}}
         </a>
     </li>
 </ul>
+@endif

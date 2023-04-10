@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
-use App\User;
+//use App\User;
 
 class Review extends Model implements HasMedia
 {
@@ -61,6 +61,7 @@ class Review extends Model implements HasMedia
         'meta_description',
         'short_description',
         'user_id',
+        'author_id',
         'review_image',
     ];
 
@@ -132,6 +133,11 @@ class Review extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
     
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
+    }
+
     public function store_details()
     {
         return $this->belongsToMany(Store::class, 'review_store', 'review_id', 'store_id');

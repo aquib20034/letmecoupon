@@ -38,9 +38,9 @@ class StoreBlogRequest extends FormRequest
             'long_description'  => [
                 'required',
             ],
-            'image'             => [
-                'required',
-            ],
+            // 'image'             => [
+            //     'required',
+            // ],
             'sort'              => [
                 'required',
                 'integer',

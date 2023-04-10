@@ -123,6 +123,11 @@ class Site extends Model implements HasMedia
         return $this->belongsToMany(Blog::class);
     }
 
+    public function siteReviews()
+    {
+        return $this->belongsToMany(Review::class);
+    }
+
     public function siteProducts()
     {
         return $this->belongsToMany(Product::class);

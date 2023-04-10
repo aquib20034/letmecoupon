@@ -6,6 +6,7 @@ use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
+use App\Author;
 use App\Tag;
 
 class Blog extends Model
@@ -92,6 +93,11 @@ class Blog extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
     }
 
     public function store_details()

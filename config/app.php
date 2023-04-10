@@ -186,7 +186,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
         App\Providers\ShortcodesServiceProvider::class,
-
+        App\Providers\SiteProvider::class
     ],
 
     /*

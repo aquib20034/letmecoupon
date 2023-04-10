@@ -44,6 +44,7 @@
     @endif
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" async />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>{!! $title !!}</title>
     <style>
         <?php
@@ -145,6 +146,6 @@
         </header>-->
         <div class="container-fluid">
             <div class="headerStyle1 sticky">
-                @web_component([ 'postfixes' => 'header.style1','data' => ['title' => $title] ])@endweb_component
+                @web_component([ 'postfixes' => 'header.style1','data' => ['global_data' => $global_data, 'socials' => $socials] ])@endweb_component
             </div>
         

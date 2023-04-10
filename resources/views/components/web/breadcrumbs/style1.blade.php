@@ -4,13 +4,13 @@
             @if(isset($route["path"]))
                 <li>
                     <a href="{{$route['path']}}" class="breadCrumb" aria-label="Visit {{($route['title'])}}">
-                        {!!($route['title'])!!}
+                        {{($route['title'])}}
                     </a>
                 </li>
             @else
                 <li>
                     <a class="breadCrumb active" aria-label="Visit {{($route['title'])}}">
-                    {!!($route['title'])!!}
+                        {{($route['title'])}}
                     </a>
                 </li>
             @endif

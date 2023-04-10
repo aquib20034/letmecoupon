@@ -24,6 +24,16 @@
                         </tr>
                         <tr>
                             <th>
+                                {{ trans('cruds.author.fields.site') }}
+                            </th>
+                            <td>
+                                @foreach ($author->sites as $key => $site)
+                                    <span class="label label-info">{{ $site->name }}, </span>
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
                                 {{ trans('cruds.author.fields.name') }}
                             </th>
                             <td>
@@ -44,6 +54,56 @@
                             </th>
                             <td>
                                 {{ $author->phone }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ trans('cruds.author.fields.type') }}
+                            </th>
+                            <td>
+                                {{ ($author->author_types)?$author->author_types->title:$author->type }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ trans('cruds.author.fields.facebook_url') }}
+                            </th>
+                            <td>
+                                {{ $author->facebook_url }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ trans('cruds.author.fields.instagram_url') }}
+                            </th>
+                            <td>
+                                {{ $author->instagram_url }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ trans('cruds.author.fields.linkedin_url') }}
+                            </th>
+                            <td>
+                                {{ $author->linkedin_url }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ trans('cruds.author.fields.twitter_url') }}
+                            </th>
+                            <td>
+                                {{ $author->twitter_url }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ trans('cruds.author.fields.language') }}
+                            </th>
+                            <td>
+                                @foreach ($author->languages as $key => $language)
+                                    <span class="label label-info">{{ $language->language }}, </span>
+                                @endforeach
                             </td>
                         </tr>
                         <tr>

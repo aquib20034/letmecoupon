@@ -1,27 +1,29 @@
+@if(isset($detail['faq_title']) && $detail['faq_title'] != '' )
 <div>
-    <h2 class="heading-1">Frequently Asked Questions</h2>
+    <h2 class="heading-1">{{$detail['faq_title']}}</h2>
 </div>
-
 <div class="faqListing">
-    <?php for ($i = 0; $i < 4; $i++) { ?>
-        <?php //include('../components/Accordion/Style1/index.php'); ?>
+        @if(isset($detail['faq_json']) &&  sizeof(json_decode($detail['faq_json'],true)) > 0 )
+        @php
+            $faqs = json_decode($detail['faq_json'],true);
+        @endphp
+        @foreach($faqs as $key => $faq)
         <div class="accordionStyle1">
             <div class="accordion js-accordionStyle1">
                 <div class="accordion__wrapper">
-                    <div class="accordion__head <?php echo "js-accordion-{$i}"; ?>" onclick="toggleAccordion(this)">
-                        <h3 class="title">Accordion Title</h3>
-
+                    <div class="accordion__head <?php echo "js-accordion-{$key}"; ?>" onclick="toggleAccordion(this)">
+                        <h3 class="title">{{$faq['question']}}</h3>
                         <span class="icon">
                             <i class="x_arrow-down-2"></i>
                         </span>
                     </div>
-
                     <div class="accordion__content">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo voluptate, repudiandae quis impedit ad voluptas dolores maiores ducimus quia deserunt sed, error magni deleniti tenetur odit quibusdam ipsum ipsa cupiditate doloremque voluptatibus voluptatem possimus ratione hic veritatis! Incidunt asperiores facilis dolorem sint minus facere suscipit ullam amet. Eum, architecto perspiciatis!</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo voluptate, repudiandae quis impedit ad voluptas dolores maiores ducimus quia deserunt sed, error magni deleniti tenetur odit quibusdam ipsum ipsa cupiditate doloremque voluptatibus voluptatem possimus ratione hic veritatis! Incidunt asperiores facilis dolorem sint minus facere suscipit ullam amet. Eum, architecto perspiciatis!</p>
+                        <p>{{$faq['answer']}}</p>
                     </div>
                 </div>
             </div>
         </div>
-    <?php } ?>
+        @endforeach
+    @endif
 </div>
+@endif

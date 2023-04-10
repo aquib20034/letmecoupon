@@ -252,3 +252,21 @@ a {
   position: sticky;
   top: 0;
 }
+
+.mobileMenuStyle1{
+  .mobileMenu__body{
+    .sideNavigation{
+      li{
+        .sideDropdown{
+          li{
+            a{
+             &.bold{
+              font-weight: bold;
+             } 
+            }
+          }
+        }
+      }
+    }
+  }
+}

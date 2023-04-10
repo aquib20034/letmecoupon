@@ -3,9 +3,9 @@
         <div class="mobileMenu__overlay" onclick="toggleHeader1MobileMenu()"></div>
         <div class="mobileMenu__wrapper">
             <div class="mobileMenu__header">
-                <a href="{{ config('app.app_path') }}" class="mobileMenu__logo" aria-label="Visit Home Page">
+                <a href="{{ config('app.app_path') }}" class="mobileMenu__logo" aria-label="{{config('app.name')}}">
                     <figure>
-                        <img src="../../build/images/header-logo.webp" alt="Logo">
+                        <img src="{{ config('app.image_path') . '/build/images/header-logo.webp' }}" alt="{{config('app.name')}}">
                     </figure>
                 </a>
 
@@ -17,70 +17,88 @@
             <div class="mobileMenu__body">
                 <ul class="sideNavigation">
                     <li onclick="toggleSideNavAccordion(this)">
-                        <a href="javascript:;" aria-label="Top Shops"><span>Top Shops</span><i class="x_arrow-down-2 chevron-icon"></i></a>
+                        <a href="javascript:;" aria-label="{{trans('sentence.menu_stores')}}"><span>{{trans('sentence.menu_stores')}}</span><i class="x_arrow-down-2 chevron-icon"></i></a>
 
                         <ul class="box-coupons sideDropdown" onclick="toggleHeader1MobileMenu()">
-                            <li><a href="{{ config('app.app_path') }}/store-inner" aria-label="Visit Store Inner Page">Amazon</a></li>
-                            <li><a href="{{ config('app.app_path') }}/store-inner" aria-label="Visit Store Inner Page">Cdiscount</a></li>
-                            <li><a href="{{ config('app.app_path') }}/store-inner" aria-label="Visit Store Inner Page">The Redoubt</a></li>
-                            <li><a href="{{ config('app.app_path') }}/store-inner" aria-label="Visit Store Inner Page">Aliexpress</a></li>
+                            @if(isset($nav_popular_stores) && count($nav_popular_stores) > 0)
+                                @foreach($nav_popular_stores as $key => $store)
+                                <li>
+                                    <a href="{{ config('app.app_path') }}/{{ isset($store['slugs']) ? $store['slugs']['slug'] : '#' }}" aria-label="{{ $store['name'] }}">
+                                        {{ $store['name'] }}
+                                    </a>
+                                </li>
+                                @endforeach
+                            @endif
+                            <li>
+                                <a href="{{ config('app.app_path') }}/sitemap" class="bold" aria-label="{{trans('sentence.browse_all_stores')}}">
+                                    {{trans('sentence.browse_all_stores')}}
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
                     <li onclick="toggleSideNavAccordion(this)">
-                        <a href="javascript:;" aria-label="Categories"><span>Categories</span> <i class="x_arrow-down-2 chevron-icon"></i></a>
+                        <a href="javascript:;" aria-label="{{trans('sentence.menu_categories')}}"><span>{{trans('sentence.menu_categories')}}</span> <i class="x_arrow-down-2 chevron-icon"></i></a>
 
                         <ul class="box-categories sideDropdown" onclick="toggleHeader1MobileMenu()">
-                            <li><a href="{{ config('app.app_path') }}/category-inner" aria-label="Visit Category Inner Page">Amazon</a></li>
-                            <li><a href="{{ config('app.app_path') }}/category-inner" aria-label="Visit Category Inner Page">Cdiscount</a></li>
-                            <li><a href="{{ config('app.app_path') }}/category-inner" aria-label="Visit Category Inner Page">The Redoubt</a></li>
-                            <li><a href="{{ config('app.app_path') }}/category-inner" aria-label="Visit Category Inner Page">Aliexpress</a></li>
+                            @if(isset($nav_popular_categories) && count($nav_popular_categories) > 0)
+                                @foreach($nav_popular_categories as $key => $category)
+                                    <li>
+                                        <a href="{{ config('app.app_path') }}/{{ isset($category['slugs']) ? $category['slugs']['slug'] : '#' }}" aria-label="{{$category['title']}}">
+                                            {{$category['title']}}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            @endif
+                            <li>
+                                <a href="{{ config('app.app_path') }}/category" class="bold" aria-label="{{trans('sentence.browse_all_categories')}}">
+                                    {{trans('sentence.browse_all_categories')}}
+                                </a>
+                            </li>
                         </ul>
                     </li>
+                    <li><a href="{{ config('app.app_path') }}/blog" aria-label="{{trans('sentence.visit_blogs_page')}}"><span>{{trans('sentence.menu_blogs')}}</span></a></li>
+                    <li><a href="{{ config('app.app_path') }}/review" aria-label="{{trans('sentence.visit_reviews_page')}}"><span>{{trans('sentence.menu_reviews')}}</span></a></li>
 
                     <li onclick="toggleSideNavAccordion(this)">
-                        <a href="javascript:;" aria-label="United States">
-                            <span>United States</span>
+                        <a href="javascript:;" aria-label="{{(isset($nav_all_sites) && COUNT($nav_all_sites) > 0) ? $nav_all_sites[$current_country]['country_name']:''}}">
+                            <span>{{(isset($nav_all_sites) && COUNT($nav_all_sites) > 0) ? $nav_all_sites[$current_country]['country_name']:''}}</span>
                             <div class="flag-image">
-                                <img src="../../build/images/flag.webp" alt="Flag">
+                                <img src="{{(isset($nav_all_sites) && COUNT($nav_all_sites) > 0) ? $nav_all_sites[$current_country]['country_flag'] : config('app.image_path') . '/build/images/placeholder.png' }}" alt="{{(isset($nav_all_sites) && COUNT($nav_all_sites) > 0) ? $nav_all_sites[$current_country]['country_name']:''}}">
                             </div>
                             <i class="x_arrow-down-2 chevron-icon"></i>
                         </a>
 
-                        <?php
-                        $countries = array(
-                            'United Kingdom', 'Australia', 'Ireland', 'Germany', 'Switzerland', 'Austria', 'Poland', 'France', 'Netherlands', 'Finland', 'Spain', 'Italy', 'Norway', 'Czech Republic', 'Sweden', 'Denmark', 'Canada', 'New Zealand', 'Pakistan', 'Mexico', 'Turkey', 'Belgium', 'Hungary', 'Romania', 'Argentina', 'Portugal', 'Luxembourg', 'Colombia'
-                        );
-                        $index = 0;
-                        ?>
                         <ul class="box-countries sideDropdown" onclick="toggleHeader1MobileMenu()">
-                            <?php foreach ($countries as $country) : ?>
-                                <li class="<?php echo $index < 5 ? 'show-initially' : '' ?>">
-                                    <a href="javascript:;" aria-label="<?php echo $country ?>"><?php echo $country ?></a>
+                            @if(isset($nav_all_sites) && count($nav_all_sites) > 0)
+                                @foreach($nav_all_sites as $site)
+                                <li>
+                                    <a href="{{ isset($site['country_code']) ? url(strtolower($site['country_code'])) : '' }}">
+                                        {!! isset($site['country_name']) ? $site['country_name'] : '' !!}
+                                    </a>
                                 </li>
-                                <?php $index++ ?>
-                            <?php endforeach; ?>
+                                @endforeach
+                            @endif
                         </ul>
                     </li>
-
-                    <li><a href="{{ config('app.app_path') }}/blogs" aria-label="Visit Blogs Page"><span>Blogs</span></a></li>
-                    <li><a href="{{ config('app.app_path') }}/reviews" aria-label="Visit Blogs Page"><span>Reviews</span></a></li>
-                    <li><a href="{{ config('app.app_path') }}/about-us" aria-label="Visit About Us Page"><span>About Us</span></a></li>
-                    <li><a href="{{ config('app.app_path') }}/contact-us" aria-label="Visit Contact Us Page"><span>Contact Us</span></a></li>
+                    
+                    <li><a href="{{ config('app.app_path') }}/about-us" aria-label="Visit {{ trans('sentence.about_us') }} Page"><span>{{ trans('sentence.about_us') }}</span></a></li>
+                    <li><a href="{{ config('app.app_path') }}/contact" aria-label="Visit {{ trans('sentence.contact_us') }} Page"><span>{{ trans('sentence.contact_us') }}</span></a></li>
                 </ul>
             </div>
 
             <div class="mobileMenu__footer">
                 <div class="mobileMenu__socialLinks">
-                    <a href="https://www.facebook.com/" target="_blank" rel="nofollow noopener noreferrer" aria-label="Visit Our Facebook Profile">
-                        <i class="x_facebook"></i>
-                    </a>
-                    <a href="https://www.twitter.com/" target="_blank" rel="nofollow noopener noreferrer" aria-label="Visit Our Twitter Profile">
-                        <i class="x_twitter"></i>
-                    </a>
-                    <a href="https://www.instagram.com/" target="_blank" rel="nofollow noopener noreferrer" aria-label="Visit Our Instagram Profile">
-                        <i class="x_instagram"></i>
-                    </a>
+                    @if(isset($socials) && !empty($socials))
+                        @foreach ($socials as $social)
+                            @if ($social['field_name'] && $global_data[$social['field_name']])
+                                <a href="{{isset($global_data[$social['field_name']]) ? $global_data[$social['field_name']] : 'https://www.'.$social['field_name'].'.com'}}"
+                                    title="{{ ucwords($social['icon_name']) }}" target="_blank" rel="nofollow noopener noreferrer" aria-label="{{ ucwords($social['icon_name']) }}">
+                                    <i class="x_{{$social['icon_name']}}"></i>
+                                </a>
+                            @endif
+                        @endforeach
+                    @endif                    
                 </div>
             </div>
         </div>

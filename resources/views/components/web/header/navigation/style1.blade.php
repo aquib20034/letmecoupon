@@ -3,7 +3,7 @@
         <li class="navigation__item">
             <div class="navigation__button">
                 <span class="text">
-                    Stores
+                    {{trans('sentence.menu_stores')}}
                 </span>
                 <span class="icon">
                     <i class="x_arrow-down-1"></i>
@@ -14,17 +14,19 @@
                 <div class="dropdown">
                     <div class="dropdown__wrapper">
                         <ul class="dropdown__list">
-                            <?php for ($i = 0; $i < 10; $i++) { ?>
+                            @if(isset($nav_popular_stores) && count($nav_popular_stores) > 0)
+                                @foreach($nav_popular_stores as $key => $store)
                                 <li class="dropdown__listItem">
-                                    <a href="{{ config('app.app_path') }}/store-inner class="title link" aria-label="Visit Store <?php echo ($i + 1); ?> Page">
-                                        Store <?php echo ($i + 1); ?>
+                                    <a href="{{ config('app.app_path') }}/{{ isset($store['slugs']) ? $store['slugs']['slug'] : '#' }}" class="title link">
+                                        {{ $store['name'] }}
                                     </a>
                                 </li>
-                            <?php } ?>
+                                @endforeach
+                            @endif
 
                             <li class="dropdown__listItem">
-                                <a href="{{ config('app.app_path') }}/stores" class="title link bold" aria-label="Browse All Stores">
-                                    Browse All Stores
+                                <a href="{{ config('app.app_path') }}/sitemap" class="title link bold" aria-label="{{trans('sentence.browse_all_stores')}}">
+                                    {{trans('sentence.browse_all_stores')}}
                                 </a>
                             </li>
                         </ul>
@@ -36,7 +38,7 @@
         <li class="navigation__item">
             <div class="navigation__button">
                 <span class="text">
-                    Categories
+                    {{trans('sentence.menu_categories')}}
                 </span>
                 <span class="icon">
                     <i class="x_arrow-down-1"></i>
@@ -47,17 +49,19 @@
                 <div class="dropdown">
                     <div class="dropdown__wrapper">
                         <ul class="dropdown__list">
-                            <?php for ($i = 0; $i < 10; $i++) { ?>
-                                <li class="dropdown__listItem">
-                                    <a href="{{ config('app.app_path') }}/category-inner" class="title link" aria-label="Visit Category <?php echo ($i + 1); ?> Page">
-                                        Category <?php echo ($i + 1); ?>
-                                    </a>
-                                </li>
-                            <?php } ?>
+                            @if(isset($nav_popular_categories) && count($nav_popular_categories) > 0)
+                                @foreach($nav_popular_categories as $key => $category)
+                                    <li class="dropdown__listItem">
+                                        <a href="{{ config('app.app_path') }}/{{ isset($category['slugs']) ? $category['slugs']['slug'] : '#' }}" class="title link">
+                                            {{$category['title']}}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            @endif
 
                             <li class="dropdown__listItem">
-                                <a href="{{ config('app.app_path') }}/category" class="title link bold" aria-label="Browse All Categories">
-                                    Browse All Categories
+                                <a href="{{ config('app.app_path') }}/category" class="title link bold" aria-label="{{trans('sentence.browse_all_categories')}}">
+                                    {{trans('sentence.browse_all_categories')}}
                                 </a>
                             </li>
                         </ul>
@@ -67,9 +71,9 @@
         </li>
 
         <li class="navigation__item">
-            <a href="{{ config('app.app_path') }}/blogs" class="navigation__button" aria-label="Visit Blogs Page">
+            <a href="{{ config('app.app_path') }}/blog" class="navigation__button" aria-label="{{trans('sentence.visit_blogs_page')}}">
                 <span class="text">
-                    Blogs
+                    {{trans('sentence.menu_blogs')}}
                 </span>
                 <!-- <span class="icon">
                     <i class="x_arrow-down-1"></i>
@@ -78,9 +82,9 @@
         </li>
 
         <li class="navigation__item">
-            <a href="{{ config('app.app_path') }}/reviews" class="navigation__button" aria-label="Visit Our Reviews Page">
+            <a href="{{ config('app.app_path') }}/review" class="navigation__button" aria-label="{{trans('sentence.visit_reviews_page')}}">
                 <span class="text">
-                    Reviews
+                    {{trans('sentence.menu_reviews')}}
                 </span>
                 <!-- <span class="icon">
                     <i class="x_arrow-down-1"></i>

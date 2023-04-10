@@ -114,7 +114,22 @@ class WebsiteSettingsController extends Controller
     {
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
-
+        
+        $request_all = $request->all();
+        $request_all['categories_popular'] =  serialize($request->categories_popular);
+        $request_all['stores_popular'] =  serialize($request->stores_popular);
+        $request_all['stores_related'] =  serialize($request->stores_related);
+        $request_all['coupons_active'] =  serialize($request->coupons_active);
+        $request_all['coupons_expired'] =  serialize($request->coupons_expired);
+        $request_all['coupons_full'] =  serialize($request->coupons_full);
+        $request_all['coupons_minimal'] =  serialize($request->coupons_minimal);
+        $request_all['blogs_popular'] =  serialize($request->blogs_popular);
+        $request_all['blogs_trending'] =  serialize($request->blogs_trending);
+        $request_all['blogs_recent'] =  serialize($request->blogs_recent);
+        $request_all['reviews_popular'] =  serialize($request->reviews_popular);
+        $request_all['reviews_trending'] =  serialize($request->reviews_trending);
+        $request_all['reviews_recent'] =  serialize($request->reviews_recent);
+        $request->replace($request_all);
         $websiteSetting->update($request->all());
 
         if (\App::environment('production')) {

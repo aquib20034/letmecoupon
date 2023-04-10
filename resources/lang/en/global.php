@@ -250,4 +250,10 @@ return [
     'no_alerts'                            => 'No alerts',
     'calendar'                             => 'Calendar',
     'messenger'                            => 'Messenger',
+    'view_all'                             => 'View All',
+    'visit_facebook_profile'               => 'Visit Facebook Porfile',
+    'visit_twitter_profile'                 => 'Visit Twitter Porfile',
+    'visit_instagram_profile'              => 'Visit Instagram Porfile',
+    'visit_linkedin_profile'               => 'Visit LinkedIn Porfile',
+    'visit_google_profile'                 => 'Visit Google Porfile',
 ];

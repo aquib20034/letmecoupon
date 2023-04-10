@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use App\WebModel\Coupon;
 use App\WebModel\Store;
-use App\WebModel\Category;
-use App\WebModel\ProductCategory;
-use App\product;
 use App\WebModel\Banner;
 use App\WebModel\Site;
 use App\Store as ASTORE;
@@ -16,8 +13,6 @@ use App\Blog as ABlog;
 use App\Banner as ABanner;
 use App\Blog;
 use App\Review;
-use App\Author;
-use App\Page;
 use App\WebModel\WebsiteSetting;
 use App\Traits\CouponCardTrait;
 
@@ -148,6 +143,24 @@ class HomeController extends Controller
                 }
             );
 
+            $data['featuredCategories'] = Cache::remember(
+                "HomePage__FeaturedCategories__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return ACategory::select(
+                        'id',
+                        'title',
+                        'category_image',
+                        'category_banner_image'
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->where('featured', 1)
+                        ->orderBy('title', 'asc')
+                        ->get()
+                        ->toArray();
+                }
+            );
+
             $data['featuredStores'] = Cache::remember(
                 "HomePage__FeaturedStores__{$siteid}",
                 21600,
@@ -171,7 +184,8 @@ class HomeController extends Controller
                 function () use ($siteid) {
                     return Store::select(
                         'id',
-                        'name'
+                        'name',
+                        'store_image'
                     )
                         ->CustomWhereBasedData($siteid)
                         ->where('popular', 1)
@@ -226,488 +240,101 @@ class HomeController extends Controller
                 }
             );
 
-            return response()->view('web.home.index', $data);
-        } catch (\Exception $e) {
-            dd($e);
-            abort(404);
-        }
-    }
-
-    //
-    public function stores($detail = "")
-    {
-        $data = [];
-        try{
-            if($detail){
-                $data['pageCss'] = 'store-inner';
-                return view('web.home.stores.detail')->with($data)->withShortcodes();
-            }else{
-                $data['pageCss'] = 'stores';
-                return view('web.home.stores.index')->with($data)->withShortcodes();
-            }
-        }catch (\Exception $e) {
-            abort(404);
-        }
-    }
-
-    public function categories($detail = "")
-    {
-        
-        $data = [];
-        try{
-            if($detail){
-                $data['pageCss']    = 'category-inner';
-                $siteid             = config('app.siteid');
-                $pageid             = PAGE_ID;
-                $dt                 = Carbon::now();
-                $date               = $dt->toDateString();
-
-                $data['detail']     = Cache::remember(
-                    "HomePage__Detail__{$siteid}__{$pageid}",
-                    21600,
-                    function () use ($siteid, $pageid) {
-                        return Category::select(
-                            'id',
-                            'title',
-                            'meta_title',
-                            'slug',
-                            'meta_description',
-                            'long_description',
-                            'category_banner_image'
-                        )
-                                                    
+            $data['couponsAdded'] = Cache::remember(
+                "HomePage__CouponsAddedCount__{$siteid}",
+                21600,
+                function () use ($lastWeek, $siteid) {
+                    return Coupon::where('created_at', '>=', $lastWeek)
+                        ->orwhere('updated_at', '>=', $lastWeek)
                         ->CustomWhereBasedData($siteid)
-                        ->where('id', $pageid)
-                        ->first();
-                    }
-                );
-
-
-                $data['categoryStores'] = Cache::remember(
-                    "HomePage__CategoryStores__{$siteid}__{$pageid}",
-                    21600,
-                    function () use ($siteid, $pageid) {
-                        return Category::select(
-                            'id',
-                            'title',
-                            'meta_title',
-                            'meta_description',
-                            'long_description',
-                            'category_banner_image'
-                        )
-                        ->with(['categoryStores' => function ($query) use ($siteid) {
-                            $query
-                                ->select(
-                                    'id',
-                                    'name',
-                                    'store_image'
-                                )
-                                ->CustomWhereBasedData($siteid);
-                        }])
-                        ->CustomWhereBasedData($siteid)
-                        ->where('id', $pageid)
-                        ->take(4)
                         ->get()
-                        ->toArray();
-                    }
-                );
+                        ->count();
+                }
+            );
 
+            $data['trendingBlog'] = Cache::remember(
+                "BlogListingPage__TrendingBlogs__{$siteid}",
+                3600,
+                function () use ($siteid) {
+                    return Blog::select(
+                        'id',
+                        'title',
+                        'blog_image',
+                        'created_at',
+                        'user_id'
+                    )
+                    ->with('user:id,name')
+                    ->with(['categories' => function ($query) {
+                        $query
+                            ->select(
+                                'id',
+                                'title',
+                                'slug'
+                            );
+                    }])
+                    ->where('blogs.trending',1)
+                    ->CustomWhereBasedData($siteid)
+                    ->orderBy('blogs.id', 'DESC')
+                    ->take(5)
+                    ->get()
+                    ->toArray();
+                }
+            );
 
-               
-                $data['popularStores'] = Cache::remember(
-                    "HomePage__PopularStores__{$siteid}",
-                    21600,
-                    function () use ($siteid) {
-                        return Store::select(
-                            'id',
-                            'name',
-                            'store_image'
-                        )
-                            ->CustomWhereBasedData($siteid)
-                            ->where('popular', 1)
-                            ->take(10)
-                            ->get()
-                            ->toArray();
-                    }
-                );
-
-
-                $data['trendingBlogs'] = Cache::remember(
-                    "HomePage__TrendingBlogs__{$siteid}",
-                    21600,
-                    function () use ($siteid) {
-                        return Blog::select(
-                            'id',
-                            'title',
-                            'created_at',
-                            'user_id',
-                            'blog_image'
-                        )
-                        ->with(['categories' => function ($query) {
-                                $query
-                                    ->select(
-                                        'id',
-                                        'title',
-                                        'slug'
-                                    );
-                            }])
-                            ->with('user:id,name')
-                            ->CustomWhereBasedData($siteid)
-                            ->where(function ($query) {
-                                return $query
-                                    ->where('trending', 1)
-                                    ->orWhere('view', '>', 0);
-                            })
-                            ->orderBy('trending', 'desc')
-                            ->take(4)
-                            ->get()
-                            ->toArray();
-                    }
-                );
-
-
-                $data['popularBlogs'] = Cache::remember(
-                    "HomePage__PopularBlogs__{$siteid}",
-                    21600,
-                    function () use ($siteid) {
-                        return Blog::select(
-                            'id',
-                            'title',
-                            'created_at',
-                            'user_id',
-                            'blog_image'
-                        )
-                        ->with(['categories' => function ($query) {
-                                $query
-                                    ->select(
-                                        'id',
-                                        'title',
-                                        'slug'
-                                    );
-                            }])
-                            ->with('user:id,name')
-                            ->CustomWhereBasedData($siteid)
-                            ->where('popular', 1)
-                            ->orderBy('trending', 'desc')
-                            ->take(10)
-                            ->get()
-                            ->toArray();
-                    }
-                );
-
-                $data['popularProducts'] = Cache::remember(
-                    "HomePage__PopularProducts__{$siteid}",
-                    21600,
-                    function () use ($siteid) {
-                        return ProductCategory::select('id','name','slug','product_category_image')
+            $data['popularCategories'] = Cache::remember(
+                "CategoryListingPage__PopularCategories__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return ACategory::select(
+                        'id',
+                        'title',
+                        'category_image'
+                    )
                         ->CustomWhereBasedData($siteid)
+                        ->whereNull('parent_id')
                         ->where('popular', 1)
+                        ->withCount('categoryStores')
                         ->take(10)
                         ->get()
                         ->toArray();
-                        
-                    }
-                );
-
-
-
-
-
-
-                if ($data['detail'] == null) {
-                    abort(404);
-                }
-
-
-
-                // dd($data);
-
-                // dd($data['detail']->categoryStores);
-
-                // if (isset($data['detail']->categoryStores)) {
-
-                //     foreach ($data['detail']->categoryStores as $store){
-                //         dd($store);
-                //     }
-                // }
-
-                return view('web.home.categories.detail')->with($data)->withShortcodes();
-            }else{
-                $data['pageCss'] = 'categories';
-
-                // return view('web.home.categories.index')->with($data)->withShortcodes();
-            }
-        }catch (\Exception $e) {
-            abort(404);
-        }
-    }
-
-    public function blogs()
-    {
-        $data = [];
-        try{
-            $data['pageCss'] = 'blogs';
-            return view('web.home.blogs')->with($data);
-        }catch (\Exception $e) {
-            abort(404);
-        }
-    }
-
-    public function reviews($slug = "")
-    {
-        $data = [];
-        try{
-            $siteid     = config('app.siteid');
-                  
-            if($slug){   
-                $data['pageCss'] = 'review-inner';
-
-                $pageid     = PAGE_ID;
-                $detail     = Review::CustomWhereBasedData($siteid)
-                            ->where('slug',$slug)
-                            ->with('user')
-                            ->first();
-
-                if ($detail) $data['detail'] = $detail->toArray();
-                else abort(404);
-
-                $data['relatedStores'] = Cache::remember(
-                    "ReviewListingPage__RelatedStores__{$siteid}__{$pageid}",
-                    21600,
-                    function () use ($siteid, $pageid) {
-                        return Review::select(
-                            'id',
-                            'title'
-                        )
-                            ->with('categories')
-                            ->with('store_details')
-                            ->CustomWhereBasedData($siteid)
-                            ->where('id', $pageid)
-                            ->first();
-                    }
-                );
-    
-            }else{
-                $data['pageCss'] = 'reviews';
-            }
-
-
-            $data['categoryLists'] = Cache::remember(
-                "ReviewListingPage__CategoryLists__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return Category::select(
-                            'id',
-                            'title',
-                        )
-                        ->CustomWhereBasedData($siteid)
-                        ->take(3)
-                        ->get()
-                        ->toArray();
                 }
             );
 
-            $data['authorLists'] = Cache::remember(
-                "ReviewListingPage__AuthorLists__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return Author::select(
-                            'id',
-                            'first_name',
-                        )
-                        ->take(3)
-                        ->get()
-                        ->toArray();
-                }
-            );
-            
-            $data['latestReviews'] = Cache::remember(
-                "ReviewListingPage__LatestReviews__{$siteid}",
-                21600,
+            //Cache::forget("ReviewListingPage__PopularReviews__{$siteid}");
+            $data['popularReview'] = Cache::remember(
+                "ReviewListingPage__PopularReviews__{$siteid}",
+                3600,
                 function () use ($siteid) {
                     return Review::select(
                         'id',
                         'title',
+                        'review_image',
                         'created_at',
-                        'user_id',
-                        'review_image'
+                        'user_id'
                     )
-                       ->with(['categories' => function ($query) {
-                            $query
-                                ->select(
-                                    'id',
-                                    'title',
-                                    'slug'
-                                );
-                        }])
-                        ->with('user:id,name')
-                        ->CustomWhereBasedData($siteid)
-                        ->orderBy('id', 'DESC')
-                        ->take(10)
-                        ->get()
-                        ->toArray();
+                    ->with('user:id,name')
+                    ->with(['categories' => function ($query) {
+                        $query
+                            ->select(
+                                'id',
+                                'title',
+                                'slug'
+                            );
+                    }])
+                    ->where('reviews.popular',1)
+                    ->CustomWhereBasedData($siteid)
+                    ->orderBy('reviews.id', 'DESC')
+                    ->take(6)
+                    ->get()
+                    ->toArray();
                 }
             );
-
-            $data['popularReviews'] = Cache::remember(
-                "ReviewListingPage__PopularReviews__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return Review::select(
-                            'id',
-                            'title',
-                            'created_at',
-                            'user_id',
-                            'review_image'
-                        )
-                       ->with(['categories' => function ($query) {
-                            $query
-                                ->select(
-                                    'id',
-                                    'title',
-                                    'slug'
-                                );
-                        }])
-                        ->with('user:id,name')
-                        ->where('popular', 1)
-                        ->CustomWhereBasedData($siteid)
-                        ->orderBy('id', 'DESC')
-                        ->take(10)
-                        ->get()
-                        ->toArray();
-
-                   
-                }
-            );
-
             
-            $page = Cache::remember(
-                "ReviewListingPage__CurrentPage__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return Page::where(
-                        'title',
-                        'meta_title',
-                        'meta_description'
-                    )
-                        // ->CustomWhereBasedDataForMetaInfo($siteid)
-                        ->first();
-                }
-            );
-         
-            if (isset($page)) {
-                $data['meta'] = [
-                    'title' => $page->meta_title ?? '',
-                    'description' => $page->meta_description ?? ''
-                ];
-            }
+            //dd($data['trendingBlog']);
 
-        //    dd($data);
-       
-            if($slug){
-                return view('web.home.reviews.detail')->with($data);
-
-            }else{
-                return view('web.home.reviews.index')->with($data);
-
-            }
-            dd("wrong");
-            return view('web.home.reviews.index')->with($data);
-        }catch (\Exception $e) {
-            abort(404);
-        }
-    }
-    //
-    public function products($slug = ""){
-        $data = [];
-        try{
-            $siteid = config('app.siteid');
-            if($slug){   
-                $data['pageCss'] = "blog-inner";
-                // $pageid         = PAGE_ID;
-                $detail         = Product::select('id','title','short_description','long_description','product_image','created_at')
-                                    ->where('title', $slug)
-                                    ->CustomWhereBasedData($siteid)
-                                    ->first();
-
-                if ($detail) $data['detail'] = $detail->toArray();
-                else abort(404);
-                
-                $data['categoryLists'] = Cache::remember(
-                    "ProductListingPage__CategoryLists__{$siteid}",
-                    21600,
-                    function () use ($siteid) {
-                        return Category::select(
-                                'id',
-                                'title',
-                            )
-                            ->CustomWhereBasedData($siteid)
-                            ->take(3)
-                            ->get()
-                            ->toArray();
-                    }
-                );
-
-                return view('web.home.products.detail')->with($data);
-            }else{
-                $data['pageCss']    = 'categories';
-                $data['products']   = Product::select('id','title','product_image')
-                                        ->CustomWhereBasedData($siteid)
-                                        ->paginate(20);
-
-                return view('web.home.products.index')->with($data);
-
-            }
-            dd("Someting went wrong");
-        }catch (\Exception $e) {
-            abort(404);
-        }
-    }
-
-    public function authors($slug = ""){
-      
-        $data = [];
-        try{
-            $siteid = config('app.siteid');
-            if($slug){   
-                $data['pageCss'] = "blog-inner";
-                // $pageid         = PAGE_ID;
-                $detail         = Author::select('id','first_name','last_name','email','phone','short_description','long_description','image','created_at')
-                                    ->where('id', $slug)
-                                    // ->CustomWhereBasedData($siteid)
-                                    ->first();
-
-                if ($detail) $data['detail'] = $detail->toArray();
-                else abort(404);
-                
-                $data['categoryLists'] = Cache::remember(
-                    "AuthorListingPage__CategoryLists__{$siteid}",
-                    21600,
-                    function () use ($siteid) {
-                        return Category::select(
-                                'id',
-                                'title',
-                            )
-                            ->CustomWhereBasedData($siteid)
-                            ->take(3)
-                            ->get()
-                            ->toArray();
-                    }
-                );
-
-                return view('web.home.authors.detail')->with($data);
-            }else{
-             
-                $data['pageCss']    = 'categories';
-                $data['authors']    = Author::select('id','first_name','last_name','email','image','phone','created_at')
-                                        // ->CustomWhereBasedData($siteid)
-                                        ->paginate(20);
-                                        // dd($data);
-                return view('web.home.authors.index')->with($data);
-
-            }
-            dd("Someting went wrong");
-        }catch (\Exception $e) {
+            return response()->view('web.home.index', $data);
+        } catch (\Exception $e) {
+            dd($e);
             abort(404);
         }
     }

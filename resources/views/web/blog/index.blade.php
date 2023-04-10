@@ -1,138 +1,85 @@
 @extends('web.layouts.app')
 @section('content')
-
-<main class="main">
     <div class="container">
-        <!-- three posts section start here -->
-        @if(!empty($featuredBlogs))
-            <section class="section threeposts-section padding-bottom-none">
-                <div class="threeposts">
-                    @if(count($featuredBlogs) > 0)
-                        @php
-                            $singleFeaturedBlog = $featuredBlogs[0];
-                            unset($featuredBlogs[0]);
-                        @endphp
-                        <div class="col">
-                            <a href="{{ config('app.app_path') }}/{{ ($singleFeaturedBlog['slugs']) ? $singleFeaturedBlog['slugs']['slug'] : '' }}" class="threeposts__item threeposts__item-large">
-                                <div class="threeposts__bg" style="background-image: url({{ isset($singleFeaturedBlog['blog_image']) ? $singleFeaturedBlog['blog_image'] : config('app.image_path').'/build/images/placeholder.png' }})"></div>
-                                <div class="threeposts__contentwrapper">
-                                    <div class="threeposts__content">
-                                        <h3>{{ $singleFeaturedBlog['categories'][0]['title'] }}</h3>
-                                        <h1 class="title">{{ $singleFeaturedBlog['title'] }}</h1>
+        <div class="section">
+            <!-- Breadcrumbs Section Starts Here -->
+            <section class="section pd-none onlyDesktop">
+                <div class="container-inner">
+                <?php
+                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => trans('sentence.view_all_blogs'), "path" => config('app.app_path')."/blog"]];
+                    //include('../components/Breadcrumbs/Style1/index.php');
+                    ?>
+                    @web_component([ 'postfixes' => 'breadcrumbs.style1','data' => ['routes' => $routes] ])@endweb_component
+                </div>
+            </section>
+            <!-- Breadcrumbs Section Ends Here -->
+
+            <!-- Two Column Layout Section Starts Here -->
+            <section class="section">
+                <div class="container-inner">
+                    <div class="twoColumnLayout-v1">
+                        <div class="twoColumnLayout">
+                            <!-- Short Column Starts Here -->
+                            <div class="twoColumnLayout__shortColumn small onlyLargeDesktop">
+                                <!-- Sidebar Starts Here -->
+                                <div class="sidebar sticky js-stickySidebar">
+                                    <!-- Sidebar Categories Section Starts Here -->
+                                    <div class="sidebar__section">
+                                        @web_component([ 'postfixes' => 'categories.sidebar.style1','data' => ['categories' => $list ] ])@endweb_component
                                     </div>
+                                    <!-- Sidebar Categories Section Ends Here -->
+
+                                    <!-- Sidebar Meet the Authors Section Starts Here -->
+                                    <div class="sidebar__section">
+                                        @web_component([ 'postfixes' => 'authors.sidebar.style1','data' => [ 'authors' => $blog_authors] ])@endweb_component
+                                    </div>
+                                    <!-- Sidebar Meet the Authors Section Ends Here -->
                                 </div>
-                            </a>
+                                <!-- Sidebar Ends Here -->
+                            </div>
+                            <!-- Short Column Ends Here -->
+
+                            <!-- Wide Column Starts Here -->
+                            <div class="twoColumnLayout__wideColumn">
+
+                            @if(isset($category_data))
+                                 <!-- Recent Blogs Section Starts Here -->
+                                 <section class="section pd-top-none">
+                                    @web_component([ 'postfixes' => 'blogs.full.style1','data' => [ 'category_data' => $category_data ] ])@endweb_component
+                                </section>
+                            @else
+                                <!-- Popular Blogs Section Starts Here -->
+                                <section class="section pd-top-none">
+                                    @web_component([ 'postfixes' => 'blogs.popular.style1','data' => ['popular_blogs' => $popular_blogs] ])@endweb_component
+                                </section>
+                                <!-- Popular Blogs Section Ends Here -->
+
+                                <!-- Recent Blogs Section Starts Here -->
+                                <section class="section">
+                                    @web_component([ 'postfixes' => 'blogs.recent.style1','data' => [ 'recent_blogs' => $recent_blogs ] ])@endweb_component
+                                </section>
+                                <!-- Recent Blogs Section Ends Here -->
+                            @endif
+                            </div>
+                            <!-- Wide Column Ends Here -->
                         </div>
-                    @endif
-                    <div class="col">
-                        @foreach ($featuredBlogs as $featuredBlog)
-                            <a href="{{ config('app.app_path') }}/{{ ($featuredBlog['slugs']) ? $featuredBlog['slugs']['slug'] : '' }}" class="threeposts__item">
-                                <div class="threeposts__bg" style="background-image: url({{ isset($featuredBlog['blog_image']) ? $featuredBlog['blog_image'] : config('app.image_path').'/build/images/placeholder.png' }})"></div>
-                                <div class="threeposts__contentwrapper">
-                                    <div class="threeposts__content">
-                                        <h3>{{ $featuredBlog['categories'][0]['title'] }}</h3>
-                                        <h1 class="title">{{ $featuredBlog['title'] }}</h1>
-                                    </div>
-                                </div>
-                            </a>
-                        @endforeach
                     </div>
                 </div>
             </section>
-        @endif
-        <!-- three posts section end here -->
+            <!-- Two Column Layout Section Ends Here -->
 
-        <!-- Trending posts section start here -->
-        <section class="section trendingpost-section">
-            <div class="trending__header">
-                <h2 class="top-heading">{{ trans('sentence.top_trending_topics') }}</h2>
-                <a href="{{ config('app.app_path') }}/blog-categories">{{ trans('sentence.blog_view_all_categories') }}</a>
-            </div>
-            <div class="trending_drawer">
-                @php
-                    $totalCategories = count($list);
-                    $categoryListingOutput = array_slice($list, 0, 6, true);
-                @endphp
-                @foreach($categoryListingOutput as $categoryList)
-                    @php
-                        $arr = explode('/', $categoryList['slugs']['slug']);
-                        $categoryNameLink = $arr[1] ;
-                    @endphp
-                    <a href="{{ config('app.app_path') }}/blog?category={{ $categoryList['slugs']['slug'] }}" class="trending_item" style="background-image: url({{ isset($categoryList['cat_blog_image']) ? $categoryList['cat_blog_image'] : config('app.image_path').'/build/images/placeholder.png' }})">
-                        <h1>{!! $categoryList['title'] !!}</h1>
-                    </a>
-                @endforeach
-            </div>
-        </section>
-        <!-- Trending posts section end here -->
-
-        <!-- Posts with paginations start here  -->
-        @if(isset($latestBlog))
-            <section class="section padding-top-none padding-bottom-none">
-                <div class="threeposts">
-                    @if(count($latestBlog) > 0)
-                        @php
-                            $singleLatestBlog = $latestBlog[0];
-                            unset($latestBlog[0]);
-                            $i=0;
-                        @endphp
-                        <div class="col">
-                            <a href="{{ config('app.app_path') }}/{{ ($singleLatestBlog['slugs']) ? $singleLatestBlog['slugs']['slug'] : '' }}" class="threeposts__item threeposts__item-large">
-                                <div class="threeposts__bg" style="background-image: url({{ isset($singleLatestBlog['blog_image']) ? $singleLatestBlog['blog_image'] : config('app.image_path').'/build/images/placeholder.png' }})"></div>
-                                <div class="threeposts__contentwrapper">
-                                    <div class="threeposts__content">
-                                        <h3>{{ isset($singleLatestBlog['categories'][0]) ? $singleLatestBlog['categories'][0]['title'] : '' }}</h3>
-                                        <h1 class="title">{{ $singleLatestBlog['title'] }}</h1>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col">
-                            @foreach($latestBlog as $latestBlg)
-                                @php
-                                    if($i==2)
-                                        break;
-                                @endphp
-                                <a href="{{ config('app.app_path') }}/{{ ($latestBlg['slugs']) ? $latestBlg['slugs']['slug'] : '' }}" class="threeposts__item">
-                                    <div class="threeposts__bg" style="background-image: url({{ isset($latestBlg['blog_image']) ? $latestBlg['blog_image'] : config('app.image_path').'/build/images/placeholder.png' }})"></div>
-                                    <div class="threeposts__contentwrapper">
-                                        <div class="threeposts__content">
-                                            <h3>{{ $latestBlg['categories'][0]['title'] }}</h3>
-                                            <h1 class="title">{{ $latestBlg['title'] }}</h1>
-                                        </div>
-                                    </div>
-                                </a>
-                                @php $i++; @endphp
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-
-                {{-- Posts start here  --}}
-                @if(count($latestBlog) > 3)
-                    <div class="posts_wrapper">
-                        <div class="post">
-                            @foreach ($latestBlog as $key => $getBlog)
-                                @php
-                                    if($key<3)
-                                        continue;
-                                @endphp
-                                <a href="{{ config('app.app_path') }}/{{ ($getBlog['slugs']) ? $getBlog['slugs']['slug'] : '' }}" class="post__bg" style="background-image: url({{ isset($getBlog['blog_image']) ? $getBlog['blog_image'] : config('app.image_path').'/build/images/placeholder.png' }})">
-                                    <div class="post__content">
-                                        <p>{{ $getBlog['categories'][0]['title'] }}</p>
-                                        <h1>{{ $getBlog['title'] }}</h1>
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-                {{ $latestBlog->links('vendor.pagination.blog') }}
-                {{-- Posts end here --}}
+            <!-- Newsletter Section Starts Here -->
+            <section class="section">
+                <?php //include('../components/NewsLetterForm/Style1/index.php'); ?>
+                @web_component([ 'postfixes' => 'newsletter.style1','data' => [] ])@endweb_component
             </section>
-        @endif
-        <!-- Posts with paginations start here  -->
+            <!-- Newsletter Section Starts Here -->
+
+            <!-- Popular Reviews Section Starts Here -->
+            <section class="section">
+                @web_component([ 'postfixes' => 'reviews.popular.style2','data' => [ 'popular_reviews' => $popular_reviews] ])@endweb_component
+            </section>
+            <!-- Popular Reviews Section Ends Here -->
+        </div>
     </div>
-</main>
-
 @endsection

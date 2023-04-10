@@ -72,6 +72,10 @@ class Category extends Model
     {
         return $this->belongsToMany(Blog::class);
     }
+    public function reviews()
+    {
+        return $this->belongsToMany(Review::class);
+    }
 
     public function slugs() {
 		return $this->hasOne(Slug::class, 'obj_id', $this->primaryKey)->where('table_name', $this->table);
@@ -85,6 +89,11 @@ class Category extends Model
     public function categoryBlogs()
     {
         return $this->belongsToMany(Blog::class);
+    }
+
+    public function categoryReviews()
+    {
+        return $this->belongsToMany(Review::class);
     }
 
     public function categoryCoupons()

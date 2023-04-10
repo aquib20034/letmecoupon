@@ -137,7 +137,7 @@
             </div>
 
 
-            <div class="form-group">
+            <div class="form-group d-none">
                 <label for="users">User</label>
                 <select class="form-control select2 {{ $errors->has('users') ? 'is-invalid' : '' }}" name="user_id" id="users">
                     @foreach($users as $id => $user)
@@ -151,6 +151,19 @@
                 @endif
             </div>
 
+            <div class="form-group">
+                <label for="author_id">Author</label>
+                <select class="form-control select2 {{ $errors->has('author_id') ? 'is-invalid' : '' }}" name="author_id" id="author_id">
+                    @foreach($authors as $id => $author)
+                        <option value="{{ $id }}" {{ in_array($id, old('author_id', [])) ? 'selected' : '' }}>{{ $author }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('author_id'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('author_id') }}
+                    </div>
+                @endif
+            </div>
 
             <div class="form-group">
                 <label for="categories">{{ trans('cruds.blog.fields.category') }}</label>

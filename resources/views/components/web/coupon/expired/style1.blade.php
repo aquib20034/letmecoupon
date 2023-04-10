@@ -3,28 +3,38 @@
 </div>
 
 <div class="storeInnerGrid">
-    <?php for ($i = 0; $i < 11; $i++) { ?>
-        <?php
-        $isDeal = 1;
-        $isExpired = 1;
-
-        if ($i % 2 === 0) {
-            $isDeal = 0;
-        }
-        ?>
+@if (!empty($detail['store_coupons']))
+    @php
+    $count = 0;
+    @endphp
+        @foreach ($detail['store_coupons'] as $key => $coupon)
+            @php
+                $coupon['store'] = [
+                    'name' => $detail['name'],
+                    'affiliate_url' => $detail['affiliate_url'],
+                    'store_url' => $detail['store_url'],
+                    'store_image' => $detail['store_image'],
+                    'slugs' => $detail['slugs'],
+                ];
+                @endphp
+                
+                @if($coupon['date_expiry'] < date('Y-m-d') )
+                @php
+                    $count = 1;
+                @endphp
         <?php //include('../components/DiscountCard/Style2/index.php'); ?>
-        <div class="discountCardStyle1 js-discountCard <?php echo ($isDeal ? 'only-deals' : 'only-codes'); ?>">
-            <div class="discountCard <?php echo ($isExpired ? 'discountCard--expired' : 'discountCard--active'); ?>">
+        <div class="discountCardStyle1 js-discountCard {{ $coupon['code'] ? 'only-codes' : 'only-deals' }}">
+            <div class="discountCard discountCard--expired">
                 <div class="discountCard__wrapper">
                     <div class="discountCard__image">
                         <figure>
-                            <img src="../../build/images/store-image-1.webp" alt="Store Name">
+                            <img src="{{ isset($coupon['store']) ? $coupon['store']['store_image'] : config('app.image_path') . '/build/images/placeholder.png' }}" alt="Store Name">
                         </figure>
                     </div>
 
                     <div>
                         <div class="discountCard__title">
-                            <h2>New Season: 16% Off on</h2>
+                            <h2>{!! isset($coupon['title']) ? $coupon['title'] : '' !!}</h2>
                         </div>
 
                         <div class="discountCard__attributes">
@@ -38,19 +48,29 @@
                                 90 Used
                             </span>
 
+                            @if (isset($coupon['verified']) && $coupon['verified'])
                             <span class="success">
-                                Verified
+                                {{ trans('sentence.verified') }}
                             </span>
+                            @endif
                         </div>
                     </div>
 
                     <div class="discountCard__cta">
-                        <a href="<?php echo ($isExpired ? 'javascript:;' : '#'); ?>" class="<?php echo ($isDeal ? 'light' : 'dark'); ?>" aria-label="<?php echo ($isDeal ? 'Get Deal' : 'Show Coupon Code'); ?>">
-                            <?php echo ($isDeal ? 'Get Deal' : 'Show Coupon Code'); ?>
+                        <a href="" 
+                        class="{{ $coupon['code'] ? 'dark' : 'light' }}"
+                        aria-label="{{ $coupon['code'] ? trans('sentence.get_code') : trans('sentence.get_deal') }}">{{ $coupon['code'] ? trans('sentence.get_code') : trans('sentence.get_deal') }}</a>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-    <?php } ?>
+        @endif
+        @endforeach
+        @if ($count == 0)
+        <div class="discountCard__title">
+                <h2>{{ trans('sentence.coupon_not_found') }}</h2>
+        </div>
+        @endif
+    @endif
 </div>

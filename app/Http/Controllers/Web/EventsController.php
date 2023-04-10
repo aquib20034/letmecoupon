@@ -17,12 +17,10 @@ class EventsController extends Controller
 {
     public function detail()
     {
-    
         $data = [];
         try {
             $siteid = config('app.siteid');
-            $data['pageCss'] = 'store-inner';  // it should be "events" css but now it's not ready
-       
+            $data['pageCss'] = 'store-inner';
             $dt = Carbon::now();
             $date = $dt->toDateString();
             $pageid = PAGE_ID;
@@ -38,8 +36,7 @@ class EventsController extends Controller
                         'long_description',
                         'meta_title',
                         'meta_description',
-                        'event_image',
-                        'created_at'
+                        'event_image'
                     )
                         ->with('categories')
                         ->with('stores')
@@ -76,12 +73,7 @@ class EventsController extends Controller
                         ->first();
                 }
             );
-
-            if ($data['detail']) $data['detail'] = $data['detail']->toArray();
-            else abort(404);
-
-            
-
+            //dd($data['detail']);    
             $data['categoryLists'] = Cache::remember(
                 "EventDetailPage__CategoryLists__{$siteid}",
                 21600,
@@ -97,15 +89,14 @@ class EventsController extends Controller
                 }
             );
 
+            if ($data['detail']) $data['detail'] = $data['detail']->toArray();
+            else abort(404);
 
             $data['meta'] = [
                 'title' => $data['detail']['meta_title'],
                 'description' => $data['detail']['meta_description']
             ];
-            // dd($data);
-            
-            return view('web.home.events.detail')->with($data);
-            
+
             return view(
                 'web.event.detail'
             )

@@ -7,7 +7,7 @@
                     </p>
                     <ul class="social">
                         @php
-                            $socials = [['field_name' => 'facebook', 'icon_name' => 'facebook'], ['field_name' => 'twitter', 'icon_name' => 'twitter'], ['field_name' => 'instagram', 'icon_name' => 'instagram'], ['field_name' => 'linked_in', 'icon_name' => 'linkedin'], ['field_name' => 'youtube', 'icon_name' => 'youtube'], ['field_name' => 'pinterest', 'icon_name' => 'facebook']];
+                            //$socials = [['field_name' => 'facebook', 'icon_name' => 'facebook'], ['field_name' => 'twitter', 'icon_name' => 'twitter'], ['field_name' => 'instagram', 'icon_name' => 'instagram'], ['field_name' => 'linked_in', 'icon_name' => 'linkedin'], ['field_name' => 'youtube', 'icon_name' => 'youtube'], ['field_name' => 'pinterest', 'icon_name' => 'facebook']];
                         @endphp
                         @foreach ($socials as $social)
                             @if ($global_data[$social['field_name']])
@@ -68,7 +68,7 @@
                 @endif
             </div>
         </footer>-->
-        @web_component([ 'postfixes' => 'footer.style1','data' => ['pages' => $pages,'sites' => $sites,'global_data' => $global_data,'bottom_event' => $bottom_event,'blogs_count' => $blogs_count] ])@endweb_component
+        @web_component([ 'postfixes' => 'footer.style1','data' => ['pages' => $pages,'sites' => $sites,'global_data' => $global_data,'bottom_event' => $bottom_event,'blogs_count' => $blogs_count, 'socials' => $socials] ])@endweb_component
     </div>
 </div>
 <?php if(isset($_GET['copy'])){ ?>
@@ -189,9 +189,11 @@
 @if (\App::environment('production'))
     <script src="{{ secure_asset('build/js/swiper.min.js') }}"></script>
     <script id="all-js-script" async src="{{ secure_asset('build/js/all.js') }}"></script>
+    <script id="all-js-script" async src="{{ secure_asset('build/js/app/utilities.js') }}"></script>
 @else
     <script src="{{ asset('build/js/swiper.min.js') }}"></script>
     <script id="all-js-script" async src="{{ asset('build/js/all.js') }}"></script>
+    <script id="all-js-script" async src="{{ asset('build/js/app/utilities.js') }}"></script>
 @endif
 
 {!! isset($site_wide_data['javascript_tags']) ? $site_wide_data['javascript_tags'] : '' !!}
@@ -386,7 +388,6 @@
             location.replace(varstor); */
         });
 
-
         $(document).on('click', '.baseurlappendhometrend', function(e) {
             var varName = $(this).attr('data-id');
             var vartarg = $(this).attr('data-var');
@@ -423,20 +424,16 @@
                 success: function(data) {
                     var rc_str = '';
                     $.each(data, function(i) {
-                        rc_str += "<li class='dropdown__listItem'><a href='" + data[i].url + "'>" + data[i]
-                            .name +
-                            "</a></li>";
+                        rc_str += "<li class='dropdown__listItem'><a href='" + data[i].url + "'>" + data[i].name +"</a></li>";
                     });
                     if(rc_str){
                         $('.search__dropdown').show();
-                        $("#serarch__dropdown__list").html(rc_str);
+                        $("#storeResult").html(rc_str);
                     }else{
                         if((data == 0) && ($value == "")){
                             $('.search__dropdown').hide();
                         }
-                        $("#serarch__dropdown__list").html(
-                            '<li><a href="javascript:;">{{ trans('sentence.search_return_msg') }} "' +
-                            $value + '"</a></li>');
+                        $("#storeResult").html('<li><a href="javascript:;">{{ trans('sentence.search_return_msg') }} "' +value + '"</a></li>');
                     }
                 }
             });
@@ -524,11 +521,34 @@
         });
 
     });
+
+    function toggleHeader1MobileMenu() {
+        var mobileMenuDrawer = document.querySelector('.mobileMenu');
+        var body = document.querySelector('body');
+        if (mobileMenuDrawer.classList.contains('active')) {
+            mobileMenuDrawer.classList.remove('active');
+            body.style.overflow = 'auto';
+        } else {
+            mobileMenuDrawer.classList.add('active');
+            body.style.overflow = 'hidden';
+        }
+        return true;
+    };
+
+    function toggleSideNavAccordion(targetElement) {
+        var sideNavDropdown = targetElement.querySelector('.sideDropdown');
+        if (!sideNavDropdown) return false;
+        if (targetElement.classList.contains('active')) {
+            targetElement.classList.remove('active');
+        } else {
+            targetElement.classList.add('active');
+        }
+        return true;
+    };
 </script>
 
 <script type="module">
     //import Swiper from '../../build/js/vendor/swiper.js';
-
     const swiper = new Swiper(".homeCategorySwiper", {
         /* Default Parameters */
         slidesPerView: 1.45,
@@ -562,6 +582,6 @@
         }
     });
 </script>
+@stack('scripts')
 </body>
-
 </html>

@@ -1,17 +1,18 @@
-
 <div>
-    <h2 class="heading-1 primary">Popular Blogs</h2>
+    <h2 class="heading-1 primary">{{trans('sentence.popular_blogs')}}</h2>
 </div>
-
+@if( isset($popular_blogs) && !empty($popular_blogs) )
 <div class="cardGrid-v2">
     <div class="cardGrid">
-        @if (isset($popularBlogs)) 
-            @foreach ($popularBlogs as $blog)
-                <div class="cardGrid__item">
-                    <?php //include('../components/Cards/Style3/index.php'); ?>
-                    @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => ['blog'=>$blog] ])@endweb_component
-                </div>
-            @endforeach
-        @endif
+        @foreach($popular_blogs as $blog)
+            <div class="cardGrid__item">
+                @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => [ 'blog' => $blog  ] ])@endweb_component
+            </div>
+        @endforeach
     </div>
 </div>
+@else
+    <div>
+        <h4>{{ trans('sentence.blogs_not_found') }}</h4>
+    </div>
+@endif

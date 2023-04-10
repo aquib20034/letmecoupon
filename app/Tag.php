@@ -32,6 +32,11 @@ class Tag extends Model
         return $this->belongsToMany(Blog::class);
     }
 
+    public function tagReviews()
+    {
+        return $this->belongsToMany(Review::class);
+    }
+
     public function sites()
     {
         return $this->belongsToMany(Site::class);

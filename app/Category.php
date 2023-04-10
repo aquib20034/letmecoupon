@@ -77,9 +77,15 @@ class Category extends Model implements HasMedia
             $q->where('site_id',$siteid);
             });
 	}
+
     public function blogs()
     {
         return $this->belongsToMany(Blog::class);
+    }
+
+    public function reviews()
+    {
+        return $this->belongsToMany(Review::class);
     }
 
     public function slugs() {
@@ -99,6 +105,11 @@ class Category extends Model implements HasMedia
     public function categoryBlogs()
     {
         return $this->belongsToMany(Blog::class);
+    }
+
+    public function categoryReviews()
+    {
+        return $this->belongsToMany(Review::class);
     }
 
     public function categoryCoupons()
@@ -190,6 +201,7 @@ class Category extends Model implements HasMedia
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    
     public function children(){
         return $this->hasMany(self::class, 'parent_id','id');
     }

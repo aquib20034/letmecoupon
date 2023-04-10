@@ -18,12 +18,9 @@ class ContactController extends Controller
         $checkSubscriber = $model->where('email', $data['data']['email'])->first();
         if($checkSubscriber){
       	    return response()->json([
-  	            'success'    => true,
-  	            'msg'        => '<div class="finalCartPopup" style="display : block;">
-                                        <div class="msg" style="display : block;font-size: 14px;line-height: 20px;margin-top: 10px;margin-bottom: -7px;">'.
-                                        trans('sentence.already_sub').'
-                                        </div>
-                                    </div>'
+  	            'success' => true,
+                'icon'    => 'info',
+  	            'msg'     => trans('sentence.already_sub')
   	        ]);
         }
 
@@ -42,11 +39,8 @@ class ContactController extends Controller
             $model->save();
             return response()->json([
                 'success'   => true,
-                'msg'       => '<div class="" style="display : block;">
-                                        <div class="msg errorMsg finalCartPopup_errorMsg" style="display : block;font-size: 14px;line-height: 20px;margin-top: 10px;margin-bottom: -7px;">'.
-                                        trans('sentence.success_sub').'
-                                        </div>
-                                    </div>'
+                'icon'      => 'success',
+                'msg'       => trans('sentence.success_sub')
             ]);
         }
         else{
@@ -64,11 +58,8 @@ class ContactController extends Controller
             $model->save();
             return response()->json([
                 'success'   => true,
-                'msg'       => '<div class="" style="display : block;">
-                                        <div class="msg errorMsg finalCartPopup_errorMsg" style="display : block;font-size: 14px;line-height: 20px;margin-top: 10px;margin-bottom: -7px;">'.
-                                        trans('sentence.success_sub').'
-                                        </div>
-                                    </div>'
+                'icon'      => 'success',
+                'msg'       => trans('sentence.success_sub')
             ]);
         }
     }
@@ -86,10 +77,9 @@ class ContactController extends Controller
     }
 
     public function contactStore(Request $request){
-        $data       = $request->except(['_token']);
-        $model      = new Contact;
-        $email      = isset($data['data']['email']) ? $data['data']['email'] : "";
-        $checkContactUser = $model->where('email', $email)->first();
+        $data = $request->except(['_token']);
+        $model = new Contact;
+        $checkContactUser = $model->where('email', $data['data']['email'])->first();
         if($checkContactUser){
             return response()->json([
                 'success' => true,
@@ -98,12 +88,12 @@ class ContactController extends Controller
                 </div>'
             ]);
         }
-        $model->name    = isset($data['data']['name']) ? $data['data']['name'] : "";
-        $model->email   = isset($data['data']['email']) ? $data['data']['email'] : "";
-        $model->contact = isset($data['data']['contact']) ? $data['data']['contact'] : "";
+        $model->name = $data['data']['name'];
+        $model->email = $data['data']['email'];
+        $model->contact = $data['data']['contact'];
         // $model->subject = $data['data']['subject'];
         $model->subject = "";
-        $model->message = isset($data['data']['message']) ? $data['data']['message'] : "";
+        $model->message = $data['data']['message'];
         $model->save();
         return response()->json([
             'success' => true,

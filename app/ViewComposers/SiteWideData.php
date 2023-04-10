@@ -39,6 +39,19 @@ class SiteWideData
 					'primary_color',
 					'secondary_color',
 					'tertiary_color',
+					'categories_popular',
+					'stores_popular',
+					'stores_related',
+					'coupons_active',
+					'coupons_expired',
+					'coupons_full',
+					'coupons_minimal',
+					'blogs_trending',
+					'blogs_popular',
+					'blogs_recent',
+					'reviews_trending',
+					'reviews_popular',
+					'reviews_recent',
 					'coupon_card_style_primary',
 					'coupon_card_style_secondary'
 				)
@@ -46,6 +59,7 @@ class SiteWideData
 					->toArray();
 			}
 		);
+		//dd($data['global_data']);
 
 
 		$data['site_wide_data'] = Cache::remember(
@@ -157,6 +171,8 @@ class SiteWideData
 			}
 		);
 
+		$data['socials'] = [['field_name' => 'facebook', 'icon_name' => 'facebook'], ['field_name' => 'twitter', 'icon_name' => 'twitter'], ['field_name' => 'instagram', 'icon_name' => 'instagram'], ['field_name' => 'linked_in', 'icon_name' => 'linkedin'], ['field_name' => 'youtube', 'icon_name' => 'youtube'], ['field_name' => 'pinterest', 'icon_name' => 'pinterest']];		
+		
 		$data['fullCouponCardCss']		= 'coupon-card-full-' . $data['global_data']['coupon_card_style_primary'];
 		$data['minimalCouponCardCss']	= 'coupon-card-minimal-' . $data['global_data']['coupon_card_style_secondary'];
 

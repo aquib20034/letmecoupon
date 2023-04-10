@@ -128,6 +128,16 @@ class Store extends Model implements HasMedia
         return $this->belongsToMany(Product::class);
     }
 
+    public function storeBlogs()
+    {
+        return $this->belongsToMany(Blog::class);
+    }
+
+    public function storeReviews()
+    {
+        return $this->belongsToMany(Review::class);
+    }
+
     public function sites()
     {
         return $this->belongsToMany(Site::class);

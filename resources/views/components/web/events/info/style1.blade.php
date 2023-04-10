@@ -25,7 +25,6 @@
                             4.2
                         </span> -->
                         <div class="storeInfoCard__rating__stars">
-
                             @if(isset($detail['rating']))
                                 @if (isset($detail['rating']) && $detail['rating'] <= 5)
                                     @for ($i = 1; $i <= 5; $i++)
@@ -40,13 +39,16 @@
                                         </span>
                                     @endfor
                                 @endif
+                            @else
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <span class="icon 'unfilled">
+                                        <i class="x_star-unfilled"></i>
+                                    </span>
+                                @endfor        
                             @endif
                         </div>
                         <span class="storeInfoCard__rating__attribute storeInfoCard__rating__attribute--reviews">
-
-
                             ({!! ( (isset($detail['rating']) ) && ($detail['rating'] != '') )  ?$detail['rating'] :0 !!})
-
                         </span>
                     </div>
 

@@ -14,6 +14,7 @@ use App\Site;
 use App\Store;
 use App\Tag;
 use App\User;
+use App\Author;
 use Gate;
 use Illuminate\Http\Request;
 
@@ -120,12 +121,14 @@ class BlogController extends Controller
         $users = User::all()->pluck('name', 'id');
 
         $tags = Tag::all()->pluck('title', 'id');
+
+        $authors = Author::all()->pluck('full_name', 'id');
         
         $stores = Store::with('sites')->whereHas('sites', function($q) {
             $q->where('site_id', isset(request()->test_id) ? request()->test_id : getSiteID());
         })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.blogs.create', compact('sites', 'categories', 'tags', 'users', 'stores'));
+        return view('admin.blogs.create', compact('sites', 'categories', 'tags', 'users', 'stores', 'authors'));
     }
 
     public function store(StoreBlogRequest $request)
@@ -186,6 +189,8 @@ class BlogController extends Controller
         $users = User::all()->pluck('name', 'id');
 
         $tags = Tag::all()->pluck('title', 'id');
+
+        $authors = Author::all()->pluck('full_name', 'id');
         
         $stores = Store::with('sites')->whereHas('sites', function($q) use($blog) {
             if($blog->sites()->pluck('site_id')->count() > 0) {
@@ -197,7 +202,7 @@ class BlogController extends Controller
 
         $blog->load('sites', 'categories', 'tags','user');
 
-        return view('admin.blogs.edit', compact('sites', 'categories', 'tags', 'blog', 'users', 'stores'));
+        return view('admin.blogs.edit', compact('sites', 'categories', 'tags', 'blog', 'users', 'stores', 'authors'));
     }
 
     public function update(UpdateBlogRequest $request, Blog $blog)
@@ -216,7 +221,6 @@ class BlogController extends Controller
         if (isset($return['status']) && $return['status'] === false) {
             return $return;
         }
-
 
         if (\App::environment('production')) {
             if ($request->input('image', false)) {

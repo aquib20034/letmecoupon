@@ -3,7 +3,7 @@
         <div class="card__wrapper">
             <div class="card__top">
                 <div class="card__thumbnail">
-                    <a href="{{ config('app.image_path')}}/blogs" class="card__tag" aria-label="Visit Blog Page">
+                    <a href="{{ config('app.app_path')}}/blogs" class="card__tag" aria-label="Visit Blog Page">
                         <span>
                             Review
                         </span>
@@ -17,18 +17,18 @@
 
             <div class="card__bottom">
                 <div class="card__category">
-                    <a href="{{ config('app.image_path')}}/category-inner" aria-label="Visit Category Inner Page">Clothing & Accessories</a>
+                    <a href="{{ config('app.app_path')}}/category-inner" aria-label="Visit Category Inner Page">Clothing & Accessories</a>
                 </div>
 
                 <div class="card__title">
                     <h2>
-                        <a href="{{ config('app.image_path')}}/blog-inner" aria-label="Visit Blog Inner Page">11 Best online stores to pair your loafers with jeans and T-shirts</a>
+                        <a href="{{ config('app.app_path')}}/blog-inner" aria-label="Visit Blog Inner Page">11 Best online stores to pair your loafers with jeans and T-shirts</a>
                     </h2>
                 </div>
 
                 <div class="card__attributes">
                     <span>
-                        <a href="{{ config('app.image_path')}}/blog-author" aria-label="Visit Author Page">Aaron Paul</a>
+                        <a href="{{ config('app.app_path')}}/blog-author" aria-label="Visit Author Page">Aaron Paul</a>
                     </span>
 
                     <span>

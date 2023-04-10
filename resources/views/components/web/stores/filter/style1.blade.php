@@ -4,7 +4,7 @@
             @if($alphabet_store)
                 @foreach ($alphabet_store as $key => $item)
                     <li class="storeFilter__item">
-                        <a href="#<?php echo $key ?>" class="storeFilter__link" aria-label="Visit <?php echo ($key); ?> Store Inner Page">
+                        <a href="#{{ $key }}" class="storeFilter__link" aria-label="Visit {{ $key }} Store Inner Page">
                             {{strtoupper($key)}}
                         </a>
                     </li>

@@ -126,7 +126,9 @@
 .x_arrow-down-1:before {
   content: "\e900";
 }
-
+.x_menu-1{
+  display:flex;
+}
 .x_menu-1 .path1:before {
   content: "\e905";
 }

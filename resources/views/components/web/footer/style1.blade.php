@@ -13,7 +13,7 @@
                         </div>
 
                         <div class="navigation">
-                            @web_component([ 'postfixes' => 'footer.follow.style1','data' => ['global_data' => $global_data] ])@endweb_component
+                            @web_component([ 'postfixes' => 'footer.follow.style1','data' => ['global_data' => $global_data, 'socials' => $socials] ])@endweb_component
                         </div>
                     </div>
                 </div>

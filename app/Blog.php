@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
-use App\User;
+//use App\User;
 
 class Blog extends Model implements HasMedia
 {
@@ -19,7 +19,6 @@ class Blog extends Model implements HasMedia
     protected $primaryKey   = 'id';
     protected $slug_prefix  = 'blog/';
     protected $page_type    = 'blogs';
-
 
     public function getBasicData()
     {
@@ -61,8 +60,10 @@ class Blog extends Model implements HasMedia
         'meta_description',
         'short_description',
         'user_id',
+        'author_id',
         'blog_image',
     ];
+
     public function scopeCustomWhereBasedData($query,$siteid=null) {
 		return $query
 			->where('publish', 1)
@@ -129,6 +130,11 @@ class Blog extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
     }
     
     public function store_details()

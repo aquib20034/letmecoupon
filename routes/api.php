@@ -66,4 +66,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], 
 
     // Networks
     Route::apiResource('networks', 'NetworkApiController');
+
+    // Reviews
+    Route::post('reviews/media', 'ReviewApiController@storeMedia')->name('reviews.storeMedia');
+    Route::apiResource('reviews', 'ReviewApiController');
 });

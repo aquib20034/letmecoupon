@@ -64,9 +64,21 @@ function startQL($param = null) {
         return \App\Site::select('name', 'id')->orderBy('name')->get();
     }
 
+	function getAllSitesForNav(){
+		return \App\Site::select('name', 'id','country_code','country_name','country_flag')->where('publish', 1)->orderBy('name')->get();
+	}
     function getSiteID() {
 	    return Session::get("SITE_ID");
     }
+
+	function searchForKey($id, $array) {
+		foreach ($array as $key => $val) {
+			if ($val['id'] === $id) {
+				return $key;
+			}
+		}
+		return null;
+	}
 
 
 ?>

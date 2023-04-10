@@ -8,8 +8,7 @@
         <div class="card-body">
             <form method="POST" action="{{ route('admin.website-settings.store') }}" enctype="multipart/form-data"
                 id="permissionForm">
-                @csrf
-
+                @csrf    
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="primary_color">Primary Color</label>

@@ -8,12 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+use App\WebModel\Blog;
 
 class Author extends Model implements HasMedia
 {
     use SoftDeletes, HasMediaTrait, Auditable;
 
     public $table = 'authors';
+
+    protected $primaryKey   = 'id';
 
     protected $dates = [
         'created_at',
@@ -26,6 +29,11 @@ class Author extends Model implements HasMedia
         'last_name',
         'email',
         'phone',
+        'type',
+        'facebook_url',
+        'instagram_url',
+        'linkedin_url',
+        'twitter_url',
         'short_description',
         'long_description',
         'image',
@@ -35,6 +43,26 @@ class Author extends Model implements HasMedia
         'updated_at',
         'deleted_at',
     ];
+
+    public function sites()
+    {
+        return $this->belongsToMany(Site::class, 'author_site', 'author_id', 'site_id');
+    }
+
+    public function languages()
+    {
+        return $this->belongsToMany(Langauge::class, 'author_language', 'author_id', 'language_id');
+    }
+
+    public function author_type()
+    {
+        return $this->belongsTo(AuthorType::class, 'type','id');
+    }
+
+    public function author_types()
+    {
+        return $this->belongsTo(AuthorType::class, 'type');
+    }
 
     public function registerMediaConversions(Media $media = null)
     {
@@ -51,5 +79,15 @@ class Author extends Model implements HasMedia
         }
 
         return $file;
+    }
+
+    public function blogs()
+    {
+        return $this->belongsToMany(Blog::class, 'author_id');
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 }

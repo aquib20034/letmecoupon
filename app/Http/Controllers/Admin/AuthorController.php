@@ -9,6 +9,8 @@ use App\Http\Requests\MassDestroyAuthorRequest;
 use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\UpdateAuthorRequest;
 use App\Site;
+use App\Langauge;
+use App\AuthorType;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,11 +26,33 @@ class AuthorController extends Controller
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
 
-        $authors = Author::get();
+        // $query = Author::select(sprintf('%s.*', (new Author)->table));
 
-        if(isset(request()->bid)) {
-            $authors = $authors->where('id', request()->bid);
+        // // if(isset($request->sit_id)) {
+        // //     $authors = Author::where('id', $request->aut_id)->get();
+        // // } else {
+        // //     $authors = Author::all();
+        // // }
+        $query = Author::with(['sites'])->select(sprintf('%s.*', (new Author)->table));
+
+        if(isset($request->aid)) {
+            $query = $query->where('id', $request->aid);
         }
+
+        $query = $query->whereHas('sites', function($q) use($request) {
+            if($request->siteId != 'all') {
+                if($request->siteId != 'all') {
+                    if(!empty($request->siteId)) {
+                        $q->where('site_id', $request->siteId);
+                    } elseif (isset(request()->test_id)) {
+                        $q->where('site_id', request()->test_id);
+                    } else {
+                        $q->where('site_id', getSiteID());
+                    }
+                }
+            }
+        });
+        $authors = $query->get();
 
         return view('admin.authors.index', compact('authors'));
     }
@@ -40,15 +64,20 @@ class AuthorController extends Controller
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
 
-        //$sites = Site::all()->pluck('name', 'id');
+        $sites = Site::all()->pluck('name', 'id');
+        $languages = Langauge::all()->pluck('language', 'id');
+        $author_types = AuthorType::all()->pluck('title', 'id');//dd($author_types);
+        //$languages = Langauge::select('language', 'code')->get()->toArray();
 
-        return view('admin.authors.create');
+        return view('admin.authors.create', compact('sites', 'languages', 'author_types'));
     }
 
     public function store(StoreAuthorRequest $request)
     {
         // $author = Author::create($request->all());
         $author = Author::create(array_merge($request->all(), ['created_by' => auth()->id(), 'updated_by' => auth()->id()]));
+        $author->sites()->sync($request->input('sites', []));
+        $author->languages()->sync($request->input('languages', []));
         $last_id    = $author->id;
 
         if (\App::environment('production')) {
@@ -85,13 +114,22 @@ class AuthorController extends Controller
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
 
-        return view('admin.authors.edit', compact('author'));
+        $sites = Site::all()->pluck('name', 'id');
+        $languages = Langauge::all()->pluck('language', 'id');
+        $author_types = AuthorType::all()->pluck('title', 'id');//dd($author_types);
+        //$languages = Langauge::select('language', 'code')->get()->toArray();
+
+        $author->load('sites', 'languages');
+
+        return view('admin.authors.edit', compact('author', 'sites', 'languages', 'author_types'));
     }
 
     public function update(UpdateAuthorRequest $request, Author $author)
     {   
         // $author->update($request->all());
         $author->update(array_merge($request->all(), ['updated_by' => auth()->id()]));
+        $author->sites()->sync($request->input('sites', []));
+        $author->languages()->sync($request->input('languages', []));
         $last_id    = $author->id;
 
         if (\App::environment('production')) {
@@ -135,6 +173,8 @@ class AuthorController extends Controller
 
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
+
+        $author->load('sites', 'languages', 'author_types');
 
         return view('admin.authors.show', compact('author'));
     }

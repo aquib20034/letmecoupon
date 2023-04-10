@@ -1,119 +1,105 @@
 @extends('web.layouts.app')
 @section('content')
-    <main class="main">
-        <!-- components/category-banner.scss -->
+    <div class="container">
+        <div class="section">
+            <!-- Breadcrumbs Section Starts Here -->
+            <section class="section pd-none onlyDesktop">
+                <div class="container-inner">
+                    <?php
+                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => "All Categories", "path" => config('app.app_path')."/category"], ["title" => "Category Detail", "path" => ""]];
+                    //include('../components/Breadcrumbs/Style1/index.php');
+                    ?>
+                    @web_component([ 'postfixes' => 'breadcrumbs.style1','data' => ['routes' => $routes] ])@endweb_component
+                </div>
+            </section>
+            <!-- Breadcrumbs Section Ends Here -->
 
-        <section class="section">
-            <div class="container">
-                <div class="category-banner">
-                    <h1 class="title">{!! empty($headingOne) ? $detail['title'] : $headingOne !!}</h1>
-                    <div class="image">
-                        <img src="{{ config('app.image_path') }}/build/images/placeholder.png"
-                            data-src="{{ isset($detail['category_banner_image']) ? $detail['category_banner_image'] : config('app.image_path') . '/build/images/placeholder.png' }}"
-                            alt="category banner" width="1160" height="260">
+            <!-- Category Inner => All Stores Listing Section Starts Here -->
+            <div class="section">
+                <div class="container-inner">
+                    <div>
+                        <h2 class="heading-1 primary">Category {{ isset($detail->title) ? $detail->title : ""}}</h2> 
+                        <!-- dynamic title -->
+                    </div>
+
+                    <div class="popularListing-v1">
+                        <div class="popularListing popularListing--grid-2">
+                            <div class="popularListing__wrapper">
+                                <div class="popularListing__content">
+                                    <ul class="popularListing__list">
+                                        @if (isset($categoryStores)) 
+                                            @foreach ($categoryStores[0]['category_stores'] as $store)
+                                                <?php $variant = '2'; ?>
+                                                <li class="popularListing__listItem">
+                                                    <?php //include('../components/Cards/Style4/index.php'); ?>
+                                                    @web_component([ 'postfixes' => 'stores.minimal.style1','data' => ['variant' => $variant,'store' => $store] ])@endweb_component
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
+
+                                    <div class="popularListing__gridCta">
+                                        <a href="{{ config('app.app_path') }}/sitemap" class="btn-1" aria-label="View All">View All</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+            <!-- Category Inner => All Stores Listing Section Ends Here -->
 
-        @if (isset($featuredStoresFromCategory['categoryStores']) && count($featuredStoresFromCategory['categoryStores']) > 0)
+            <!-- Trending Blogs & Reviews Section Starts Here -->
             <section class="section">
-                <div class="container">
-                    <div class="top-heading left cap">
-                        <h2>{{ trans('sentence.cat_featured_brands') }}</h2>
-                    </div>
-                    <div class="grid-column-9">
-                        @foreach ($featuredStoresFromCategory['categoryStores'] as $featuredStore)
-                            <a class="brand-box"
-                                href="{{ config('app.app_path') }}/{{ isset($featuredStore['slugs']) ? $featuredStore['slugs']['slug'] : '#' }}">
-                                <div class="brand-img-box">
-                                    <img src="{{ config('app.image_path') }}/build/images/placeholder.png"
-                                        data-src="{{ isset($featuredStore['store_image']) ? $featuredStore['store_image'] : config('app.image_path') . '/build/images/placeholder.png' }}"
-                                        alt="{!! $featuredStore['name'] !!}" title="{!! $featuredStore['name'] !!}" height="100"
-                                        width="100" />
+                @web_component([ 'postfixes' => 'blogs.trending.style1','data' => ['trendingBlog'=>$trendingBlog] ])@endweb_component
+            </section>
+            <!-- Trending Blogs & Reviews Section Ends Here -->
+
+            <!-- Newsletter Section Starts Here -->
+            <section class="section">
+                @web_component([ 'postfixes' => 'newsletter.style1','data' => [] ])@endweb_component
+            </section>
+            <!-- Newsletter Section Starts Here -->
+
+            <!-- Popular Products Section Starts Here -->
+            <section class="section">
+                <div class="popularListing-v1">
+                    <div class="popularListing">
+                        <div class="popularListing__wrapper">
+                            <div class="popularListing__header">
+                                <div>
+                                    <h2 class="heading-1 m-0">Popular Products</h2>
                                 </div>
-                                <div class="brand-text">
-                                    <p>{{ count($featuredStore['storeCoupons']) }} {{ trans('sentence.cat_vouchers') }}</p>
+
+                                <div>
+                                    <a href="{{ config('app.app_path') }}/sitemap"  class="btn-1 responsive" aria-label="View All">View All</a>
                                 </div>
-                            </a>
-                        @endforeach
+                            </div>
+
+                            <div class="popularListing__content">
+                                <ul class="popularListing__list" onmousedown="mouseDownHandler(this, event)" onmouseup="mouseUpHandler(this)" ontouchend="mouseUpHandler(this)" ontouchstart="mouseDownHandler(this, event)">
+                                    @if (isset($popularProducts)) 
+                                        @foreach ($popularProducts as $product)
+                                                <?php $variant = '4'; ?>
+                                                <li class=" popularListing__listItem">
+                                                    <?php //include('../components/Cards/Style4/index.php'); ?>
+                                                    @web_component([ 'postfixes' => 'products.minimal.style1','data' => ['product'=>$product, 'variant'=>$variant] ])@endweb_component
+                                                </li>
+                                        @endforeach
+                                    @endif
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
-        @endif
+            <!-- Popular Products Section Ends Here -->
 
-        <section class="section">
-            <div class="container">
-                <div class="top-heading left cap">
-                    <h2>{{ trans('sentence.cat_all_store') }} {!! $detail['title'] !!}</h2>
-                </div>
-                {{-- @dd($detail) --}}
-                <div class="flex rowbar">
-                    <div class="wide-column small">
-                        @if (!empty($detail['categoryStores']))
-                            <section class="section">
-                                <div class="grid-column-7">
-                                    @foreach ($detail['categoryStores'] as $categoryStore)
-                                        <a class="brand-box"
-                                            href="{{ config('app.app_path') }}/{{ isset($categoryStore['slugs']) ? $categoryStore['slugs']['slug'] : '#' }}">
-                                            <div class="brand-img-box">
-                                                <img src="{{ config('app.image_path') }}/build/images/placeholder.png"
-                                                    data-src="{{ isset($categoryStore['store_image']) ? $categoryStore['store_image'] : config('app.image_path') . '/build/images/placeholder.png' }}"
-                                                    alt="brand" height="100" width="100" />
-                                            </div>
-                                            <div class="brand-text">
-                                                <p>{{ $categoryStore->name }}</p>
-                                            </div>
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </section>
-                        @endif
-
-                        @if (isset($detail['long_description']))
-                            <div class="richtext gray">
-                                <h4 class="left">{{ trans('sentence.cat_about') }} {!! $detail['title'] !!}</h4>
-                                <p>{!! html_entity_decode($detail['long_description']) !!}</p>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="short-column sticky small">
-                        <section class="section">
-                            @if (!empty($featuredCategories['children']))
-                                <div class="similar-store small">
-                                    <h2 class="secondary-heading left small">{{ trans('sentence.related_categories') }}
-                                    </h2>
-                                    <ul>
-                                        @foreach ($featuredCategories['children'] as $featuredCategory)
-                                            <li><a href="{{ config('app.app_path') }}/{{ isset($featuredCategory['slug']) ? $featuredCategory['slug'] : '#' }}"
-                                                    class="tag">{{ $featuredCategory['title'] }}</a></li>
-                                        @endforeach
-                                        <li class="all-categories">
-                                            <a
-                                                href="{{ config('app.app_path') }}/category">{{ trans('sentence.view_all_categories') }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            @endif
-                            @if (!empty($popularStoresFromCategory['categoryStores']))
-                                <div class="similar-store small">
-                                    <h2 class="secondary-heading left small">{{ trans('sentence.related_stores') }}</h2>
-                                    <ul>
-                                        @foreach ($popularStoresFromCategory['categoryStores'] as $relatedStore)
-                                            <li><a href="{{ config('app.app_path') }}/{{ isset($relatedStore['slugs']) ? $relatedStore['slugs']['slug'] : '#' }}"
-                                                    class="tag">{{ $relatedStore['name'] }}</a></li>
-                                        @endforeach
-                                        <li class="all-categories">
-                                            <a
-                                                href="{{ config('app.app_path') }}/sitemap">{{ trans('sentence.view_all_stores') }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            @endif
-                        </section>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+            <!-- Popular Reviews Section Starts Here -->
+            <section class="section">
+                @web_component([ 'postfixes' => 'reviews.popular.style2','data' => ['popular_reviews'=>$popularReview] ])@endweb_component
+            </section>
+            <!-- Popular Reviews Section Ends Here -->
+        </div>
+    </div>
 @endsection

@@ -14,6 +14,7 @@ use App\Site;
 use App\Store;
 use App\Tag;
 use App\User;
+use App\Author;
 use Gate;
 use Illuminate\Http\Request;
 
@@ -120,12 +121,14 @@ class ReviewController extends Controller
         $users = User::all()->pluck('name', 'id');
 
         $tags = Tag::all()->pluck('title', 'id');
+
+        $authors = Author::all()->pluck('full_name', 'id');
         
         $stores = Store::with('sites')->whereHas('sites', function($q) {
             $q->where('site_id', isset(request()->test_id) ? request()->test_id : getSiteID());
         })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.reviews.create', compact('sites', 'categories', 'tags', 'users', 'stores'));
+        return view('admin.reviews.create', compact('sites', 'categories', 'tags', 'users', 'stores', 'authors'));
     }
 
     public function store(StoreReviewRequest $request)
@@ -186,6 +189,8 @@ class ReviewController extends Controller
         $users = User::all()->pluck('name', 'id');
 
         $tags = Tag::all()->pluck('title', 'id');
+
+        $authors = Author::all()->pluck('full_name', 'id');
         
         $stores = Store::with('sites')->whereHas('sites', function($q) use($review) {
             if($review->sites()->pluck('site_id')->count() > 0) {
@@ -197,7 +202,7 @@ class ReviewController extends Controller
 
         $review->load('sites', 'categories', 'tags','user');
 
-        return view('admin.reviews.edit', compact('sites', 'categories', 'tags', 'review', 'users', 'stores'));
+        return view('admin.reviews.edit', compact('sites', 'categories', 'tags', 'review', 'users', 'stores', 'authors'));
     }
 
     public function update(UpdateReviewRequest $request, Review $review)

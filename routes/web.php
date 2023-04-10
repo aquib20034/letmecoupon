@@ -15,7 +15,9 @@ Route::group(['namespace' => 'Web', 'prefix' => config('app.route_prefix')], fun
     Route::get('/blog-categories', 'BlogsController@blogCategories');
     Route::get('/blog', 'BlogsController@index')->name('blog');
     Route::get('/load-more-data', 'BlogsController@load_data');
-    Route::get('/blog/author/{slug}', 'BlogsController@blogAuthor');
+    Route::get('/blog/author/{id}', 'BlogsController@blogAuthor');
+    Route::get('/review', 'ReviewsController@index')->name('review');
+    Route::get('/review/author/{id}', 'ReviewsController@reviewAuthor');
     Route::get('/author-load-more-data', 'BlogsController@authorLoadMoreData');
     Route::get('/best-products', 'Product_categoriesController@index')->name('product');
    // Route::get('/product/{slug}', 'ProductsController@detail')->name('product.detail');
@@ -28,21 +30,6 @@ Route::group(['namespace' => 'Web', 'prefix' => config('app.route_prefix')], fun
     Route::post('contactStore', 'ContactController@contactStore')->name('contact.store');
     Route::get('/search_store', 'StoresController@search');
     Route::get('/search_blog', 'StoresController@searchBlog');
-
-    //New Routes
-    Route::get('/stores/{detail?}', 'HomeController@stores')->name('stores');
-    Route::get('/categories/{detail?}', 'HomeController@categories')->name('categories');
-    Route::get('/blogs/{detail?}', 'HomeController@blogs')->name('blogs');
-    Route::get('/reviews/{detail?}', 'HomeController@reviews')->name('reviews');
-    Route::get('/products/{detail?}', 'HomeController@products')->name('products');
-    Route::get('/authors/{detail?}', 'HomeController@authors')->name('authors');
-
-
-
-    Route::get('/about-us', 'PagesController@detail')->name('about-us');
-    Route::get('/advertise-with-us', 'PagesController@advertiseWithUs')->name('advertise-with-us');   
-    Route::get('/privacy-policy', 'PagesController@privacyPolicy')->name('privacy-policy');   
-    Route::get('/contact-us', 'PagesController@contactUs')->name('contact-us');  
 
     Route::get('/mediaffiliation.html', 'HomeController@masterEd');
 
@@ -75,6 +62,9 @@ Route::group(['namespace' => 'Web', 'prefix' => config('app.route_prefix')], fun
         Route::get(SLUG_LINK, SLUG_CONTROLLER.'@detail')->name(ROUTE_NAME);
       }
       if(ROUTE_NAME == 'blogs') {
+        Route::get(SLUG_LINK, SLUG_CONTROLLER.'@detail')->name(ROUTE_NAME);
+      }
+      if(ROUTE_NAME == 'reviews') {
         Route::get(SLUG_LINK, SLUG_CONTROLLER.'@detail')->name(ROUTE_NAME);
       }
       if(ROUTE_NAME == 'presses') {

@@ -13,3 +13,4 @@ yarn-error.log
 .phpintel
 .idea/
 node_modules/
+*.zip

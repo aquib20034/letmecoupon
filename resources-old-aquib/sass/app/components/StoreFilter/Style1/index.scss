@@ -1,0 +1,61 @@
+.storeFilterStyle1 {
+  .storeFilter {
+    &__list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(63px, 1fr));
+      gap: 15px;
+
+      @media only screen and (max-width: 1440px) {
+        grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+      }
+
+      @media only screen and (max-width: 1280px) {
+        grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+      }
+    }
+
+    // &__item {
+    // }
+
+    &__link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 26px;
+      font-family: "freightsans-medium";
+      font-weight: 100;
+      line-height: 1.2em;
+      color: var(--primaryTextColor);
+      background-color: var(--white);
+
+      min-width: 63px;
+      min-height: 63px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--primaryContrastColor);
+      transition: border-color var(--transition-short) linear;
+
+      @media only screen and (max-width: 1440px) {
+        font-size: 20px;
+        min-width: 45px;
+        min-height: 45px;
+      }
+
+      @media only screen and (max-width: 1280px) {
+        font-size: 16px;
+        min-width: 40px;
+        min-height: 40px;
+      }
+
+      &.active,
+      &:active,
+      &:focus,
+      &:hover {
+        outline: none;
+        cursor: pointer;
+        border-color: var(--primaryColor);
+      }
+    }
+  }
+}

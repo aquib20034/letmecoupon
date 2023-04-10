@@ -1,0 +1,35 @@
+@import "./theme";
+
+:root {
+  // Custom variable values only support SassScript inside `#{}`.
+
+  /* Color Theme */
+  @each $color, $value in $theme-colors {
+    --#{$color}: #{$value};
+  }
+
+  /* Grey Colors */
+  @each $color, $value in $grays {
+    --#{$color}: #{$value};
+  }
+
+  /* Social Media Colors */
+  @each $color, $value in $socialMediaThemeColor {
+    --#{$color}: #{$value};
+  }
+
+  /* Other Variables */
+  @each $variable, $value in $others {
+    --#{$variable}: #{$value};
+  }
+
+  #{--gap}: #{25px};
+
+  @media (max-width: 1440px) {
+    #{--gap}: #{15px};
+  }
+
+  @media (max-width: 768px) {
+    #{--gap}: #{10px};
+  }
+}

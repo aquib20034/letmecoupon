@@ -1,0 +1,29 @@
+// Poppins (100, 300, 400, 500, 600, 700)
+// @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
+
+// Freightsans Book (400)
+@font-face {
+  font-family: "freightsans-book";
+  font-style: normal;
+  // font-weight: 400;
+  font-display: swap;
+  src: url("../../../public/build/fonts/Freight-Sans-Book.otf") format("opentype");
+}
+
+// Freightsans Medium (100)
+@font-face {
+  font-family: "freightsans-medium";
+  font-style: normal;
+  // font-weight: 500;
+  font-display: swap;
+  src: url("../../../public/build/fonts/Freight-Sans-Medium.otf") format("opentype");
+}
+
+// Freightsans Bold (100)
+@font-face {
+  font-family: "freightsans-bold";
+  font-style: normal;
+  // font-weight: 100;
+  font-display: swap;
+  src: url("../../../public/build/fonts/Freight-Sans-Bold.otf") format("opentype");
+}

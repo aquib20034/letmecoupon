@@ -1,0 +1,203 @@
+@import "../../../partials/mixins";
+
+.discountCardStyle2 {
+  .discountCard {
+    padding: 20px 20px;
+    border-radius: 20px;
+    border: 1px solid var(--primaryContrastColor);
+
+    &__wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: -10px -10px;
+
+      @media only screen and (max-width: 600px) {
+        display: grid;
+        justify-content: unset;
+        align-items: unset;
+        margin: 0;
+        gap: 15px;
+      }
+
+      & > * {
+        padding: 10px 10px;
+
+        @media only screen and (max-width: 600px) {
+          padding: 0;
+        }
+      }
+    }
+
+    &__image {
+      width: 177px;
+      height: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--primaryContrastColor);
+      background-color: var(--white);
+
+      @media only screen and (max-width: 768px) {
+        width: 120px;
+      }
+
+      @media only screen and (max-width: 600px) {
+        width: 100%;
+      }
+
+      & figure {
+        position: relative;
+        max-width: 74px;
+        margin: auto;
+        width: 100%;
+        height: 0;
+        padding: 0 0 calc(100% * 42 / 74) 0;
+        border-radius: 10px;
+        overflow: hidden;
+
+        @media only screen and (max-width: 600px) {
+          padding: 0 0 calc(100% * 93 / 350) 0;
+        }
+
+        & img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          object-position: center;
+        }
+      }
+    }
+
+    &__mid {
+      flex: 1;
+    }
+
+    &__title {
+      font-size: 26px;
+      font-family: "freightsans-bold";
+      font-weight: 100;
+      line-height: 1.2em;
+      color: var(--primaryTextColor);
+      margin-bottom: 10px;
+      @include trim(1);
+
+      @media only screen and (max-width: 768px) {
+        font-size: 24px;
+        @include trim(2);
+      }
+    }
+
+    &__attributes {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: -8px -8px;
+
+      & > * {
+        padding: 8px 8px;
+      }
+
+      & .tag {
+        font-size: 14px;
+        font-family: "freightsans-medium";
+        font-weight: 100;
+        line-height: 1.3em;
+        color: var(--primaryTextColor);
+        padding: 5px 5px;
+        background-color: var(--primaryContrastColor);
+        border-radius: 5px;
+        @include fitContent();
+      }
+
+      & span {
+        font-size: 14px;
+        font-family: "freightsans-medium";
+        font-weight: 100;
+        line-height: 1.2em;
+        color: var(--primaryTextColor);
+
+        &.success {
+          color: var(--success);
+        }
+      }
+    }
+
+    &__cta {
+      a {
+        // Reset
+        appearance: none;
+        outline: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+
+        display: inline-block;
+        width: 100%;
+        font-size: 26px;
+        font-family: "freightsans-bold";
+        font-weight: 100;
+        line-height: 1.3em;
+        color: var(--white);
+        text-align: center;
+        padding: 10px 35px;
+        border-radius: 10px;
+        border: 1px solid var(--primaryColor);
+        background-color: var(--primaryColor);
+        white-space: nowrap;
+        transition: color var(--transition-short) linear,
+          background-color var(--transition-short) linear;
+
+        @media only screen and (max-width: 768px) {
+          font-size: 24px;
+          padding: 10px 20px;
+        }
+
+        &.light {
+          color: var(--primaryTextColor);
+          background-color: rgba($primaryColor, 34%);
+          border: 1px solid rgba($primaryColor, 34%);
+        }
+
+        &.active,
+        &:active,
+        &:focus,
+        &:hover {
+          outline: none;
+          cursor: pointer;
+          color: var(--primaryColor);
+          background-color: var(--primaryContrastColor);
+          border: 1px solid var(--primaryColor);
+        }
+      }
+    }
+
+    /* Expired/ Disabled Variant */
+    &--expired {
+      .discountCard__title {
+        color: var(--lightGreyColor);
+      }
+
+      .discountCard__attributes {
+        & .tag {
+          background-color: var(--lightGreyColor);
+        }
+
+        & span,
+        & span.success {
+          color: var(--lightGreyColor);
+        }
+      }
+
+      .discountCard__cta {
+        a {
+          color: var(--white);
+          border-color: var(--lightGreyColor);
+          background-color: var(--lightGreyColor);
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

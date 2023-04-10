@@ -1,0 +1,75 @@
+.accordionStyle1 {
+  .accordion {
+    // &__wrapper {
+    // }
+
+    &__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--primaryTextColor);
+      cursor: pointer;
+      outline: none;
+      transition: color var(--transition-short) linear;
+
+      &.active {
+        outline: none;
+        cursor: pointer;
+        color: var(--primaryColor);
+
+        & .icon {
+          transform: rotate(180deg);
+        }
+      }
+
+      & .title {
+        font-size: 20px;
+        font-family: "freightsans-bold";
+        font-weight: 100;
+        line-height: 1.2em;
+        color: inherit;
+        padding-right: 25px;
+
+        @media only screen and (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+
+      & .icon {
+        font-size: 14px;
+        color: inherit;
+        transition: color var(--transition-short) linear,
+          transform var(--transition-short) linear;
+      }
+
+      &.active + .accordion__content {
+        max-height: 1000px;
+        overflow: auto;
+        padding-top: 25px;
+
+        @media only screen and (max-width: 768px) {
+          padding-top: 15px;
+        }
+      }
+    }
+
+    &__content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-short) linear,
+        overflow var(--transition-short) 0s linear;
+
+      p {
+        font-size: 20px;
+        font-family: "freightsans-medium";
+        font-weight: 100;
+        line-height: 1.2em;
+        color: var(--primaryTextColor);
+
+        @media only screen and (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

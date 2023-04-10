@@ -1,0 +1,85 @@
+.storeBoxStyle1 {
+  .storeBox {
+    &__wrapper {
+      padding: 50px 50px;
+      border-radius: 20px;
+      border: 1px solid var(--primaryContrastColor);
+      background-color: var(--white);
+
+      @media only screen and (max-width: 1600px) {
+        padding: 35px 35px;
+      }
+
+      @media only screen and (max-width: 1280px) {
+        padding: 25px 25px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        padding: 20px 20px;
+      }
+    }
+
+    &__heading {
+      font-size: 26px;
+      font-family: "freightsans-bold";
+      font-weight: 100;
+      line-height: 1.3em;
+      color: var(--primaryTextColor);
+      margin-bottom: 25px;
+
+      @media only screen and (max-width: 768px) {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+    }
+
+    &__list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 10px 75px;
+
+      @media only screen and (max-width: 1600px) {
+        grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+        gap: 10px 50px;
+      }
+
+      @media only screen and (max-width: 1440px) {
+        gap: 10px 40px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        gap: 10px 30px;
+      }
+    }
+
+    // &__item {
+    // }
+
+    &__link {
+      display: inline-block;
+      font-size: 20px;
+      font-family: "freightsans-medium";
+      font-weight: 100;
+      line-height: 1.3em;
+      color: var(--primaryTextColor);
+      transition: color var(--transition-short) linear;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 100%;
+
+      @media only screen and (max-width: 768px) {
+        font-size: 18px;
+      }
+
+      &:active,
+      &:focus,
+      &:hover {
+        outline: none;
+        cursor: pointer;
+        color: var(--primaryColor);
+      }
+    }
+  }
+}

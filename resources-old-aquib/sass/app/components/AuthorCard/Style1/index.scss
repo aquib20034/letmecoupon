@@ -1,0 +1,199 @@
+.authorCard-v1 {
+  .authorCard {
+    display: flex;
+    flex-direction: column;
+    margin: -7px -7px;
+
+    @media only screen and (max-width: 1023px) {
+      align-items: center;
+    }
+
+    & > * {
+      padding: 7px 7px;
+    }
+
+    &__left {
+      @media only screen and (max-width: 1023px) {
+        width: 100%;
+        max-width: 390px;
+      }
+
+      @media only screen and (max-width: 520px) {
+        max-width: 100%;
+      }
+
+      & figure {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding: 0 0 100% 0;
+        overflow: hidden;
+        border-radius: 20px;
+        border: 1px solid var(--primaryContrastColor);
+
+        @media only screen and (max-width: 1023px) {
+          padding: 0 0 calc(100% * 272 / 390) 0;
+        }
+
+        @media only screen and (max-width: 390px) {
+          border-radius: 10px;
+        }
+
+        & img {
+          position: absolute;
+          top: 0;
+          left: 0;
+
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          border-radius: inherit;
+        }
+      }
+    }
+
+    &__right {
+      @media only screen and (max-width: 1023px) {
+        text-align: center;
+      }
+
+      @media only screen and (max-width: 520px) {
+        text-align: left;
+      }
+    }
+
+    &__heading {
+      margin-bottom: 5px;
+
+      & h1,
+      & h2 {
+        font-size: 40px;
+        font-family: "freightsans-bold";
+        font-weight: 100;
+        line-height: 1.2em;
+        color: var(--primaryColor);
+
+        @media only screen and (max-width: 1600px) {
+          font-size: 36px;
+        }
+
+        @media only screen and (max-width: 1440px) {
+          font-size: 28px;
+        }
+      }
+    }
+
+    &__subHeading {
+      & h2,
+      & h3 {
+        font-size: 20px;
+        font-family: "freightsans-medium";
+        font-weight: 100;
+        line-height: 1.6em;
+        color: var(--primaryTextColor);
+      }
+    }
+
+    &__attributes {
+      display: flex;
+      margin: -5px -5px;
+      padding: 15px 0;
+
+      @media only screen and (max-width: 1023px) {
+        justify-content: center;
+        align-items: center;
+      }
+
+      @media only screen and (max-width: 520px) {
+        justify-content: flex-start;
+      }
+
+      & > * {
+        display: inline-block;
+        font-size: 16px;
+        font-family: "freightsans-book";
+        font-weight: 100;
+        line-height: 1.2em;
+        color: var(--primaryTextColor);
+        padding: 5px 5px;
+      }
+    }
+
+    &__content {
+      margin-bottom: 15px;
+
+      @media only screen and (max-width: 1023px) {
+        max-width: 500px;
+      }
+
+      @media only screen and (max-width: 520px) {
+        max-width: 100%;
+      }
+
+      p {
+        display: inline-block;
+        font-size: 16px;
+        font-family: "freightsans-medium";
+        font-weight: 100;
+        line-height: 1.3em;
+        color: var(--primaryTextColor);
+
+        &:not(:last-of-type) {
+          margin-bottom: 15px;
+        }
+      }
+    }
+
+    &__social {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin: -10px -10px;
+
+      @media only screen and (max-width: 1023px) {
+        justify-content: center;
+      }
+
+      @media only screen and (max-width: 768px) {
+        margin: -7px -7px;
+      }
+
+      @media only screen and (max-width: 520px) {
+        justify-content: flex-start;
+      }
+
+      & > * {
+        display: inline-block;
+        color: var(--primaryTextColor);
+        padding: 10px 10px;
+
+        @media only screen and (max-width: 768px) {
+          padding: 7px 7px;
+        }
+
+        &:active,
+        &:focus,
+        &:hover {
+          outline: none;
+          cursor: pointer;
+          color: var(--primaryColor);
+          transition: color var(--transition-short) linear;
+        }
+
+        & i {
+          font-size: 48px;
+          color: inherit;
+
+          @media only screen and (max-width: 1600px) {
+            font-size: 40px;
+          }
+
+          @media only screen and (max-width: 1440px) {
+            font-size: 35px;
+          }
+        }
+      }
+    }
+  }
+}

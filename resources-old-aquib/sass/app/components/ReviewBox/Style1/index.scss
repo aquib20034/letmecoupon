@@ -1,0 +1,161 @@
+@import "../../../partials/mixins";
+
+.reviewBoxStyle1 {
+  .reviewBox {
+    &__wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+
+      padding: 45px 45px;
+      background: var(--white);
+      border: 1px solid var(--greyTextColor);
+      border-radius: 20px;
+
+      @media only screen and (max-width: 1600px) {
+        padding: 35px 35px;
+      }
+    }
+
+    &__head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    &__title {
+      font-size: 43px;
+      font-family: "freightsans-bold";
+      font-weight: 100;
+      line-height: 1.2em;
+      color: var(--primaryTextColor);
+      padding-right: 20px;
+
+      @media only screen and (max-width: 1600px) {
+        font-size: 30px;
+      }
+
+      @media only screen and (max-width: 1440px) {
+        font-size: 26px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        font-size: 20px;
+      }
+    }
+
+    &__btn {
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+
+    &__description {
+      p {
+        font-size: 20px;
+        font-family: "freightsans-medium";
+        font-weight: 100;
+        line-height: 1.2em;
+        color: var(--primaryTextColor);
+
+        @media only screen and (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+    }
+
+    &__list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 50px 70px;
+
+      @media only screen and (max-width: 1600px) {
+        gap: 50px 50px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px 15px;
+      }
+    }
+
+    &__listItem {
+      padding-left: 0;
+
+      &::before {
+        content: none;
+      }
+    }
+
+    .review {
+      &__title {
+        font-size: 28px;
+        font-family: "freightsans-bold";
+        font-weight: 100;
+        line-height: 1.2em;
+        color: var(--primaryTextColor);
+        margin-bottom: 5px;
+        @include trim(1);
+
+        @media only screen and (max-width: 1600px) {
+          font-size: 26px;
+        }
+
+        @media only screen and (max-width: 1440px) {
+          font-size: 20px;
+        }
+
+        @media only screen and (max-width: 768px) {
+          font-size: 16px;
+        }
+      }
+
+      &__rating {
+        display: flex;
+        align-items: center;
+      }
+
+      &__stars {
+        display: inline-block;
+        padding-right: 10px;
+
+        & > *:not(:last-child) {
+          margin-right: 3px;
+        }
+
+        .icon {
+          font-size: 22px;
+
+          @media only screen and (max-width: 768px) {
+            font-size: 15px;
+          }
+
+          &.rated {
+            color: var(--primaryColor);
+          }
+
+          &.unrated {
+            color: var(--lightGreyColor);
+          }
+        }
+      }
+
+      &__text {
+        font-size: 20px;
+        font-family: "freightsans-medium";
+        font-weight: 100;
+        line-height: 1.2em;
+        color: var(--lightGreyColor);
+        @include trim(1);
+
+        @media only screen and (max-width: 1440px) {
+          font-size: 16px;
+        }
+
+        @media only screen and (max-width: 768px) {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+/* StoreBox Style1 */
+@import "../StoreBox/Style1/index.scss";
+
+.storeListing-v1 {
+  .storeListing {
+    &__heading {
+      margin-bottom: 35px;
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 20px;
+      }
+    }
+
+    &__list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    &__dropdown {
+      margin-bottom: 20px;
+    }
+  }
+}

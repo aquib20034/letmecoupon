@@ -74,7 +74,7 @@ class Category extends Model
     }
     public function reviews()
     {
-        return $this->belongsToMany(Review::class);
+        return $this->belongsToMany(Review::class, 'review_category', 'category_id', 'review_id');
     }
 
     public function slugs() {

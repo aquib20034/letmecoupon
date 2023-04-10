@@ -7,7 +7,7 @@
             <section class="section pd-none onlyDesktop">
                 <div class="container-inner">
                 <?php
-                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => "Reviews", "path" => config('app.app_path')."/reviews"]];
+                    $routes = [["title" => "Home", "path" => config('app.app_path')], ["title" => "Reviews", "path" => config('app.app_path')."/review"]];
                     //include('../components/Breadcrumbs/Style1/index.php');
                     ?>
                     @web_component([ 'postfixes' => 'breadcrumbs.style1','data' => ['routes' => $routes] ])@endweb_component
@@ -26,7 +26,7 @@
                                 <div class="sidebar sticky js-stickySidebar">
                                     <!-- Sidebar Categories Section Starts Here -->
                                     <div class="sidebar__section">
-                                        @web_component([ 'postfixes' => 'categories.sidebar.style1','data' => ['categories'=>$categoryLists] ])@endweb_component
+                                        @web_component([ 'postfixes' => 'categories.sidebar.style1','data' => ['categories'=>$list, 'sidebarOf'=>'reviews'] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Categories Section Ends Here -->
 
@@ -42,17 +42,26 @@
                             
                             <!-- Wide Column Starts Here -->
                             <div class="twoColumnLayout__wideColumn">
-                                <!-- Popular Reviews Section Starts Here -->
-                                <section class="section pd-top-none">
-                                    @web_component([ 'postfixes' => 'reviews.popular.style1','data' => ['popular_reviews'=>$popularReviews] ])@endweb_component
-                                </section>
-                                <!-- Popular Reviews Section Ends Here -->
 
-                                <!-- Recent Reviews Section Starts Here -->
-                                <section class="section">
-                                    @web_component([ 'postfixes' => 'reviews.recent.style1','data' => ['latestReviews'=>$latestReviews]  ])@endweb_component
-                                </section>
-                                <!-- Recent Reviews Section Ends Here -->
+                                @if(isset($category_data))
+                                    <!-- Recent Blogs Section Starts Here -->
+                                    <section class="section pd-top-none">
+                                        @web_component([ 'postfixes' => 'reviews.full.style1','data' => [ 'category_data' => $category_data ] ])@endweb_component
+                                    </section>
+                                @else
+                                    <!-- Popular Reviews Section Starts Here -->
+                                    <section class="section pd-top-none">
+                                        @web_component([ 'postfixes' => 'reviews.popular.style1','data' => ['popular_reviews'=>$popularReviews] ])@endweb_component
+                                    </section>
+                                    <!-- Popular Reviews Section Ends Here -->
+
+                                    <!-- Recent Reviews Section Starts Here -->
+                                    <section class="section">
+                                        @web_component([ 'postfixes' => 'reviews.recent.style1','data' => ['latestReviews'=>$latestReviews]  ])@endweb_component
+                                    </section>
+                                    <!-- Recent Reviews Section Ends Here -->
+                                @endif
+
                             </div>
                             <!-- Wide Column Ends Here -->
                         </div>

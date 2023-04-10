@@ -18,6 +18,7 @@ Route::group(['namespace' => 'Web', 'prefix' => config('app.route_prefix')], fun
     Route::get('/blog/author/{id}', 'BlogsController@blogAuthor');
     Route::get('/review', 'ReviewsController@index')->name('review');
     Route::get('/review/author/{id}', 'ReviewsController@reviewAuthor');
+    Route::get('/review-categories', 'ReviewsController@reviewCategories');
     Route::get('/author-load-more-data', 'BlogsController@authorLoadMoreData');
     Route::get('/best-products', 'Product_categoriesController@index')->name('product');
    // Route::get('/product/{slug}', 'ProductsController@detail')->name('product.detail');

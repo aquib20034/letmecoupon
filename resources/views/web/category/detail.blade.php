@@ -27,7 +27,7 @@
                             <div class="popularListing__wrapper">
                                 <div class="popularListing__content">
                                     <ul class="popularListing__list">
-                                        @if (isset($categoryStores)) 
+                                        @if ((isset($categoryStores[0]['category_stores'])) && (!empty($categoryStores[0]['category_stores']))) 
                                             @foreach ($categoryStores[0]['category_stores'] as $store)
                                                 <?php $variant = '2'; ?>
                                                 <li class="popularListing__listItem">
@@ -78,7 +78,7 @@
 
                             <div class="popularListing__content">
                                 <ul class="popularListing__list" onmousedown="mouseDownHandler(this, event)" onmouseup="mouseUpHandler(this)" ontouchend="mouseUpHandler(this)" ontouchstart="mouseDownHandler(this, event)">
-                                    @if (isset($popularProducts)) 
+                                    @if ((isset($popularProducts)) && (!empty($popularProducts))) 
                                         @foreach ($popularProducts as $product)
                                                 <?php $variant = '4'; ?>
                                                 <li class=" popularListing__listItem">
@@ -86,6 +86,10 @@
                                                     @web_component([ 'postfixes' => 'products.minimal.style1','data' => ['product'=>$product, 'variant'=>$variant] ])@endweb_component
                                                 </li>
                                         @endforeach
+                                    @else
+                                        <div>
+                                            <h4>{{ trans('sentence.products_not_found') }}</h4>
+                                        </div>
                                     @endif
                                 </ul>
                             </div>

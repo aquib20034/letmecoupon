@@ -76,7 +76,7 @@
                                 <!-- Ricttext Content Section Starts Here -->
                                 <section class="section">
                                     <div class="richTextContent-v1">
-                                        {!!$detail['long_description'] ? $detail['long_description']:''!!}
+                                        {!! isset($detail['long_description']) ? $detail['long_description']:''!!}
                                     </div>
                                 </section>
                                 <!-- Richtext Content Section Ends Here -->

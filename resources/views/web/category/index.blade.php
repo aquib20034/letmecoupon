@@ -18,7 +18,9 @@
             <div class="section">
                 <div class="container-inner">
                     <div>
-                        <h2 class="heading-1 primary">All Categories</h2>
+                        <h2 class="heading-1 primary">
+                            {{trans('sentence.all_cats')}}
+                        </h2>
                     </div>
 
                     <div class="popularListing-v1">
@@ -26,9 +28,9 @@
                             <div class="popularListing__wrapper">
                                 <div class="popularListing__content">
                                     <ul class="popularListing__list">
-                                        @if (isset($catsWithChilds)) 
+                                        @if(isset($catsWithChilds) && (!empty($catsWithChilds)))
                                             @foreach ($catsWithChilds as $category)
-                                                @if ($category['category_stores_count'] > 0)
+                                                @if ((isset($category['category_stores_count']))  && ($category['category_stores_count'] > 0))
                                                     <?php $variant = '1'; ?>
                                                     <li class="popularListing__listItem">
                                                         <?php //include('../components/Cards/Style4/index.php'); ?>
@@ -56,7 +58,9 @@
                         <div class="popularListing__wrapper">
                             <div class="popularListing__header">
                                 <div>
-                                    <h2 class="heading-1 m-0">Popular Stores & Brands</h2>
+                                    <h2 class="heading-1 m-0">
+                                        {{trans('sentence.popular_stores_brands')}}
+                                    </h2>
                                 </div>
 
                                 <div>
@@ -67,7 +71,7 @@
                             <div class="popularListing__content">
                                 <ul class="popularListing__list" onmousedown="mouseDownHandler(this, event)" onmouseup="mouseUpHandler(this)" ontouchend="mouseUpHandler(this)" ontouchstart="mouseDownHandler(this, event)">
                               
-                                    @if (isset($popularStores)) 
+                                    @if ((isset($popularStores)) && (!empty($popularStores))) 
                                         @foreach ($popularStores as $store)
                                             @if ($category['category_stores_count'] > 0)
                                                 <?php $variant = '2'; ?>
@@ -77,6 +81,10 @@
                                                 </li>
                                             @endif
                                         @endforeach
+                                    @else
+                                        <div>
+                                            <h4>{{ trans('sentence.stores_not_found') }}</h4>
+                                        </div>
                                     @endif
                                 </ul>
                             </div>

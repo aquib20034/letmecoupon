@@ -85,7 +85,7 @@ class StoresController extends Controller
             ];
 
            
-            Cache::forget("BlogListingPage__LatestBlogs__{$siteid}");
+            // Cache::forget("BlogListingPage__LatestBlogs__{$siteid}");
             $data['recent_blogs'] = Cache::remember(
                 "BlogListingPage__LatestBlogs__{$siteid}",
                 21600,
@@ -140,7 +140,7 @@ class StoresController extends Controller
             // exit();
             $pageid = PAGE_ID;
         
-            Cache::forget("StoreDetailPage__StoreDetail__{$siteid}__{$pageid}__{$date}");
+            // Cache::forget("StoreDetailPage__StoreDetail__{$siteid}__{$pageid}__{$date}");
             $data['detail'] = Cache::remember(
                 "StoreDetailPage__StoreDetail__{$siteid}__{$pageid}__{$date}",
                 3600,
@@ -178,7 +178,7 @@ class StoresController extends Controller
             if ($data['detail']) $data['detail'] = $data['detail']->toArray();
             else abort(404);
 
-            Cache::forget("StoreDetailPage__PopularStores__{$siteid}");
+            // Cache::forget("StoreDetailPage__PopularStores__{$siteid}");
             $data['popularStores'] = Cache::remember(
                 "StoreDetailPage__PopularStores__{$siteid}",
                 21600,
@@ -205,12 +205,12 @@ class StoresController extends Controller
                         ->toArray();
                 }
             );
-            Cache::forget("StoreDetailPage__PopularCategories__{$siteid}");
+            // Cache::forget("StoreDetailPage__PopularCategories__{$siteid}");
             $data['popularCategories'] = Cache::remember(
                 "StoreDetailPage__PopularCategories__{$siteid}",
                 21600,
                 function () use ($siteid) {
-                    return Category::select('id', 'title','category_image')
+                    return Category::select('id', 'title','category_image','category_banner_image')
                         ->CustomWhereBasedData($siteid)
                         ->where('popular', 1)
                         ->get()
@@ -245,7 +245,7 @@ class StoresController extends Controller
 
 
 
-            Cache::forget("Popular_blogs__{$siteid}");
+            // Cache::forget("Popular_blogs__{$siteid}");
             $data['popular_blogs'] = Cache::remember(
                 "Popular_blogs__{$siteid}",
                 21600,
@@ -277,7 +277,7 @@ class StoresController extends Controller
             );
 
 
-            Cache::forget("popular_reviews_{$siteid}");
+            // Cache::forget("popular_reviews_{$siteid}");
             $data['popular_reviews'] = Cache::remember(
                 "popular_reviews_{$siteid}",
                 86400,

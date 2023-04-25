@@ -8,7 +8,10 @@
         </div>
         <div class="authorCard__right">
             <div class="authorCard__heading">
-                <h2>{{ $author['first_name'] }} {{ $author['last_name'] }}</h2>
+                <h2>
+                    {{ isset($author['first_name']) ? $author['first_name'] : ''}} 
+                    {{ isset($author['last_name']) ? $author['last_name'] : ''}}
+                </h2>
             </div>
             <div class="authorCard__subHeading">
                 <h3>{{ (isset($author['author_type']) && !empty($author['author_type'])) ? $author['author_type']['title']:'' }}</h3>

@@ -1,5 +1,5 @@
 <!-- Swiper -->
-@if(isset($featuredCategories))
+@if(isset($featuredCategories) && (!empty($featuredCategories)))
 <div class="homeCategorySwiper__container">
     <div class="swiper homeCategorySwiper">
         <div class="swiper-wrapper">

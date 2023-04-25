@@ -3,7 +3,7 @@
 <ul class="sidebar__navList">
     @foreach($categories as $category)
         <li class="sidebar__navItem">
-            <a href="{{config('app.app_path')}}/{{($module)?$module:''}}?category={{ $category['slugs']['slug'] }}" class="sidebar__navLink" aria-label="Visit Category">{!! $category['title'] !!}</a>
+            <a href="{{config('app.app_path')}}/{{($module)?$module:''}}?category={{ isset($category['slugs']['slug']) ? $category['slugs']['slug'] : '' }}" class="sidebar__navLink" aria-label="Visit Category">{!! $category['title'] !!}</a>
         </li>
     @endforeach
     <li class="sidebar__navItem">

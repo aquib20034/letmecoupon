@@ -17,7 +17,10 @@
                 <!-- Wide Column Starts Here -->
                 <div class="twoColumnLayout__wideColumn">
                     <div class="storeInfoCard__title">
-                        <h1 class="heading-2 primary m-0">{!! $store_detail['name'] !!}{{ $site_wide_data['store_heading_one_suffix'] }}</h1>
+                        <h1 class="heading-2 primary m-0">
+                            {!! isset($store_detail['name'] ) ? $store_detail['name']  : ""!!}
+                            {{ isset($site_wide_data['store_heading_one_suffix']) ? $site_wide_data['store_heading_one_suffix'] : "" }}
+                        </h1>
                     </div>
 
                     <div class="storeInfoCard__rating">
@@ -46,12 +49,14 @@
 
                     <div class="storeInfoCard__subTitle">
                         <h2>
-                            {!! html_entity_decode($store_detail['short_description']) !!}
+                            {!! (isset($store_detail['short_description'])) ? (html_entity_decode($store_detail['short_description'])) : "" !!}
                         </h2>
                     </div>
 
                     <div class="storeInfoCard__description">
-                        <p> {!! html_entity_decode($store_detail['long_description']) !!}</p>
+                        <p> 
+                            {!! (isset($store_detail['long_description'])) ? (html_entity_decode($store_detail['long_description'])) : "" !!}
+                        </p>
                     </div>
                 </div>
                 <!-- Wide Column Ends Here -->

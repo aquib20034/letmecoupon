@@ -26,7 +26,7 @@
                                     <!-- Sidebar Popular Stores Section Starts Here -->
                                     <div class="sidebar__section">
                                         <h2 class="sidebar__heading">
-                                            Popular Stores
+                                            {{trans('sentence.popular_stores')}}
                                         </h2>
 
                                         <div class="popularListing-v1">
@@ -34,7 +34,7 @@
                                                 <div class="popularListing__wrapper">
                                                     <div class="popularListing__content">
                                                         <ul class="popularListing__list">
-                                                            @if (!empty($popular))
+                                                            @if (isset($popular) && !empty($popular))
                                                                 @foreach ($popular as $store)
                                                                     <?php $variant = '3'; ?>
                                                                     <li class=" popularListing__listItem">
@@ -100,7 +100,9 @@
                                 <div class="storeListing-v1">
                                     <div class="storeListing">
                                         <div class="storeListing__heading">
-                                            <h1 class="heading-1 primary">All Stores</h1>
+                                            <h1 class="heading-1 primary">
+                                                {{trans('sentence.cat_all_store')}}
+                                            </h1>
                                         </div>
 
                                         <div class="storeListing__dropdown onlyMobile">

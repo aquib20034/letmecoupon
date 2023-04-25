@@ -185,7 +185,7 @@ class ReviewsController extends Controller
                 // $categoryData = Category::find($category);
                 // $data['category_title'] = $categoryData->title;
 
-                Cache::forget("reviews_{$siteid}__{$category}");
+                // Cache::forget("reviews_{$siteid}__{$category}");
                 $data['category_data'] = Cache::remember(
                     "reviews_{$siteid}__{$category}",
                     21600,
@@ -244,7 +244,7 @@ class ReviewsController extends Controller
                         ->toArray();
                     }
                 );
-                Cache::forget("Recent_reviews__{$siteid}");
+                // Cache::forget("Recent_reviews__{$siteid}");
                 $data['recent_reviews'] = Cache::remember(
                     "Recent_reviews__{$siteid}",
                     21600,
@@ -358,7 +358,7 @@ class ReviewsController extends Controller
                 }
             );
 
-            Cache::forget("ReviewListingPage__PopularReviews__{$siteid}");
+            // Cache::forget("ReviewListingPage__PopularReviews__{$siteid}");
             $data['popularReviews'] = Cache::remember(
                 "ReviewListingPage__PopularReviews__{$siteid}",
                 21600,
@@ -461,7 +461,7 @@ class ReviewsController extends Controller
 
             $data['popular'] = Category::select('id', 'title')->CustomWhereBasedData($siteid)->where('popular', 1)->orderBy('title')->limit(8)->get()->toArray();
 
-            Cache::forget("ReviewListingPage__CategoryList__{$siteid}");
+            // Cache::forget("ReviewListingPage__CategoryList__{$siteid}");
             $data['categories'] = Cache::remember(
                 "ReviewListingPage__CategoryList__{$siteid}",
                 86400,

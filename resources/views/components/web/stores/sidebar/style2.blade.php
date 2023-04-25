@@ -1,6 +1,6 @@
 @if($relatedStores->store_details !== null)
     <h2 class="sidebar__heading">
-        Related Stores
+        {{ trans('sentence.related_store') }}
     </h2>
 
     @if(count($relatedStores->store_details) > 0)

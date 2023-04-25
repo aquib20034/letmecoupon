@@ -109,11 +109,13 @@
                                 <i class="x_search"></i>
                             </a>
                             <ul class="searchbox__result" id="searchBoxResult">
-                                @foreach ($topStores as $topStore)
-                                    <li><a
-                                            href="{{ config('app.app_path') }}/{{ isset($topStore['slugs']) ? $topStore['slugs']['slug'] : '#' }}">{{ $topStore['name'] }}</a>
-                                    </li>
-                                @endforeach
+                                @if(isset($topStores) && (!empty($topStores)))
+                                    @foreach ($topStores as $topStore)
+                                        <li><a
+                                                href="{{ config('app.app_path') }}/{{ isset($topStore['slugs']) ? $topStore['slugs']['slug'] : '#' }}">{{ $topStore['name'] }}</a>
+                                        </li>
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
                     </div>

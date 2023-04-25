@@ -23,12 +23,13 @@ class BlogsController extends Controller
 {
     public function index()
     {
+       
         try {
             $data = [];
             $data['pageCss'] = "blogs";
             $siteid = config('app.siteid');
 
-            Cache::forget("BlogListingPage__CategoryList__{$siteid}");
+            // Cache::forget("BlogListingPage__CategoryList__{$siteid}");
             $data['list'] = Cache::remember(
                 "BlogListingPage__CategoryList__{$siteid}",
                 86400,
@@ -46,7 +47,7 @@ class BlogsController extends Controller
                 }
             );
 
-            Cache::forget("Blog_authors_{$siteid}");
+            // Cache::forget("Blog_authors_{$siteid}");
             $data['blog_authors'] = Cache::remember(
                 "Blog_authors_{$siteid}",
                 86400,
@@ -64,7 +65,7 @@ class BlogsController extends Controller
                 }
             );
 
-            Cache::forget("popular_reviews_{$siteid}");
+            // Cache::forget("popular_reviews_{$siteid}");
             $data['popular_reviews'] = Cache::remember(
                 "popular_reviews_{$siteid}",
                 86400,
@@ -102,7 +103,7 @@ class BlogsController extends Controller
                 // $categoryData = Category::find($category);
                 // $data['category_title'] = $categoryData->title;
 
-                Cache::forget("blogs_{$siteid}__{$category}");
+                // Cache::forget("blogs_{$siteid}__{$category}");
                 $data['category_data'] = Cache::remember(
                     "blogs_{$siteid}__{$category}",
                     21600,
@@ -156,8 +157,86 @@ class BlogsController extends Controller
                 // ->take(4)
                 // ->get()
                 // ->toArray();
+                // Cache::forget("popular_blogs{$siteid}__{$category}");
+                $data['popular_blogs'] = Cache::remember(
+                    "Popular_blogs__{$siteid}__{$category}",
+                    21600,
+                    function () use ($siteid, $category) {
+                        return Blog::select(
+                            'id',
+                            'title',
+                            'blog_image',
+                            'created_at',
+                            'author_id'
+                        )
+                        ->whereHas('slugs', function ($query) use ($category, $siteid) {
+                            $query
+                                ->where('slug', $category)
+                                ->where('site_id', $siteid);
+                        })
+                        ->with('author:id,first_name,last_name')
+                        ->with(['categories' => function ($query) use ($siteid) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                )
+                                ->CustomWhereBasedData($siteid);
+                        }])
+                        ->CustomWhereBasedData($siteid)
+                        ->where('popular', 1)
+                        ->orderBy('blogs.id', 'DESC')
+                        ->take(4)
+                        ->get()
+                        ->toArray();
+                    }
+                );
+
+                // Cache::forget("recent_blogs{$siteid}__{$category}");
+                $data['recent_blogs'] = Cache::remember(
+                    "recent_blogs__{$siteid}__{$category}",
+                    21600,
+                    function () use ($siteid, $category) {
+                        return Blog::select(
+                            'id',
+                            'title',
+                            'blog_image',
+                            'created_at',
+                            'author_id'
+                        )
+                        ->with('author:id,first_name,last_name')
+                        ->with(['categories' => function ($query) use ($siteid) {
+                            $query
+                                ->select(
+                                    'id',
+                                    'title',
+                                    'slug'
+                                )
+                                ->CustomWhereBasedData($siteid);
+                        }])
+
+                        ->CustomWhereBasedData($siteid)
+                        ->orderBy('blogs.id', 'DESC')
+                        ->take(12)
+                        ->get()
+                        ->toArray();
+                    }
+                );
+
+                
+                        
+
+
+
+
+
+
+
+
+
             }else{
-                Cache::forget("Popular_blogs__{$siteid}");
+                // Cache::forget("Popular_blogs__{$siteid}");
                 $data['popular_blogs'] = Cache::remember(
                     "Popular_blogs__{$siteid}",
                     21600,
@@ -188,7 +267,7 @@ class BlogsController extends Controller
                     }
                 );
 
-                Cache::forget("Recent_blogs__{$siteid}");
+                // Cache::forget("Recent_blogs__{$siteid}");
                 $data['recent_blogs'] = Cache::remember(
                     "Recent_blogs__{$siteid}",
                     21600,
@@ -253,6 +332,7 @@ class BlogsController extends Controller
 
     public function detail()
     {
+        
         $data = [];
         try {
             $siteid = config('app.siteid');
@@ -324,7 +404,7 @@ class BlogsController extends Controller
             //     }
             // );
 
-            Cache::forget("BlogDetailPage__LatestBlogs__{$siteid}");
+            // Cache::forget("BlogDetailPage__LatestBlogs__{$siteid}");
             $data['latestBlog'] = Cache::remember(
                 "BlogDetailPage__LatestBlogs__{$siteid}",
                 21600,
@@ -560,7 +640,7 @@ class BlogsController extends Controller
             // $data['popularCategories']  = Category::select('id', 'title')->CustomWhereBasedData($siteid)->where('popular', 1)->take(10)->get()->toArray();
 
             
-            Cache::forget("BlogListingPage__CategoryList__{$siteid}");
+            // Cache::forget("BlogListingPage__CategoryList__{$siteid}");
             $data['categories'] = Cache::remember(
                 "BlogListingPage__CategoryList__{$siteid}",
                 86400,

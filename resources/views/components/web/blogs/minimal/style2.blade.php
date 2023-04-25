@@ -5,7 +5,7 @@
         <div class="card__wrapper">
             <div class="card__left">
                 <div class="card__thumbnail">
-                    <a href="{{ config('app.app_path') }}/{{ ($blog['slugs']) ? $blog['slugs']['slug'] : '' }}" class="card__tag" aria-label="Visit Blog Page">
+                    <a href="{{ config('app.app_path') }}/{{ isset($blog['slugs']['slug']) ? ($blog['slugs']['slug']) : '' }}" class="card__tag" aria-label="Visit Blog Page">
                         <span>
                             {{trans('sentence.blog_page')}}
                         </span>
@@ -24,22 +24,23 @@
 
                 <div class="card__title">
                     <h2>
-                        <a href="{{ config('app.app_path')}}/{{ ($blog['slugs']) ? $blog['slugs']['slug'] : '' }}">{{ $blog['title'] }}</a>
+                        <a href="{{ config('app.app_path')}}/{{ isset($blog['slugs']['slug']) ? ($blog['slugs']['slug']) : '' }}">{{ $blog['title'] }}</a>
                     </h2>
                 </div>
 
                 <div class="card__attributes">
                     <span>
-                        <a href="{{ config('app.app_path')}}/blog/author/{{ isset($blog['author']) ? $blog['author']['id']:'' }}">{{ isset($blog['author']) ? $blog['author']['first_name'].' '.$blog['author']['last_name']:'' }}</a>
+                        <a href="{{ config('app.app_path')}}/blog/author/{{ isset($blog['author']['id']) ? $blog['author']['id']:'' }}">{{ isset($blog['author']['first_name']) ? $blog['author']['first_name'].' '.$blog['author']['last_name']:'' }}</a>
                     </span>
                     <span>
-                        {{date('j F Y', strtotime($blog['created_at']) ) }}
-                        <!-- 29 Jan 2021 -->
+                        @if(isset($blog['created_at']))
+                            {{date('j F Y', strtotime($blog['created_at']) ) }}
+                        @endif
                     </span>
                 </div>
 
                 <div class="card__cta">
-                    <a href="{{ config('app.app_path')}}/{{ ($blog['slugs']) ? $blog['slugs']['slug'] : '' }}">Start Reading</a>
+                    <a href="{{ config('app.app_path')}}/{{ isset($blog['slugs']['slug']) ? ($blog['slugs']['slug']) : '' }}">Start Reading</a>
                 </div>
             </div>
         </div>

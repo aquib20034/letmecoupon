@@ -175,8 +175,6 @@ class StoresController extends Controller
                 }
             );
 
-
-
             if ($data['detail']) $data['detail'] = $data['detail']->toArray();
             else abort(404);
 
@@ -392,39 +390,39 @@ class StoresController extends Controller
         if (!$callClickoutAPI) return addhttps($affiliateUrl);
 
         try {
-            $httpClient = new \GuzzleHttp\Client(['base_url' => 'https://api.wecantrack.com']);
+            // $httpClient = new \GuzzleHttp\Client(['base_url' => 'https://api.wecantrack.com']);
 
-            $clientResponse = $httpClient->request(
-                'POST',
-                'api/v1/clickout',
-                [
-                    'headers' => [
-                        'Content-Type'  => 'application/json',
-                        'X-API-Key'     => config("app.WECANTRACK_API_KEY", "ee51d6a5-2e41-47ea-9a9b-0d6d468bb573")
-                        /**
-                         * @todo Remove default API and add field to CMS to add API key dynamically
-                         * @author Syed Mohammed Hassan <hassan@8thloop.com>
-                         **/
-                    ],
-                    'json' => [
-                        'affiliate_url'     =>  rawurlencode($affiliateUrl),
-                        'clickout_url'      =>  !empty($_SERVER['HTTP_REFERER']) ? rawurlencode($_SERVER['HTTP_REFERER']) : null,
-                        '_ga'               =>  !empty($_COOKIE['_ga']) ? $_COOKIE['_ga'] : null,
-                        '_wctrck'           =>  !empty($_COOKIE['_wctrck']) ? $_COOKIE['_wctrck'] : null
-                    ],
-                    'timeout' => 2
-                ]
-            );
+            // $clientResponse = $httpClient->request(
+            //     'POST',
+            //     'api/v1/clickout',
+            //     [
+            //         'headers' => [
+            //             'Content-Type'  => 'application/json',
+            //             'X-API-Key'     => config("app.WECANTRACK_API_KEY", "ee51d6a5-2e41-47ea-9a9b-0d6d468bb573")
+            //             /**
+            //              * @todo Remove default API and add field to CMS to add API key dynamically
+            //              * @author Syed Mohammed Hassan <hassan@8thloop.com>
+            //              **/
+            //         ],
+            //         'json' => [
+            //             'affiliate_url'     =>  rawurlencode($affiliateUrl),
+            //             'clickout_url'      =>  !empty($_SERVER['HTTP_REFERER']) ? rawurlencode($_SERVER['HTTP_REFERER']) : null,
+            //             '_ga'               =>  !empty($_COOKIE['_ga']) ? $_COOKIE['_ga'] : null,
+            //             '_wctrck'           =>  !empty($_COOKIE['_wctrck']) ? $_COOKIE['_wctrck'] : null
+            //         ],
+            //         'timeout' => 2
+            //     ]
+            // );
 
-            $clientResponse = json_decode($clientResponse->getBody()->getContents(), true);
+            // $clientResponse = json_decode($clientResponse->getBody()->getContents(), true);
 
-            if (isset($clientResponse['error']) && !empty($clientResponse['error'])) :
-                throw new \Exception($clientResponse['error']);
-            endif;
+            // if (isset($clientResponse['error']) && !empty($clientResponse['error'])) :
+            //     throw new \Exception($clientResponse['error']);
+            // endif;
 
-            if ($clientResponse['affiliate_url']) :
-                return addhttps(rawurldecode($clientResponse['affiliate_url']));
-            endif;
+            // if ($clientResponse['affiliate_url']) :
+            //     return addhttps(rawurldecode($clientResponse['affiliate_url']));
+            // endif;
 
             return addhttps($affiliateUrl);
         } catch (\Exception $ERROR) {

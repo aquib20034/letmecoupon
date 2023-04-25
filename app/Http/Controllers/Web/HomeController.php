@@ -330,8 +330,6 @@ class HomeController extends Controller
                 }
             );
             
-            //dd($data['trendingBlog']);
-
             return response()->view('web.home.index', $data);
         } catch (\Exception $e) {
             dd($e);

@@ -8,11 +8,11 @@
 @endphp
     @foreach($categories as $category)
         <li class="sidebar__navItem">
-            <a href="{{config('app.app_path')}}/blog?category={{ $category['slugs']['slug'] }}" class="sidebar__navLink" aria-label="Visit Category">{!! $category['title'] !!}</a>
+            <a href="{{config('app.app_path')}}/{{($module)?$module:''}}?category={{ $category['slugs']['slug'] }}" class="sidebar__navLink" aria-label="Visit Category">{!! $category['title'] !!}</a>
         </li>
     @endforeach
     <li class="sidebar__navItem">
-        <a href="{{config('app.app_path')}}/blog-categories" class="sidebar__navLink primary" aria-label="View All Categories">
+        <a href="{{config('app.app_path')}}/{{($module)?$module:''}}-categories" class="sidebar__navLink primary" aria-label="View All Categories">
             View All Categories
         </a>
     </li>

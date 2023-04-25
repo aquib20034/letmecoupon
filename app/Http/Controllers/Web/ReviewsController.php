@@ -22,30 +22,30 @@ class ReviewsController extends Controller
     public function index()
     {
         $data = [];
-        // try{
+        try{
             $siteid     = config('app.siteid');
                   
             $data['pageCss'] = 'reviews';
 
-            Cache::forget("ReviewListingPage__List__{$siteid}");
-            $data['list'] = Cache::remember(
-                "ReviewListingPage__List__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return Category::select(
-                        'id',
-                        'title',
-                        'cat_blog_image'
-                    )
-                    ->CustomWhereBasedData($siteid)
-                    ->has('reviews')
-                    ->take(3)
-                    ->orderBy('title')
-                    ->get()
-                    ->toArray();
-                }
-            );
-            Cache::forget("ReviewListingPage__CategoryLists__{$siteid}");
+            //Cache::forget("ReviewListingPage__Lists__{$siteid}");
+            // $data['list'] = Cache::remember(
+            //     "ReviewListingPage__Lists__{$siteid}",
+            //     21600,
+            //     function () use ($siteid) {
+            //         return Category::select(
+            //             'id',
+            //             'title',
+            //             'cat_blog_image'
+            //         )
+            //         ->CustomWhereBasedData($siteid)
+            //         ->has('reviews')
+            //         ->orderBy('title')
+            //         ->get()
+            //         ->toArray();
+            //     }
+            // );
+
+            //Cache::forget("ReviewListingPage__CategoryLists__{$siteid}");
             $data['categoryLists'] = Cache::remember(
                 "ReviewListingPage__CategoryLists__{$siteid}",
                 21600,
@@ -53,30 +53,35 @@ class ReviewsController extends Controller
                     return Category::select(
                             'id',
                             'title',
+                            'cat_blog_image'
                         )
                         ->CustomWhereBasedData($siteid)
-                        ->take(3)
+                        ->has('reviews')
+                        //->take(3)
                         ->get()
                         ->toArray();
                 }
             );
             
-            Cache::forget("ReviewListingPage__AuthorLists__{$siteid}");
+            //Cache::forget("ReviewListingPage__AuthorLists__{$siteid}");
             $data['authorLists'] = Cache::remember(
                 "ReviewListingPage__AuthorLists__{$siteid}",
                 21600,
                 function () use ($siteid) {
                     return Author::select(
-                            'id',
-                            'first_name',
-                        )
-                        ->take(3)
-                        ->get()
-                        ->toArray();
+                        'authors.id',
+                        'first_name',
+                        'last_name'
+                    )
+                    ->join('reviews','reviews.author_id','=','authors.id')
+                    ->groupBy('authors.id')
+                    ->orderBy('authors.id','ASC')
+                    ->get()
+                    ->toArray();
                 }
             );
             
-            Cache::forget("ReviewListingPage__LatestReviews__{$siteid}");
+            //Cache::forget("ReviewListingPage__LatestReviews__{$siteid}");
             $data['latestReviews'] = Cache::remember(
                 "ReviewListingPage__LatestReviews__{$siteid}",
                 21600,
@@ -100,13 +105,13 @@ class ReviewsController extends Controller
                     ->with('author:id,first_name,last_name')
                     ->CustomWhereBasedData($siteid)
                     ->orderBy('id', 'DESC')
-                    ->take(4)
+                    ->take(12)
                     ->get()
                     ->toArray();
                 }
             );
 
-            Cache::forget("ReviewListingPage__PopularReviews__{$siteid}");
+            //Cache::forget("ReviewListingPage__PopularReviews__{$siteid}");
             $data['popularReviews'] = Cache::remember(
                 "ReviewListingPage__PopularReviews__{$siteid}",
                 21600,
@@ -139,7 +144,7 @@ class ReviewsController extends Controller
                 }
             );
 
-            Cache::forget("ReviewListingPage__PopularBlogs__{$siteid}");
+            //Cache::forget("ReviewListingPage__PopularBlogs__{$siteid}");
             $data['popularBlogs'] = Cache::remember(
                 "ReviewListingPage__PopularBlogs__{$siteid}",
                 21600,
@@ -164,7 +169,7 @@ class ReviewsController extends Controller
                         ->where('popular', 1)
                         ->CustomWhereBasedData($siteid)
                         ->orderBy('id', 'DESC')
-                        ->take(4)
+                        ->take(3)
                         ->get()
                         ->toArray();
 
@@ -172,29 +177,11 @@ class ReviewsController extends Controller
                 }
             );
 
-            Cache::forget("ReviewListingPage__ReviewAuthors__{$siteid}");
-            $data['review_authors'] = Cache::remember(
-                "ReviewListingPage__ReviewAuthors__{$siteid}",
-                86400,
-                function () use ($siteid) {
-                    return Author::select(
-                        'reviews.id',
-                        'first_name',
-                        'last_name'
-                    )
-                    ->join('reviews','reviews.author_id','=','reviews.id')
-                    ->groupBy('reviews.id')
-                    ->orderBy('reviews.id','ASC')
-                    ->get()
-                    ->toArray();
-                }
-            );
-
             $data['filter'] = 0;
             if (!empty($_GET['category'])) {
                 $data['filter'] = 1;
                 $category = $_GET['category'];
-                
+
                 // $categoryData = Category::find($category);
                 // $data['category_title'] = $categoryData->title;
 
@@ -226,12 +213,8 @@ class ReviewsController extends Controller
                         ->first();
                     }
                 );
-
-              
             }else{
-                
-           
-                Cache::forget("Popular_reviews__{$siteid}");
+                //Cache::forget("Popular_reviews__{$siteid}");
                 $data['popular_reviews'] = Cache::remember(
                     "Popular_reviews__{$siteid}",
                     21600,
@@ -293,10 +276,7 @@ class ReviewsController extends Controller
                 );
             }
 
-
-
-
-            Cache::forget("ReviewListingPage__CurrentPage__{$siteid}");
+            //Cache::forget("ReviewListingPage__CurrentPage__{$siteid}");
             $page = Cache::remember(
                 "ReviewListingPage__CurrentPage__{$siteid}",
                 21600,
@@ -319,9 +299,9 @@ class ReviewsController extends Controller
             }
 
             return view('web.review.index')->with($data);
-        // }catch (\Exception $e) {
-        //     abort(404);
-        // }
+        }catch (\Exception $e) {
+            abort(404);
+        }
     }
 
     public function detail()
@@ -420,7 +400,8 @@ class ReviewsController extends Controller
                         'title',
                         'review_image',
                         'updated_at',
-                        'author_id'
+                        'author_id',
+                        'long_description'
                         )
                         ->with('author:id,first_name,last_name,image,short_description')
                         ->CustomWhereBasedData($siteid)
@@ -467,6 +448,41 @@ class ReviewsController extends Controller
             return view('web.review.detail')->with($data);
 
         }catch (\Exception $e) {
+            abort(404);
+        }
+    }
+
+    public function reviewCategories()
+    {
+        $data = [];
+        try {
+            $siteid = config('app.siteid');
+            $data['pageCss'] = 'categories';
+
+            $data['popular'] = Category::select('id', 'title')->CustomWhereBasedData($siteid)->where('popular', 1)->orderBy('title')->limit(8)->get()->toArray();
+
+            Cache::forget("ReviewListingPage__CategoryList__{$siteid}");
+            $data['categories'] = Cache::remember(
+                "ReviewListingPage__CategoryList__{$siteid}",
+                86400,
+                function () use ($siteid) {
+                    return Category::select(
+                        'id',
+                        'title',
+                        'category_image'
+                    )
+                    ->CustomWhereBasedData($siteid)
+                    ->has('reviews')
+                    ->orderBy('title')
+                    ->get()
+                    ->toArray();
+                }
+            );
+
+
+
+            return view('web.review.review_category_listing')->with($data);
+        } catch (\Exception $e) {
             abort(404);
         }
     }
@@ -597,41 +613,6 @@ class ReviewsController extends Controller
                 }
             } else {
             }
-        }
-    }
-
-    public function reviewCategories()
-    {
-        $data = [];
-        try {
-            $siteid = config('app.siteid');
-            $data['pageCss'] = 'categories';
-
-            $data['popular'] = Category::select('id', 'title')->CustomWhereBasedData($siteid)->where('popular', 1)->orderBy('title')->limit(8)->get()->toArray();
-            
-            Cache::forget("ReviewListingPage__CategoryList__{$siteid}");
-            $data['categories'] = Cache::remember(
-                "ReviewListingPage__CategoryList__{$siteid}",
-                86400,
-                function () use ($siteid) {
-                    return Category::select(
-                        'id',
-                        'title',
-                        'category_image'
-                    )
-                    ->CustomWhereBasedData($siteid)
-                    ->has('reviews')
-                    ->orderBy('title')
-                    ->get()
-                    ->toArray();
-                }
-            );
-
-
-
-            return view('web.review.review_category_listing')->with($data);
-        } catch (\Exception $e) {
-            abort(404);
         }
     }
 }

@@ -89,6 +89,7 @@ class BlogsController extends Controller
                     }])
                     ->orderBy('id','ASC')
                     ->get()
+                    ->take(3)
                     ->toArray();
                 }
             );
@@ -385,6 +386,7 @@ class BlogsController extends Controller
                     return Blog::select(
                         'id',
                         'title',
+                        'long_description',
                         'blog_image',
                         'updated_at',
                         'author_id'
@@ -501,7 +503,8 @@ class BlogsController extends Controller
             return view(
                 'web.blog.detail'
             )
-                ->with($data);
+            ->with($data)
+            ->withShortcodes();
         } catch (\Exception $e) {
             abort(404);
         }

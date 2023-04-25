@@ -31,15 +31,13 @@
 
                                     <!-- Sidebar Meet the Author Section Starts Here -->
                                     <div class="sidebar__section">
-                                        @web_component([ 'postfixes' => 'authors.sidebar.info.style1','data' => ['author' => $detail  ] ])@endweb_component
+                                        @web_component([ 'postfixes' => 'authors.sidebar.info.style1','data' => ['author' => $detail, 'module' => 'blog'] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Meet the Author Section Ends Here -->
 
-                             
-
                                     <!-- Sidebar Related Categories Section Starts Here -->
                                     <div class="sidebar__section">
-                                        @web_component([ 'postfixes' => 'categories.sidebar.style2','data' => ['categories' => $list ] ])@endweb_component
+                                        @web_component([ 'postfixes' => 'categories.sidebar.style2','data' => ['categories' => $list, 'module' => 'blog'] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Related Categories Section Ends Here -->
 
@@ -78,178 +76,7 @@
                                 <!-- Ricttext Content Section Starts Here -->
                                 <section class="section">
                                     <div class="richTextContent-v1">
-                                        <!-- 1 -->
-                                        <figure>
-                                            <img src="../../build/images/blog-image-1.webp" alt="Blog">
-                                        </figure>
-
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-
-                                        <!-- 2 -->
-                                        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi placeat quas distinctio iure?</h2>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-
-                                        <figure>
-                                            <img src="../../build/images/blog-image-1.webp" alt="Blog">
-                                        </figure>
-
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-
-                                        <ul>
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
-
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
-
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
-
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
-
-                                            <li>
-                                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            </li>
-                                        </ul>
-
-                                        <!-- 3 -->
-                                        <div>
-                                            <?php //include('../components/DiscountCard/Style2/index.php'); ?>
-                                            @web_component([ 'postfixes' => 'coupon.minimal.style1','data' => [] ])@endweb_component
-                                        </div>
-
-                                        <!-- 4 -->
-                                        <div class="blogDetailLeftCard">
-                                            <figure class="left">
-                                                <img src="../../build/images/blog-image-1.webp" alt="Blog">
-                                            </figure>
-
-                                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-                                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur nisi at illo autem excepturi, possimus quasi quo dolorem quisquam rem velit inventore tenetur vel, nihil fugiat. Optio et cum veniam.</p>
-
-                                            <ul>
-                                                <li>
-                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                                </li>
-
-                                                <li>
-                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                                </li>
-
-                                                <li>
-                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                                </li>
-
-                                                <li>
-                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                                </li>
-
-                                                <li>
-                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <!-- 5 -->
-                                        <div>
-                                            <?php
-                                            $isDeal = 1;
-                                            $isExpired = 0;
-
-                                            // if ($i % 2 === 0) {
-                                            //     $isDeal = 0;
-                                            // }
-                                            ?>
-                                            <?php //include('../components/DiscountCard/Style2/index.php'); ?>
-                                            @web_component([ 'postfixes' => 'coupon.minimal.style1','data' => [] ])@endweb_component
-                                        </div>
-
-                                        <!-- 6 -->
-                                        <!-- Newsletter v2 Section Starts Here -->
-                                        <section class="section">
-                                            <?php //include('../components/NewsLetterForm/Style2/index.php'); ?>
-                                            @web_component([ 'postfixes' => 'newsletter.style2','data' => [] ])@endweb_component
-                                        </section>
-                                        <!-- Newsletter v2 Section Starts Here -->
-
-                                        <!-- 7 -->
-                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-
-                                        <!-- 8 -->
-                                        <!-- 1st Coupons Grid Section Starts Here -->
-                                        <div class="blogInnerGrid">
-                                            <?php for ($i = 0; $i < 3; $i++) { ?>
-                                                <?php
-                                                $isDeal = 1;
-                                                $isExpired = 0;
-
-                                                if ($i % 2 === 0) {
-                                                    $isDeal = 0;
-                                                }
-                                                ?>
-
-                                                <?php //include('../components/DiscountCard/Style1/index.php'); ?>
-                                                @web_component([ 'postfixes' => 'coupon.minimal.style2','data' => [] ])@endweb_component
-                                            <?php } ?>
-                                        </div>
-                                        <!-- 1st Coupons Grid Section Ends Here -->
-
-                                        <!-- 9 -->
-                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-
-                                        <!-- 10 -->
-                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-
-                                        <!-- 11 -->
-                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-
-                                        <!-- 12 -->
-                                        <!-- 2nd Coupons Grid Section Starts Here -->
-                                        <div class="blogInnerGrid">
-                                            <?php for ($i = 0; $i < 3; $i++) { ?>
-                                                <?php
-                                                $isDeal = 1;
-                                                $isExpired = 0;
-
-                                                if ($i % 2 === 0) {
-                                                    $isDeal = 0;
-                                                }
-                                                ?>
-
-                                                <?php //include('../components/DiscountCard/Style1/index.php'); ?>
-                                                @web_component([ 'postfixes' => 'coupon.minimal.style2','data' => [] ])@endweb_component
-                                            <?php } ?>
-                                        </div>
-                                        <!-- 2nd Coupons Grid Section Ends Here -->
-
-                                        <!-- 13 -->
-                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-
-                                        <!-- 14 -->
-                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, sunt.</h3>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem non odit, sunt unde doloremque inventore, possimus culpa hic, at suscipit voluptatem reiciendis reprehenderit. Dolor vel explicabo libero magnam, ratione sapiente!</p>
+                                        {!!$detail['long_description'] ? $detail['long_description']:''!!}
                                     </div>
                                 </section>
                                 <!-- Richtext Content Section Ends Here -->

@@ -57,7 +57,7 @@
                             </div>
 
                             <div class="discountCard__cta">
-                                <a href="" class="{{ $coupon['code'] ? 'dark' : 'light' }}  baseurlappend"
+                                <a class="{{ $coupon['code'] ? 'dark' : 'light' }}  baseurlappend"
                                 data-id="{{ encrypt($coupon['id']) }}" data-store="{!! !empty($coupon['affiliate_url'])
                     ? addhttps($coupon['affiliate_url'])
                     : (!empty($coupon['store']['affiliate_url'])

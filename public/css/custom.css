@@ -121,3 +121,17 @@ table.dataTable thead .sorting_desc {
     padding: 10px 20px;
     margin-bottom: 20px;
 }
+
+#shortcodesModal .modal-content .modal-header img{
+    width: 20px;
+    margin-top: -5px;
+}
+
+#shortcodesModal .modal-content .modal-body .shortcodes-outputs xmp{
+    width: 100%;
+    padding: 20px;
+    align-items: center;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    background-color: lightgoldenrodyellow;
+}

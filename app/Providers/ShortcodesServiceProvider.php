@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Shortcode;
 use App\Shortcodes\BoldShortcode;
 use App\Shortcodes\ItalicShortcode;
+use App\Shortcodes\CouponShortcode;
+use App\Shortcodes\NewsletterShortcode;
 
 class ShortcodesServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,8 @@ class ShortcodesServiceProvider extends ServiceProvider
         //
         Shortcode::register('b', BoldShortcode::class);
         Shortcode::register('i', ItalicShortcode::class);
+        Shortcode::register('coupon', CouponShortcode::class);
+        Shortcode::register('newsletter', NewsletterShortcode::class);
         //Shortcode::register('i', 'App\Shortcodes\ItalicShortcode@custom');
     }
 }

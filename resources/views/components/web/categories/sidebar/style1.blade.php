@@ -3,24 +3,13 @@
 <ul class="sidebar__navList">
     @foreach($categories as $category)
         <li class="sidebar__navItem">
-            @if(isset($sidebarOf) && (($sidebarOf) == "reviews"))
-                <a href="{{config('app.app_path')}}/review?category={{ $category['slugs']['slug'] }}" class="sidebar__navLink" aria-label="Visit Category">{!! $category['title'] !!}</a>
-            @else
-                <a href="{{config('app.app_path')}}/blog?category={{ $category['slugs']['slug'] }}" class="sidebar__navLink" aria-label="Visit Category">{!! $category['title'] !!}</a>
-            @endif
+            <a href="{{config('app.app_path')}}/{{($module)?$module:''}}?category={{ $category['slugs']['slug'] }}" class="sidebar__navLink" aria-label="Visit Category">{!! $category['title'] !!}</a>
         </li>
     @endforeach
     <li class="sidebar__navItem">
-        @if(isset($sidebarOf) && (($sidebarOf) == "reviews"))
-            <a href="{{config('app.app_path')}}/review-categories" class="sidebar__navLink primary" aria-label="View All Categories">
-                {{trans('sentence.view_all_categories')}}
-            </a>
-        @else
-            <a href="{{config('app.app_path')}}/blog-categories" class="sidebar__navLink primary" aria-label="View All Categories">
-                {{trans('sentence.view_all_categories')}}
-            </a>
-
-        @endif
+        <a href="{{config('app.app_path')}}/{{($module)?$module:''}}-categories" class="sidebar__navLink primary" aria-label="View All Categories">
+            {{trans('sentence.view_all_categories')}}
+        </a>
     </li>
 </ul>
 @endif

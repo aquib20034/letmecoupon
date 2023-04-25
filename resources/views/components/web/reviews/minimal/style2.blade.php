@@ -17,8 +17,7 @@
 
             <div class="card__bottom">
                 <div class="card__category">
-                    <!-- <a href="{{ config('app.app_path') }}/{{ ($review['slugs']) ? $review['slugs']['slug'] : '' }}" aria-label="Visit Category Inner Page">{{ $review['categories'][0]['title'] }}</a> -->
-                    <a href="{{config('app.app_path')}}/review?category={{ $review['categories'] != null ? $review['categories'][0]['slug'] :'' }}">{{ $review['categories'] != null ? $review['categories'][0]['title']:'' }}</a>
+                    <a href="{{ config('app.app_path') }}//review?category={{ $review['categories'] != null ? $review['categories'][0]['slug'] :'' }}" aria-label="Visit Category Inner Page">{{ $review['categories'][0]['title'] }}</a>
                 </div>
 
                 <div class="card__title">

@@ -24,7 +24,6 @@
     </div>
 </div>
 
-
 @push('scripts')
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script>

@@ -15,11 +15,14 @@ use App\Store;
 use App\Tag;
 use App\User;
 use App\Author;
+use App\Coupon;
 use Gate;
 use Illuminate\Http\Request;
 
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
+
+use Carbon\Carbon;
 
 class ReviewController extends Controller
 {
@@ -114,6 +117,9 @@ class ReviewController extends Controller
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
 
+        $dt = Carbon::now();
+        $date = $dt->toDateString();
+
         $sites = Site::all()->pluck('name', 'id');
 
         $categories = Category::all()->pluck('title', 'id');
@@ -128,7 +134,11 @@ class ReviewController extends Controller
             $q->where('site_id', isset(request()->test_id) ? request()->test_id : getSiteID());
         })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.reviews.create', compact('sites', 'categories', 'tags', 'users', 'stores', 'authors'));
+        $coupons = Coupon::with('sites')->where('date_expiry', '>=', $date)->orWhere('on_going', 1)->whereHas('sites', function($q) {
+            $q->where('site_id', isset(request()->test_id) ? request()->test_id : getSiteID());
+        })->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.reviews.create', compact('sites', 'categories', 'tags', 'users', 'stores', 'authors', 'coupons'));
     }
 
     public function store(StoreReviewRequest $request)
@@ -182,6 +192,9 @@ class ReviewController extends Controller
         $status = (isset(request()->test_id) ? !request()->test_id > 0 : !getSiteID() > 0);
         if($status) return redirect('/admin');
 
+        $dt = Carbon::now();
+        $date = $dt->toDateString();
+
         $sites = Site::all()->pluck('name', 'id');
 
         $categories = Category::all()->pluck('title', 'id');
@@ -200,9 +213,13 @@ class ReviewController extends Controller
             }
         })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $coupons = Coupon::with('sites')->where('date_expiry', '>=', $date)->orWhere('on_going', 1)->whereHas('sites', function($q) {
+            $q->where('site_id', isset(request()->test_id) ? request()->test_id : getSiteID());
+        })->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $review->load('sites', 'categories', 'tags','user');
 
-        return view('admin.reviews.edit', compact('sites', 'categories', 'tags', 'review', 'users', 'stores', 'authors'));
+        return view('admin.reviews.edit', compact('sites', 'categories', 'tags', 'review', 'users', 'stores', 'authors', 'coupons'));
     }
 
     public function update(UpdateReviewRequest $request, Review $review)

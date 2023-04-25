@@ -5,7 +5,7 @@
             <div class="card__wrapper">
                 <a href="{{ config('app.app_path') }}/{{ isset($category['slugs']) ? $category['slugs']['slug'] : '#' }}" class="card__image" aria-label="Visit Category Inner Page">
                     <figure>
-                        <img src="{{ isset($category['category_image']) ? $category['category_image'] : config('app.image_path') . '/build/images/placeholder.png' }}" alt="Category Name">
+                        <img src="{{ isset($category['category_banner_image']) ? $category['category_banner_image'] : $category['category_image'] }}" alt="Category Name">
                     </figure>
                 </a>
                 <div class="card__typography">

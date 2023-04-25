@@ -25,13 +25,13 @@
                                 <div class="sidebar sticky js-stickySidebar">
                                     <!-- Sidebar Categories Section Starts Here -->
                                     <div class="sidebar__section">
-                                        @web_component([ 'postfixes' => 'categories.sidebar.style1','data' => ['categories' => $list ] ])@endweb_component
+                                        @web_component([ 'postfixes' => 'categories.sidebar.style1','data' => ['categories' => $list, 'module' => 'blog' ] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Categories Section Ends Here -->
 
                                     <!-- Sidebar Meet the Authors Section Starts Here -->
                                     <div class="sidebar__section">
-                                        @web_component([ 'postfixes' => 'authors.sidebar.style1','data' => [ 'authors' => $blog_authors] ])@endweb_component
+                                        @web_component([ 'postfixes' => 'authors.sidebar.style1','data' => [ 'authors' => $blog_authors, 'module' => 'blog'] ])@endweb_component
                                     </div>
                                     <!-- Sidebar Meet the Authors Section Ends Here -->
                                 </div>

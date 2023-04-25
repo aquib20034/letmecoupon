@@ -275,6 +275,7 @@
 @endsection
 
 @section('scripts')
+@include('admin.common.shortcodes')
 <script>
     var characterCount = $('#meta_description').val().length,
         current = $('#current_meta_description'),

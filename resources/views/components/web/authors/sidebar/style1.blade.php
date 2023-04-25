@@ -3,7 +3,7 @@
 <ul class="sidebar__navList">
     @foreach($authors as $author)
         <li class="sidebar__navItem">
-            <a href="{{config('app.app_path')}}/blog/author/{{$author['id']}}" class="sidebar__navLink" aria-label="Visit Page">
+            <a href="{{config('app.app_path')}}/{{($module)?$module:''}}/author/{{$author['id']}}" class="sidebar__navLink" aria-label="Visit Page">
                 {{$author['first_name']}} {{$author['last_name']}}
             </a>
         </li>

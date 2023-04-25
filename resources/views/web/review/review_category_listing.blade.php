@@ -54,11 +54,11 @@
         </div>
 
 
-         <!-- Newsletter Section Starts Here -->
-         <section class="section">
-                <?php //include('../components/NewsLetterForm/Style1/index.php'); ?>
-                @web_component([ 'postfixes' => 'newsletter.style1','data' => [] ])@endweb_component
-            </section>
-            <!-- Newsletter Section Starts Here -->
+        <!-- Newsletter Section Starts Here -->
+        <section class="section">
+            <?php //include('../components/NewsLetterForm/Style1/index.php'); ?>
+            @web_component([ 'postfixes' => 'newsletter.style1','data' => [] ])@endweb_component
+        </section>
+        <!-- Newsletter Section Starts Here -->
     </div>
 @endsection

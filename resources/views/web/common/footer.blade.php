@@ -212,6 +212,10 @@
             document.title = baseTitle;
         };
 
+        $(".close-popup-btn").click(function($event){
+            
+        })
+
         $(".submit").click(function(event) {
             event.preventDefault();
             var form = $(this);

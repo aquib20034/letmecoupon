@@ -79,7 +79,7 @@ return [
 	'see_all'							=> 'See all ',
 	'all_cats'  						=> 'All Categories',
 	'blog_all_cats'                     => 'All Blog Categories',
-	'review_all_cats'                     => 'All Review Categories',
+	'review_all_cats'                   => 'All Review Categories',
 	'stores_text'  						=> ' Stores',
 	'view_all_categories'               => 'View All Categories',
 	'browse_all_categories'             => 'Browse All Categories',
@@ -177,15 +177,14 @@ return [
 	'reviews_not_found' 				=> 'Reviews not found',
 	'all_reviews' 						=> 'All Reviews',
 	'visit_reviews_page'			    => 'Visit Reviews Page',
-	'review_view_all_categories'          => 'View All Blog Categories',
+	'review_view_all_categories'        => 'View All Blog Categories',
 	'reviews_not_found'					=> 'Reviews not Found',
 	'view_all_reviews'					=> 'All Reviews',
 	'related_blog'						=> 'Related Reviews',
 	'recent_blog'						=> 'Recent Reviews',
-	'review_page'                         => 'Blog',
-	'review_not_found'                    => 'Reviews Not Found',
+	'review_page'                       => 'Blog',
+	'review_not_found'                  => 'Reviews Not Found',
 	'trending_blog'						=> 'Trending Reviews',
-
 
 	/*404 Page*/
 	'404_heading'                       => '404',

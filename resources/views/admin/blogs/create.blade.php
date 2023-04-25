@@ -271,6 +271,7 @@
 @endsection
 
 @section('scripts')
+@include('admin.common.shortcodes')
 <script>
     $('#meta_description').keyup(function () {
         var characterCount = $(this).val().length,

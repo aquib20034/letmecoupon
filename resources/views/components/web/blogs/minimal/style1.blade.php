@@ -11,7 +11,9 @@
                     </a>
 
                     <figure>
-                        <img src="{{ isset($blog['blog_image']) ? $blog['blog_image'] : config('app.image_path').'/build/images/placeholder.png' }}" alt="">
+                        <a href="{{ config('app.app_path')}}/{{ isset($blog['slugs']['slug']) ? $blog['slugs']['slug'] : '' }}" aria-label="Visit Blog Inner Page">
+                            <img src="{{ isset($blog['blog_image']) ? $blog['blog_image'] : config('app.image_path').'/build/images/placeholder.png' }}" alt="">
+                        </a>
                     </figure>
                 </div>
             </div>

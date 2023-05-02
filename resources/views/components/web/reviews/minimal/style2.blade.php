@@ -10,7 +10,9 @@
                     </a>
 
                     <figure>
-                        <img src="{{ isset($review['review_image']) ? $review['review_image'] : config('app.image_path').'/build/images/placeholder.png' }}" alt="">
+                        <a href="{{ config('app.app_path') }}/{{ isset($review['slugs']['slug']) ? $review['slugs']['slug'] : '' }}" aria-label="Visit review Inner Page">
+                            <img src="{{ isset($review['review_image']) ? $review['review_image'] : config('app.image_path').'/build/images/placeholder.png' }}" alt="">
+                        </a>
                     </figure>
                 </div>
             </div>

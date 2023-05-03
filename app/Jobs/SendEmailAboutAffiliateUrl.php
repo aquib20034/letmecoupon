@@ -59,7 +59,7 @@ class SendEmailAboutAffiliateUrl implements ShouldQueue
                    $couponName = isset($couponName->title) ? $couponName->title : '';
                 }
                
-                $emailData["heading"] = "Affiliate URL for store (".$brand->name.") ".$affiliateLog->action." in ".$model." module for website LetMeCoupon (".strtoupper($site->country_code).") ";
+                $emailData["heading"] = "Affiliate URL for store (".$brand->name.") ".$affiliateLog->action." in ".$model." module for website Compare by us (".strtoupper($site->country_code).") ";
 
                 $emailData["brand_name"] = isset($brand->name) ? $brand->name : '';
                 $emailData["previous_affiliate_url"] = $affiliateLog->previous_aff_url;
@@ -82,7 +82,7 @@ class SendEmailAboutAffiliateUrl implements ShouldQueue
                 $path = storage_path() . '/212343252160324234236-723429d334k823l34fjk34239sxdsdkrjcr7oc5ik989ntpi303knkfdk6b5lk.json';
            
                 $client->setAuthConfig($path);
-                $cellStartPoint = "LetMeCoupon!A2";
+                $cellStartPoint = "CompareByUs!A2";
                 $cellEndingPoint = "X" . (10);
                 $cellUpdateRange = "$cellStartPoint:$cellEndingPoint";
                 $service = new Google_Service_Sheets($client);

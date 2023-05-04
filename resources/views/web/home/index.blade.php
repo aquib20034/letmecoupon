@@ -2,17 +2,32 @@
 @section('content')
     <div class="container">
         <div class="section">
-            <!-- Banner Section Starts Here -->
-            <section class="section">
-                @web_component([ 'postfixes' => 'banner.home.style1','data' => ['banners' => isset($banners)?$banners:[]] ])@endweb_component
-            </section>
-            <!-- Banner Section Ends Here -->
 
-            <!-- Blog Slider Section Starts Here -->
-            <section class="section">
-                @web_component([ 'postfixes' => 'categories.slider.style1','data' => ['featuredCategories' => isset($featuredCategories)?$featuredCategories:[]] ])@endweb_component
-            </section>
-            <!-- Blog Slider Section Ends Here -->
+            @if((isset($is_404)) && ($is_404 == false))
+                <!-- Banner Section Starts Here -->
+                <section class="section">
+                    @web_component([ 'postfixes' => 'banner.home.style1','data' => ['banners' => isset($banners)?$banners:[]] ])@endweb_component
+                </section>
+                <!-- Banner Section Ends Here -->
+            @endif
+
+
+            @if((isset($is_404)) && ($is_404 == false))
+                <!-- Blog Slider Section Starts Here -->
+                <section class="section">
+                    @web_component([ 'postfixes' => 'categories.slider.style1','data' => ['featuredCategories' => isset($featuredCategories)?$featuredCategories:[]] ])@endweb_component
+                </section>
+                <!-- Blog Slider Section Ends Here -->
+            @endif
+
+            @if((isset($is_404)) && ($is_404 == true))
+                <!-- Error Page Banner Section Starts Here -->
+                <section class="section">
+                    @web_component([ 'postfixes' => 'errors.style1','data' => [] ])@endweb_component
+                </section>
+                <!-- Error Page Banner Section Ends Here -->
+            @endif
+
 
             <!-- Trending Blogs & Reviews Section Starts Here -->
             <section class="section">

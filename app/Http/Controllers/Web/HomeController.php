@@ -15,6 +15,7 @@ use App\Blog;
 use App\Review;
 use App\WebModel\WebsiteSetting;
 use App\Traits\CouponCardTrait;
+use App\WebModel\Page;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -30,6 +31,7 @@ class HomeController extends Controller
         $data = [];
 
         try {
+            $data['is_404'] = false;
             $agent = new Agent();
 
             if ($agent->isMobile()) {
@@ -337,6 +339,338 @@ class HomeController extends Controller
         }
     }
 
+
+    public function _404()
+    {
+        $data = [];
+
+        try {
+            $data['is_404'] = true;
+            $agent = new Agent();
+
+            if ($agent->isMobile()) {
+                $limit['common'] = 6;
+                $limit['banner'] = 3;
+                $limit['categories'] = 5;
+            } else {
+                $limit['common'] = 6;
+                $limit['banner'] = 4;
+                $limit['categories'] = 10;
+            }
+
+            $siteid = config('app.siteid');
+            $dt = Carbon::now();
+            $lastWeek = Carbon::now()->subDays(7);
+            $date = $dt->toDateString();
+            $data['pageCss'] = 'error';
+
+            $couponCardStyle = Cache::remember(
+                "Sitewide__CouponCardStylePrimary__{$siteid}",
+                86400,
+                function () {
+                    return WebsiteSetting::select('coupon_card_style_primary')
+                        ->first()
+                        ->toArray()['coupon_card_style_primary'];
+                }
+            );
+
+            $data['banners'] = Cache::remember(
+                "HomePage__Banners__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Banner::select(
+                        'id',
+                        'title',
+                        'button_text',
+                        'link',
+                        'banner_image'
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->orderBy('sort', 'asc')
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['trendingCoupons'] = Cache::remember(
+                "HomePage__TrendingCoupons__{$siteid}__{$couponCardStyle}",
+                21600,
+                function () use ($date, $siteid, $couponCardStyle) {
+                    return Coupon::select(
+                        ...$this->getQueryColumns($couponCardStyle)
+                    )
+                        ->with('store.slugs')
+                        ->with('store.categories')
+                        ->where('popular', 1)
+                        ->where('verified', 1)
+                        ->where('publish', 1)
+                        ->where(function ($q) use ($date) {
+                            return $q
+                                ->where('date_expiry', '>=', $date)
+                                ->orWhere('on_going', 1);
+                        })
+                        ->orderBy('id', 'desc')
+                        ->CustomWhereBasedData($siteid)
+                        ->take(5)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            //Feature Coupons
+            $data['topPopularCoupons'] = Cache::remember(
+                "HomePage__TopPopularCoupons__{$siteid}__{$couponCardStyle}",
+                21600,
+                function () use ($date, $siteid, $couponCardStyle, $limit) {
+                    return Coupon::select(
+                        ...$this->getQueryColumns($couponCardStyle)
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->with('store.slugs')
+                        ->where('featured', 1)
+                        ->where(function ($q) use ($date) {
+                            return $q
+                                ->where('date_expiry', '>=', $date)
+                                ->orWhere('on_going', 1);
+                        })
+                        ->orderBy('sort', 'asc')
+                        ->limit($limit['common'])
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['recommendedCoupons'] = Cache::remember(
+                "HomePage__RecommendedCoupons__{$siteid}__{$couponCardStyle}",
+                21600,
+                function () use ($date, $siteid, $couponCardStyle, $limit) {
+                    return Coupon::select(
+                        ...$this->getQueryColumns($couponCardStyle)
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->with('store.slugs')
+                        ->where('recommended', 1)->where(function ($q) use ($date) {
+                            return $q->where('date_expiry', '>=', $date)->orWhere('on_going', 1);
+                        })
+                        ->orderBy('sort', 'desc')
+                        ->limit($limit['common'])
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['featuredCategories'] = Cache::remember(
+                "HomePage__FeaturedCategories__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return ACategory::select(
+                        'id',
+                        'title',
+                        'category_image',
+                        'category_banner_image'
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->where('featured', 1)
+                        ->orderBy('title', 'asc')
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['featuredStores'] = Cache::remember(
+                "HomePage__FeaturedStores__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Store::select(
+                        'id',
+                        'name',
+                        'store_image'
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->where('featured', 1)
+                        ->orderBy('name', 'asc')
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['popularStores'] = Cache::remember(
+                "HomePage__PopularStores__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Store::select(
+                        'id',
+                        'name',
+                        'store_image'
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->where('popular', 1)
+                        ->orderBy('id', 'desc')
+                        ->limit(30)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['totalCoupons'] = Cache::remember(
+                "HomePage__TotalCouponCount__{$siteid}",
+                21600,
+                function () use ($date, $siteid) {
+                    return Coupon::where(function ($q) use ($date) {
+                        return $q
+                            ->where('date_expiry', '>=', $date)
+                            ->orWhere('on_going', 1);
+                    })
+                        ->CustomWhereBasedData($siteid)
+                        ->get()
+                        ->count();
+                }
+            );
+
+            $data['topStores'] = Cache::remember(
+                "HomePage__TopStores__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Store::select(
+                        'id',
+                        'name'
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->where('popular', 1)
+                        ->orderBy('id', 'desc')
+                        ->take(15)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            $data['couponsAdded'] = Cache::remember(
+                "HomePage__CouponsAddedCount__{$siteid}",
+                21600,
+                function () use ($lastWeek, $siteid) {
+                    return Coupon::where('created_at', '>=', $lastWeek)
+                        ->orwhere('updated_at', '>=', $lastWeek)
+                        ->CustomWhereBasedData($siteid)
+                        ->get()
+                        ->count();
+                }
+            );
+
+            $data['couponsAdded'] = Cache::remember(
+                "HomePage__CouponsAddedCount__{$siteid}",
+                21600,
+                function () use ($lastWeek, $siteid) {
+                    return Coupon::where('created_at', '>=', $lastWeek)
+                        ->orwhere('updated_at', '>=', $lastWeek)
+                        ->CustomWhereBasedData($siteid)
+                        ->get()
+                        ->count();
+                }
+            );
+
+            $data['trendingBlog'] = Cache::remember(
+                "BlogListingPage__TrendingBlogs__{$siteid}",
+                3600,
+                function () use ($siteid) {
+                    return Blog::select(
+                        'id',
+                        'title',
+                        'blog_image',
+                        'created_at',
+                        'user_id'
+                    )
+                    ->with('user:id,name')
+                    ->with(['categories' => function ($query) {
+                        $query
+                            ->select(
+                                'id',
+                                'title',
+                                'slug'
+                            );
+                    }])
+                    ->where('blogs.trending',1)
+                    ->CustomWhereBasedData($siteid)
+                    ->orderBy('blogs.id', 'DESC')
+                    ->take(5)
+                    ->get()
+                    ->toArray();
+                }
+            );
+
+            $data['popularCategories'] = Cache::remember(
+                "CategoryListingPage__PopularCategories__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return ACategory::select(
+                        'id',
+                        'title',
+                        'category_image'
+                    )
+                        ->CustomWhereBasedData($siteid)
+                        ->whereNull('parent_id')
+                        ->where('popular', 1)
+                        ->withCount('categoryStores')
+                        ->take(10)
+                        ->get()
+                        ->toArray();
+                }
+            );
+
+            //Cache::forget("ReviewListingPage__PopularReviews__{$siteid}");
+            $data['popularReview'] = Cache::remember(
+                "ReviewListingPage__PopularReviews__{$siteid}",
+                3600,
+                function () use ($siteid) {
+                    return Review::select(
+                        'id',
+                        'title',
+                        'review_image',
+                        'created_at',
+                        'user_id'
+                    )
+                    ->with('user:id,name')
+                    ->with(['categories' => function ($query) {
+                        $query
+                            ->select(
+                                'id',
+                                'title',
+                                'slug'
+                            );
+                    }])
+                    ->where('reviews.popular',1)
+                    ->CustomWhereBasedData($siteid)
+                    ->orderBy('reviews.id', 'DESC')
+                    ->take(6)
+                    ->get()
+                    ->toArray();
+                }
+            );
+
+
+
+
+
+
+            
+            $page = Cache::remember(
+                "HomePage__CurrentPage__{$siteid}",
+                21600,
+                function () use ($siteid) {
+                    return Page::where('title','404')
+                    // ->CustomWhereBasedDataForMetaInfo($siteid)
+                    ->first();
+                }
+            );
+
+
+            
+            return response()->view('web.home.index', $data);
+        } catch (\Exception $e) {
+            dd($e);
+            abort(404);
+        }
+    }
+/*
     public function _404()
     {
         $data = [];
@@ -376,7 +710,7 @@ class HomeController extends Controller
             abort(404);
         }
     }
-
+*/
     public function network_verify()
     {
         $data = [];

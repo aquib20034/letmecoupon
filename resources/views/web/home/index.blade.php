@@ -28,7 +28,7 @@
 
             <!-- Trending Blogs & Reviews Section Starts Here -->
             <section class="section">
-                @web_component([ 'postfixes' => 'blogs.trending.style1','data' => ['trendingBlog' => isset($trendingBlog)?$trendingBlog:[]] ])@endweb_component
+                @web_component([ 'postfixes' => 'blogs.trending.style1','data' => ['trendingBlog' => isset($trendingBlogAndReviews)?$trendingBlogAndReviews:[]] ])@endweb_component
             </section>
             <!-- Trending Blogs & Reviews Section Ends Here -->
 

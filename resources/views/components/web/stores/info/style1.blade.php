@@ -55,7 +55,7 @@
 
                     <div class="storeInfoCard__description">
                         <p> 
-                            {!! (isset($store_detail['long_description'])) ? (html_entity_decode($store_detail['long_description'])) : "" !!}
+                            <!-- {!! (isset($store_detail['long_description'])) ? (html_entity_decode($store_detail['long_description'])) : "" !!} -->
                         </p>
                     </div>
                 </div>

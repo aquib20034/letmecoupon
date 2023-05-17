@@ -21,6 +21,8 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Jenssegers\Agent\Agent as Agent;
+use Illuminate\Support\Facades\DB;
+
 
 class HomeController extends Controller
 {
@@ -254,6 +256,7 @@ class HomeController extends Controller
                 }
             );
 
+
             $data['trendingBlog'] = Cache::remember(
                 "BlogListingPage__TrendingBlogs__{$siteid}",
                 3600,
@@ -265,6 +268,7 @@ class HomeController extends Controller
                         'created_at',
                         'user_id'
                     )
+                    ->selectRaw("'blog' as type")
                     ->with('user:id,name')
                     ->with(['categories' => function ($query) {
                         $query
@@ -277,13 +281,12 @@ class HomeController extends Controller
                     ->where('blogs.trending',1)
                     ->CustomWhereBasedData($siteid)
                     ->orderBy('blogs.id', 'DESC')
-                    ->take(5)
+                    // ->take(5)
                     ->get()
                     ->toArray();
                 }
             );
             
-
             $data['trendingReview'] = Cache::remember(
                 "ReviewListingPage__TrendingReviews__{$siteid}",
                 3600,
@@ -295,6 +298,7 @@ class HomeController extends Controller
                         'created_at',
                         'user_id'
                     )
+                    ->selectRaw("'review' as type")
                     ->with('user:id,name')
                     ->with(['categories' => function ($query) {
                         $query
@@ -308,14 +312,11 @@ class HomeController extends Controller
                     ->where('reviews.trending',1)
                     ->CustomWhereBasedData($siteid)
                     ->orderBy('reviews.id', 'DESC')
-                    ->take(6)
+                    // ->take(6)
                     ->get()
                     ->toArray();
                 }
             );
-
-
-            
 
             $data['popularCategories'] = Cache::remember(
                 "CategoryListingPage__PopularCategories__{$siteid}",
@@ -366,11 +367,59 @@ class HomeController extends Controller
                 }
             );
 
+           
+
+            $data['trendingBlogAndReviews'] = $this->mergeAndOrderByDate($data['trendingBlog'],$data['trendingReview'], 5);
+
+            // dd($data);
+
             return response()->view('web.home.index', $data);
         } catch (\Exception $e) {
             dd($e);
             abort(404);
         }
+    }
+
+
+    public function mergeAndOrderByDate($blogs, $reviews){
+        $data = array_merge($blogs, $reviews); // Merge the two arrays
+
+        usort($data, function($a, $b) {
+            return strtotime($a['created_at']) - strtotime($b['created_at']); // Sort by 'created_at' field
+        });
+
+        $data = array_slice($data, 0, 6); // Get the first 3 elements
+
+        return $data;
+    }
+
+    public function orderByDate($records){
+        $data = array();
+        
+        // Sort the $data array by 'created_at' field
+        usort($records, function ($a, $b) {
+            $timeA = strtotime($a['created_at']);
+            $timeB = strtotime($b['created_at']);
+
+            return $timeA - $timeB;
+        });
+
+        // Print the sorted array
+        foreach ($records as $key => $record) {
+            // echo $record['created_at']  . " - " . $record['title'] . "</br>";
+            // dd()
+            $data[$key] = $record;
+            // $data[$key]['categories'] = Category::select(
+            //                                     'id',
+            //                                     'title',
+            //                                     'slug'
+            //                                 )
+            //                                 where;
+
+            
+            ;
+        }
+        return $data;
     }
 
     public function _404()

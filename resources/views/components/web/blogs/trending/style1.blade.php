@@ -13,9 +13,19 @@
             @foreach($trendingBlog as $key=>$trendingBlg)
                 <div class="cardGrid__item @if($key === 0){{'cardGrid__item--vertical'}}@else{{'cardGrid__item--horizontal'}}@endif">
                     @if($key === 0)
-                        @web_component([ 'postfixes' => 'blogs.minimal.style1','data' => [ 'blog' => $trendingBlg ] ])@endweb_component
+                        @if($trendingBlg['type'] == 'review')
+                            @web_component([ 'postfixes' => 'reviews.minimal.style3','data' => [ 'review' => $trendingBlg ] ])@endweb_component
+                        @else
+                            @web_component([ 'postfixes' => 'blogs.minimal.style1','data' => [ 'blog' => $trendingBlg ] ])@endweb_component
+                        @endif
                     @else
-                        @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => [ 'blog' => $trendingBlg ] ])@endweb_component
+
+                        @if($trendingBlg['type'] == 'review')
+                            @web_component([ 'postfixes' => 'reviews.minimal.style4','data' => [ 'review' => $trendingBlg ] ])@endweb_component
+                        @else
+                            @web_component([ 'postfixes' => 'blogs.minimal.style2','data' => [ 'blog' => $trendingBlg ] ])@endweb_component
+                        @endif
+
                     @endif
                 </div>
             @endforeach

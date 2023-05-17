@@ -1,6 +1,7 @@
-@if(isset($review) && (!empty($review)))
+@if(isset($review))
 <div class="cardStyle3">
     <div class="card">
+
         <div class="card__wrapper">
             <div class="card__left">
                 <div class="card__thumbnail">
@@ -31,7 +32,7 @@
 
                 <div class="card__attributes">
 
-                    @if( ((isset($review['author']['first_name'])) && (($review['author']['first_name']) != ""))|| (isset($review['author']['last_name'])) && ($review['author']['last_name'] !="")) 
+                    @if((isset($review['author']['first_name'])) || (isset($review['author']['last_name']))) 
                         <span>
                             <a href="{{ config('app.app_path')}}/review/author/{{ isset($review['author']) ? $review['author']['id']:'' }}">
                                 {{ isset($review['author']['first_name']) ? $review['author']['first_name'].' ':'' }}
@@ -62,7 +63,7 @@
                 </div>
 
                 <div class="card__cta">
-                    <a href="{{ config('app.app_path') }}/{{ isset($review['slugs']['slug']) ? $review['slugs']['slug'] : '' }}" aria-label="Visit review Inner Page">Start Reading</a>
+                <a href="{{ config('app.app_path') }}/{{ isset($review['slugs']['slug']) ? $review['slugs']['slug'] : '' }}" aria-label="Visit review Inner Page">Start Reading</a>
                 </div>
             </div>
         </div>

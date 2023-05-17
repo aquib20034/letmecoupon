@@ -22,7 +22,12 @@
                     <span>{{ shortViews($author['blogs_count']) }}  Blogs</span>
                 @endif
                 <span>2.7K Views</span>
-                @if( isset($author['languages']) && !empty($author['languages']) )
+                
+                <span>
+                {{isset($language) ? $language : ""}}
+                </span>
+
+                <!-- @if( isset($author['languages']) && !empty($author['languages']) )
                     <span>
                     @foreach($author['languages'] as $key => $language)
                             @if($key < count($author['languages'])-1)
@@ -32,7 +37,7 @@
                             @endif
                     @endforeach
                     </span>
-                @endif
+                @endif -->
             </div>
             <div class="authorCard__content">
                 <p>{!! $author['short_description'] ? $author['short_description']:'' !!}</p>

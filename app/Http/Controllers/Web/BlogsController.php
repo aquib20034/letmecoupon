@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\WebModel\Category;
 use App\WebModel\Page;
 use App\WebModel\Blog;
+use App\Langauge;
 
 
 use App\Author;
@@ -658,10 +659,28 @@ class BlogsController extends Controller
     {
 
         // echo $id; exit();
-        $data = [];
-        $siteid = config('app.siteid');
-        $data['pageCss'] = "author";
-        $author = Author::where('id', $id)->with(['author_type','languages'])->first();
+        $data                   = [];
+        $siteid                 = config('app.siteid');
+        $data['language']       = "";
+        $data['pageCss']        = "author";
+        $author                 = Author::where('id', $id)
+                                    ->with(['author_type','languages','sites'])
+                                    ->first();
+
+        // dd($author['sites'][0]['language_code']);
+
+        if(isset($author['sites'][0]['language_code'])){
+            $language_code      = $author['sites'][0]['language_code'];
+            $lang               = Langauge::select('language')
+                                        ->where('code',$language_code )
+                                        ->first();
+    
+    
+            $data['language']   = isset($lang['language']) ?  $lang['language'] : "";
+        }
+
+        
+
         if ($author) $user_id = $author->id;
         else abort(404);
         // $data['list'] = Category::CustomWhereBasedData($siteid)->with('blogs.slugs')->orderBy('title')->get()->toArray();
@@ -697,7 +716,7 @@ class BlogsController extends Controller
         ->where('author_id', $user_id)
         ->get()
         ->toArray();
-
+        // dd($data);
         // echo "<pre>"; print_r($data['author']);
         // exit();
         return view('web.blog.author')->with($data);

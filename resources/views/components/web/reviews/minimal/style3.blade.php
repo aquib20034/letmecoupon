@@ -1,10 +1,9 @@
-@if(isset($review) && (!empty($review)))
-<div class="cardStyle3">
+<div class="cardStyle2">
     <div class="card">
         <div class="card__wrapper">
-            <div class="card__left">
+            <div class="card__top">
                 <div class="card__thumbnail">
-                    <a href="{{ config('app.app_path') }}/{{ isset($review['slugs']['slug']) ? $review['slugs']['slug'] : '' }}" class="card__tag" aria-label="Visit review Page">
+                <a href="{{ config('app.app_path') }}/{{ isset($review['slugs']['slug']) ? $review['slugs']['slug'] : '' }}" class="card__tag" aria-label="Visit review Page">
                         <span>
                             {{ trans('sentence.review') }}
                         </span>
@@ -31,7 +30,7 @@
 
                 <div class="card__attributes">
 
-                    @if( ((isset($review['author']['first_name'])) && (($review['author']['first_name']) != ""))|| (isset($review['author']['last_name'])) && ($review['author']['last_name'] !="")) 
+                    @if((isset($review['author']['first_name'])) || (isset($review['author']['last_name']))) 
                         <span>
                             <a href="{{ config('app.app_path')}}/review/author/{{ isset($review['author']) ? $review['author']['id']:'' }}">
                                 {{ isset($review['author']['first_name']) ? $review['author']['first_name'].' ':'' }}
@@ -45,10 +44,10 @@
                         </span>
                     @else
                         <style>
-                            .cardStyle3 .card__attributes > *:nth-child(1):not(span)::before {
+                            .cardStyle2 .card__attributes > *:nth-child(1):not(span)::before {
                                 content: "";
                             }
-                            .cardStyle3 .card__attributes > *::before {
+                            .cardStyle2 .card__attributes > *::before {
                                 content: "";
                             }
                         </style>
@@ -68,4 +67,3 @@
         </div>
     </div>
 </div>
-@endif

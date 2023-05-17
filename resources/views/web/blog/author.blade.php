@@ -20,7 +20,7 @@
                         <div class="twoColumnLayout__shortColumn small">
                             <div class="sidebar sticky js-stickySidebar" style="top: -274px;">
                             <div class="sidebar__section">
-                                @web_component([ 'postfixes' => 'authors.sidebar.info.style2','data' => [ 'author' => $author] ])@endweb_component
+                                @web_component([ 'postfixes' => 'authors.sidebar.info.style2','data' => [ 'author' => $author, 'language' => isset($language) ? $language : "" ] ])@endweb_component
                             </div>
                         </div>
                     </div>

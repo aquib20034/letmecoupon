@@ -1,3 +1,8 @@
+@php
+    $blogs_recent = isset($web_settings['blogs_recent'])?unserialize($web_settings['blogs_recent']):[];
+@endphp
+
+@if(isset($blogs_recent['status']) && $blogs_recent['status'] == 'on')
 @if( isset($recent_blogs) && !empty($recent_blogs) )
 <div class="container-inner">
     <div>
@@ -16,4 +21,5 @@
     </div>
     @endif
 </div>
+@endif
 @endif

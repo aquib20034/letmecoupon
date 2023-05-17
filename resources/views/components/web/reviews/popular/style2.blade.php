@@ -1,3 +1,8 @@
+@php
+    $reviews_popular = isset($web_settings['reviews_popular'])?unserialize($web_settings['reviews_popular']):[];
+@endphp
+
+@if(isset($reviews_popular['status']) && $reviews_popular['status'] == 'on')
 <div class="container-inner">
     <div>
         <h2 class="heading-1">{{ trans('sentence.popular_reviews') }}</h2>
@@ -19,3 +24,4 @@
         </div>
     @endif
 </div>
+@endif

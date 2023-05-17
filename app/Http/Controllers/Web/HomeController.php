@@ -282,6 +282,40 @@ class HomeController extends Controller
                     ->toArray();
                 }
             );
+            
+
+            $data['trendingReview'] = Cache::remember(
+                "ReviewListingPage__TrendingReviews__{$siteid}",
+                3600,
+                function () use ($siteid) {
+                    return Review::select(
+                        'id',
+                        'title',
+                        'review_image',
+                        'created_at',
+                        'user_id'
+                    )
+                    ->with('user:id,name')
+                    ->with(['categories' => function ($query) {
+                        $query
+                            ->select(
+                                'id',
+                                'title',
+                                'slug'
+                            );
+                    }])
+                    // ->where('reviews.popular',1)
+                    ->where('reviews.trending',1)
+                    ->CustomWhereBasedData($siteid)
+                    ->orderBy('reviews.id', 'DESC')
+                    ->take(6)
+                    ->get()
+                    ->toArray();
+                }
+            );
+
+
+            
 
             $data['popularCategories'] = Cache::remember(
                 "CategoryListingPage__PopularCategories__{$siteid}",
@@ -331,14 +365,13 @@ class HomeController extends Controller
                     ->toArray();
                 }
             );
-            
+
             return response()->view('web.home.index', $data);
         } catch (\Exception $e) {
             dd($e);
             abort(404);
         }
     }
-
 
     public function _404()
     {
@@ -646,12 +679,6 @@ class HomeController extends Controller
                 }
             );
 
-
-
-
-
-
-            
             $page = Cache::remember(
                 "HomePage__CurrentPage__{$siteid}",
                 21600,
@@ -662,55 +689,13 @@ class HomeController extends Controller
                 }
             );
 
-
-            
             return response()->view('web.home.index', $data);
         } catch (\Exception $e) {
             dd($e);
             abort(404);
         }
     }
-/*
-    public function _404()
-    {
-        $data = [];
-        try {
-            $agent = new Agent();
 
-            $siteid = config('app.siteid');
-            $dt = Carbon::now();
-
-            $data['pageCss'] = 'error';
-
-            if ($agent->isMobile()) {
-                $limit['common'] = 4;
-                $limit['banner'] = 3;
-                $limit['categories'] = 5;
-            } else {
-                $limit['common'] = 8;
-                $limit['banner'] = 4;
-                $limit['categories'] = 10;
-            }
-            $date = $dt->toDateString();
-
-            $query = Coupon::select('id', 'store_id', 'description', 'title', 'date_expiry', 'on_going', 'viewed', 'code', 'featured', 'exclusive', 'verified', 'popular', 'affiliate_url', 'recommended', 'free_shipping')->CustomWhereBasedData($siteid);
-
-            $query = $query->where(function ($q) {
-                $q->orwhere('featured', 1)->orwhere('popular', 1)->orwhere('recommended', 1);
-            });
-
-            $data['topPopularCoupons'] = Coupon::select('id', 'title', 'description', 'date_expiry', 'on_going', 'viewed', 'code', 'featured', 'exclusive', 'verified', 'popular', 'affiliate_url', 'store_id', 'coupon_image', 'custom_image_title')
-                ->CustomWhereBasedData($siteid)->with('store.slugs')
-                ->where('featured', 1)->where(function ($q) use ($date) {
-                    return $q->where('date_expiry', '>=', $date)->orWhere('on_going', 1);
-                })->orderBy('sort', 'asc')->limit($limit['common'])->get()->toArray();
-
-            return view('web.home.index')->with($data);
-        } catch (\Exception $e) {
-            abort(404);
-        }
-    }
-*/
     public function network_verify()
     {
         $data = [];

@@ -1,3 +1,8 @@
+@php
+    $coupons_active = isset($web_settings['coupons_active'])?unserialize($web_settings['coupons_active']):[];
+@endphp
+
+@if(isset($coupons_active['status']) && $coupons_active['status'] == 'on')
 <div>
     <h2 class="heading-1">Active Coupons & Deals</h2>
 </div>
@@ -79,3 +84,4 @@
         @endif
     @endif
 </div>
+@endif

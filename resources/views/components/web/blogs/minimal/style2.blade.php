@@ -5,7 +5,7 @@
         <div class="card__wrapper">
             <div class="card__left">
                 <div class="card__thumbnail">
-                    <a href="{{ config('app.app_path') }}/{{ isset($blog['slugs']['slug']) ? ($blog['slugs']['slug']) : '' }}" class="card__tag" aria-label="Visit Blog Page">
+                    <a href="{{ config('app.app_path') }}/{{ isset($blog['slugs']['slug']) ? ($blog['slugs']['slug']) : '' }}" class="card__tag" aria-label="Visit Blog Page">    
                         <span>
                             {{trans('sentence.blog_page')}}
                         </span>
@@ -31,14 +31,33 @@
                 </div>
 
                 <div class="card__attributes">
-                    <span>
-                        <a href="{{ config('app.app_path')}}/blog/author/{{ isset($blog['author']['id']) ? $blog['author']['id']:'' }}">{{ isset($blog['author']['first_name']) ? $blog['author']['first_name'].' '.$blog['author']['last_name']:'' }}</a>
-                    </span>
-                    <span>
-                        @if(isset($blog['created_at']))
-                            {{date('j F Y', strtotime($blog['created_at']) ) }}
-                        @endif
-                    </span>
+                    @if((isset($blog['author']['first_name'])) || (isset($blog['author']['last_name']))) 
+                        <span>
+                            <a href="{{ config('app.app_path')}}/blog/author/{{ isset($blog['author']['id']) ? $blog['author']['id']:'' }}">
+                                {{ isset($blog['author']['first_name']) ? $blog['author']['first_name'].' ':'' }}
+                                {{ isset($blog['author']['last_name']) ? $blog['author']['last_name']:'' }}
+                            </a>
+                        </span>
+                        <span >
+                            @if(isset($blog['created_at']))
+                                {{date('j F Y', strtotime($blog['created_at']) ) }}
+                            @endif
+                        </span>
+                    @else
+                        <style>
+                            .cardStyle3 .card__attributes > *:nth-child(1):not(span)::before {
+                                content: "";
+                            }
+                            .cardStyle3 .card__attributes > *::before {
+                                content: "";
+                            }
+                        </style>
+                        <span>
+                            @if(isset($blog['created_at']))
+                                {{date('j F Y', strtotime($blog['created_at']) ) }}
+                            @endif
+                        </span>
+                    @endif
                 </div>
 
                 <div class="card__cta">

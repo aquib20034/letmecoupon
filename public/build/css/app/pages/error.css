@@ -887,7 +887,7 @@
   }
 }
 .errorBanner-v1 .errorBanner__image {
-  width: 1000%;
+  width: 100%;
   max-width: 500px;
   margin: 0 auto;
 }

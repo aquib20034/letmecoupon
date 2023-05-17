@@ -35,7 +35,7 @@
                             <div class="form-group col-md-12">
                                 <label for="categories_popular pull-left">Popular Categories Style</label>
                                 <div class="custom-control custom-switch custom-switch-lg pull-right">
-                                    <input type="checkbox" class="custom-control-input" name="categories_popular[status]" id="categories_popular_status" {{ ($websiteSetting->categories_popular ? $websiteSetting->categories_popular['status'] : old('categories_popular[status]')) === 'on' ? 'checked' : '' }}>
+                                    <input type="checkbox" class="custom-control-input" name="categories_popular[status]" id="categories_popular_status" {{ ($websiteSetting->categories_popular ? isset($websiteSetting->categories_popular['status'])?$websiteSetting->categories_popular['status']:old('categories_popular[status]') : old('categories_popular[status]')) === 'on' ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="categories_popular_status"></label>
                                 </div>
                                 <select class="form-control select2" name="categories_popular[style]" id="categories_popular" required>

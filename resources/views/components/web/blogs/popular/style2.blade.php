@@ -1,3 +1,8 @@
+@php
+    $blogs_popular = isset($web_settings['blogs_popular'])?unserialize($web_settings['blogs_popular']):[];
+@endphp
+
+@if(isset($blogs_popular['status']) && $blogs_popular['status'] == 'on')
 @if( isset($popular_blogs) && !empty($popular_blogs) )
 <div class="container-inner">
     <div>
@@ -15,4 +20,5 @@
         </div>
     </div>
 </div>
+@endif
 @endif

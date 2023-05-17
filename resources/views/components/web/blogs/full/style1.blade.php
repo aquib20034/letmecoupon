@@ -1,5 +1,5 @@
 <div>
-    <h2 class="heading-1 primary">{{ isset($category_data['title']) ? $category_data['title'] : '' }}</h2>
+    <h2 class="heading-1 primary">>{{ isset($category_data['title']) ? $category_data['title'] : '' }}</h2>
 </div>
 @if( isset($category_data['blogs']) && count($category_data['blogs']) > 0 )
 <div class="cardGrid-v2">

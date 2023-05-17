@@ -1,3 +1,8 @@
+@php
+    $coupons_expired = isset($web_settings['coupons_expired'])?unserialize($web_settings['coupons_expired']):[];
+@endphp
+
+@if(isset($coupons_expired['status']) && $coupons_expired['status'] == 'on')
 <div>
     <h2 class="heading-1">Expired Coupons & Deals</h2>
 </div>
@@ -74,3 +79,4 @@
         @endif
     @endif
 </div>
+@endif

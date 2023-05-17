@@ -1,3 +1,8 @@
+@php
+    $stores_popular = isset($web_settings['stores_popular'])?unserialize($web_settings['stores_popular']):[];
+@endphp
+
+@if(isset($stores_popular['status']) && $stores_popular['status'] == 'on')
 <div class="popularListing-v1">
     <div class="popularListing">
         <div class="popularListing__wrapper">
@@ -26,3 +31,4 @@
         </div>
     </div>
 </div>
+@endif

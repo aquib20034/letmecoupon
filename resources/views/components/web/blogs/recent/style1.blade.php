@@ -1,3 +1,8 @@
+@php
+    $blogs_recent = isset($web_settings['blogs_recent'])?unserialize($web_settings['blogs_recent']):[];
+@endphp
+
+@if(isset($blogs_recent['status']) && $blogs_recent['status'] == 'on')
 <div>
     <h2 class="heading-1">{{ trans('sentence.recent_blog') }}<!-- Recent Blogs --></h2>
 </div>
@@ -16,4 +21,5 @@
     <div>
         <h4>{{ trans('sentence.blogs_not_found') }}</h4>
     </div>
+@endif
 @endif

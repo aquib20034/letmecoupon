@@ -27,7 +27,8 @@
                     <div class="twoColumnLayout__wideColumn">
                         <section class="section pd-top-none">
                         @web_component([ 'postfixes' => 'blogs.full.style2','data' => ['author_blogs' => $author_blogs] ])@endweb_component
-                        </section></div></div>
+                        </section>
+                    </div>
                 </div>
             </div>
         </section>       

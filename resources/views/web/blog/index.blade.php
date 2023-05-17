@@ -41,25 +41,24 @@
 
                             <!-- Wide Column Starts Here -->
                             <div class="twoColumnLayout__wideColumn">
+                                @if(isset($category_data))
+                                    <!-- Recent Blogs Section Starts Here -->
+                                    <section class="section pd-top-none">
+                                        @web_component([ 'postfixes' => 'blogs.full.style1','data' => [ 'category_data' => $category_data ] ])@endweb_component
+                                    </section>
+                                @else
+                                    <!-- Popular Blogs Section Starts Here -->
+                                    <section class="section pd-top-none">
+                                        @web_component([ 'postfixes' => 'blogs.popular.style1','data' => ['popular_blogs' => $popular_blogs] ])@endweb_component
+                                    </section>
+                                    <!-- Popular Blogs Section Ends Here -->
 
-                            @if(isset($category_data))
-                                 <!-- Recent Blogs Section Starts Here -->
-                                 <section class="section pd-top-none">
-                                    @web_component([ 'postfixes' => 'blogs.full.style1','data' => [ 'category_data' => $category_data ] ])@endweb_component
-                                </section>
-                            @else
-                                <!-- Popular Blogs Section Starts Here -->
-                                <section class="section pd-top-none">
-                                    @web_component([ 'postfixes' => 'blogs.popular.style1','data' => ['popular_blogs' => $popular_blogs] ])@endweb_component
-                                </section>
-                                <!-- Popular Blogs Section Ends Here -->
-
-                                <!-- Recent Blogs Section Starts Here -->
-                                <section class="section">
-                                    @web_component([ 'postfixes' => 'blogs.recent.style1','data' => [ 'recent_blogs' => $recent_blogs ] ])@endweb_component
-                                </section>
-                                <!-- Recent Blogs Section Ends Here -->
-                            @endif
+                                    <!-- Recent Blogs Section Starts Here -->
+                                    <section class="section">
+                                        @web_component([ 'postfixes' => 'blogs.recent.style1','data' => [ 'recent_blogs' => $recent_blogs ] ])@endweb_component
+                                    </section>
+                                    <!-- Recent Blogs Section Ends Here -->
+                                @endif
                             </div>
                             <!-- Wide Column Ends Here -->
                         </div>

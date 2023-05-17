@@ -1,3 +1,4 @@
+@if(isset($review) && (!empty($review)))
 <div class="cardStyle3">
     <div class="card">
         <div class="card__wrapper">
@@ -31,7 +32,6 @@
                 <div class="card__attributes">
                     <span>
                         <a href="{{ config('app.app_path')}}/review/author/{{ isset($review['author']) ? $review['author']['id']:'' }}">{{ isset($review['author']) ? $review['author']['first_name'].' '.$review['author']['last_name']:'' }}</a>
-                        <!-- <a href="">{{ isset($review['user']['name']) ? $review['user']['name']:'' }}</a> -->
                     </span>
 
                     <span>
@@ -48,3 +48,4 @@
         </div>
     </div>
 </div>
+@endif

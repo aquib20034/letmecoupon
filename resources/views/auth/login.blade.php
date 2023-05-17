@@ -1,7 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card mx-4">
@@ -78,13 +76,15 @@
         </div>
     </div>
 </div>
+@endsection
 
+@section('scripts')
+<script src="{{ asset('js/jquery.min.js') }}"></script>
 <script>
     $(document).ready(function() {
-  $('form').submit(function() {
-    $('button[type="submit"]').prop('disabled', true);
-  });
-});
-
-    </script>
+        $('form').submit(function() {
+            $('button[type="submit"]').prop('disabled', true);
+        });
+    });
+</script>
 @endsection

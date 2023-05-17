@@ -3,7 +3,7 @@
     <div class="authorCard">
         <div class="authorCard__left">
             <figure>
-                <img src="{{ ($author['image']) ? $author['image'] : config('app.app_image') . '/build/images/author_placeholder.png' }}" alt="{{ $author['first_name'] }} {{ $author['last_name'] }}">
+                <img src="{{ ($author['image']) ? $author['image']['url'] : config('app.app_image') . '/build/images/author_placeholder.png' }}" alt="{{ $author['first_name'] }} {{ $author['last_name'] }}">
             </figure>
         </div>
         <div class="authorCard__right">

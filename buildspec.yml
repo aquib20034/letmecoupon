@@ -12,9 +12,9 @@ pipelines:
             AWS_ACCESS_KEY_ID: 'AKIARUWSZVWCMMQU7H4Z'
             AWS_SECRET_ACCESS_KEY: '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'
             AWS_DEFAULT_REGION: 'us-east-2'
-            APPLICATION_NAME: 'comparebyus'
-            ENVIRONMENT_NAME: 'comparebyus-env-1'
-            ZIP_FILE: 'comparebyus.zip'
+            APPLICATION_NAME: 'Letmecoupon'
+            ENVIRONMENT_NAME: 'Letmecoupon-env-1'
+            ZIP_FILE: 'letmecoupon.zip'
       # S3_BUCKET: '<string>' # Optional.
       # VERSION_LABEL: '<string>' # Optional.
       # DESCRIPTION: '<string>' # Optional.

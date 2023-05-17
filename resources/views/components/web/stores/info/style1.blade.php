@@ -49,7 +49,7 @@
 
                     <div class="storeInfoCard__subTitle">
                         <h2>
-                            {!! (isset($store_detail['short_description'])) ? (html_entity_decode($store_detail['short_description'])) : "" !!}
+                            {!! (isset($store_detail['short_description'])) ? html_entity_decode($store_detail['short_description']) : "" !!}
                         </h2>
                     </div>
 

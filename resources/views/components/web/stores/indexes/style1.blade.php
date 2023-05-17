@@ -12,7 +12,7 @@
                             @if($item)
                                 @foreach ($item as $k => $arrItem)
                                     <li class="storeBox__item">
-                                        <a href="{{ config('app.app_path') }}/{{ $arrItem['slugs']['slug'] ? $arrItem['slugs']['slug'] : '' }}" class="storeBox__link" aria-label="Visit {!! $arrItem['name'] ?? '' !!} Store Inner Page">
+                                        <a href="{{ config('app.app_path') }}/{{ $arrItem['slugs']['slug'] ? $arrItem['slugs']['slug'] : '' }}" class="storeBox__link" aria-label="Visit {!! $arrItem['name'] ?? '' !!} Store Inner Page">    
                                             {!! $arrItem['name'] ?? '' !!}
                                         </a>
                                     </li>

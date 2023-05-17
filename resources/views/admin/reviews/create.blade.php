@@ -154,7 +154,7 @@
             <div class="form-group">
                 <label for="author_id">Author</label>
                 <select class="form-control select2 {{ $errors->has('author_id') ? 'is-invalid' : '' }}" name="author_id" id="author_id">
-                    @if(isset($auhors) && (!(empty($auhors))))
+                    @if(isset($authors) && !empty($authors))
                         @foreach($authors as $id => $author)
                             <option value="{{ $id }}" {{ in_array($id, old('author_id', [])) ? 'selected' : '' }}>{{ $author }}</option>
                         @endforeach

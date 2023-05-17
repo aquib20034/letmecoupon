@@ -12,6 +12,8 @@ npm-debug.log
 yarn-error.log
 .phpintel
 .idea/
-node_modules/
 old/
-.*zip
+olddd/
+node_modules/
+*.rar
+storage/

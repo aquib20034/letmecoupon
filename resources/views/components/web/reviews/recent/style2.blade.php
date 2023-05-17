@@ -1,6 +1,11 @@
+@php
+    $reviews_recent = isset($web_settings['reviews_recent'])?unserialize($web_settings['reviews_recent']):[];
+@endphp
+
+@if(isset($reviews_recent['status']) && $reviews_recent['status'] == 'on')
 <div class="container-inner">
     <div>
-        <h2 class="heading-1">Recent Reviews</h2>
+        <h2 class="heading-1">{{ trans('sentence.recent_reviews') }}</h2>
     </div>
 
     @if( isset($latestReviews) && !empty($latestReviews) )
@@ -19,3 +24,4 @@
         </div>
     @endif
 </div>
+@endif

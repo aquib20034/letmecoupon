@@ -106,9 +106,9 @@ return [
 	'contact_success'					=> 'Thanks for contacting us! We will get back to you shortly.',
 
 	/*Store Page*/
-	 
 	'store'								=> 'Store',
 	'related_store'						=> 'Related Store',
+	'menu_store'						=> 'Store',
 	'menu_stores'						=> 'Stores',
 	'seasonal_deals'					=> 'Seasonal Deals',
 	'filter_by'							=> 'Filter By:',
@@ -184,8 +184,8 @@ return [
 	'review_view_all_categories'        => 'View All Blog Categories',
 	'reviews_not_found'					=> 'Reviews not Found',
 	'view_all_reviews'					=> 'All Reviews',
-	'related_blog'						=> 'Related Reviews',
-	'recent_blog'						=> 'Recent Reviews',
+	'related_reviews'					=> 'Related Reviews',
+	'recent_reviews'					=> 'Recent Reviews',
 	'review_page'                       => 'Blog',
 	'review_not_found'                  => 'Reviews Not Found',
 	'trending_blog'						=> 'Trending Reviews',
@@ -199,7 +199,5 @@ return [
 
 	'all_coupons'						=> 'Coupons',
 	"about_us"							=> "About Us",
-
 	'products_not_found'				=> 'Products not Found',
-
 ];

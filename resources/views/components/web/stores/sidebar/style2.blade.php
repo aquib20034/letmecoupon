@@ -1,8 +1,7 @@
-@if($relatedStores->store_details !== null)
+@if(isset($relatedStores->store_details) && !empty($relatedStores->store_details))
     <h2 class="sidebar__heading">
         {{ trans('sentence.related_store') }}
     </h2>
-
     @if(count($relatedStores->store_details) > 0)
         <div class="popularListing-v1">
             <div class="popularListing popularListing--grid-3">

@@ -24,7 +24,7 @@
                                 <!-- Sidebar Starts Here -->
                                 <div class="sidebar sticky js-stickySidebar">
                                     <!-- Sidebar Popular Stores Section Starts Here -->
-                                    @if (!empty($popular))
+                                    @if (isset($popular) && !empty($popular))
                                         <div class="sidebar__section">  
                                             <div class="popularListing-v1">
                                                 <div class="popularListing popularListing--grid-3">
@@ -46,7 +46,6 @@
                                     if (isset($list) && count($list) > 0) {
                                         foreach ($list as $item) {
                                             $letter = trim(strtolower($item['name'][0]));
-                                    
                                             if (ctype_alpha($letter)) {
                                                 if (isset($newArray[$letter])) {
                                                     $newArray[$letter][] = $item;
@@ -92,8 +91,9 @@
                                 <div class="storeListing-v1">
                                     <div class="storeListing">
                                         <div class="storeListing__heading">
-                                            <h1 class="heading-1 primary">{{ trans('sentence.cat_all_store') }}
+                                            <h1 class="heading-1 primary">
                                                 <!-- All Stores -->
+                                                {{ trans('sentence.cat_all_store') }}
                                             </h1>
                                         </div>
                                         <div class="storeListing__dropdown onlyMobile">
@@ -115,9 +115,6 @@
             </section>
             <!-- Two Column Layout Section Ends Here -->
 
-
-
-
             <!-- Newsletter Section Starts Here -->
             <section class="section">
                 <?php //include('../components/NewsLetterForm/Style1/index.php'); ?>
@@ -132,6 +129,4 @@
             <!-- Recent Blogs Section Ends Here -->
         </div>
     </div>
-
-
 @endsection

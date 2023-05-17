@@ -43,26 +43,24 @@
                             <!-- Wide Column Starts Here -->
                             <div class="twoColumnLayout__wideColumn">
                                 @if(isset($category_data))
-                                    <!-- Recent Blogs Section Starts Here -->
+                                    <!-- Category Reviews Section Starts Here -->
                                     <section class="section pd-top-none">
                                         @web_component([ 'postfixes' => 'reviews.full.style1','data' => [ 'category_data' => $category_data ] ])@endweb_component
                                     </section>
+                                    <!-- Category Reviews Section End Here -->
                                 @else
-                                   <!-- Popular Reviews Section Starts Here -->
-                                   <section class="section pd-top-none">
-                                    @web_component([ 'postfixes' => 'reviews.popular.style1','data' => ['popular_reviews'=>$popularReviews] ])@endweb_component
+                                    <!-- Popular Reviews Section Starts Here -->
+                                    <section class="section pd-top-none">
+                                        @web_component([ 'postfixes' => 'reviews.popular.style1','data' => ['popular_reviews' => $popularReviews] ])@endweb_component
                                     </section>
                                     <!-- Popular Reviews Section Ends Here -->
 
                                     <!-- Recent Reviews Section Starts Here -->
                                     <section class="section">
-                                        @web_component([ 'postfixes' => 'reviews.recent.style1','data' => ['latestReviews'=>$latestReviews]  ])@endweb_component
+                                        @web_component([ 'postfixes' => 'reviews.recent.style1','data' => [ 'latestReviews' => $latestReviews ] ])@endweb_component
                                     </section>
                                     <!-- Recent Reviews Section Ends Here -->
-
                                 @endif
-                                
-                             
                             </div>
                             <!-- Wide Column Ends Here -->
                         </div>

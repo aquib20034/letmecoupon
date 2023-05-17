@@ -18,9 +18,7 @@
             <div class="section">
                 <div class="container-inner">
                     <div>
-                        <h2 class="heading-1 primary">
-                            {{trans('sentence.all_cats')}}
-                        </h2>
+                        <h2 class="heading-1 primary">{{trans('sentence.all_cats')}}</h2>
                     </div>
 
                     <div class="popularListing-v1">
@@ -28,9 +26,9 @@
                             <div class="popularListing__wrapper">
                                 <div class="popularListing__content">
                                     <ul class="popularListing__list">
-                                        @if(isset($catsWithChilds) && (!empty($catsWithChilds)))
+                                        @if(isset($catsWithChilds) && !empty($catsWithChilds))
                                             @foreach ($catsWithChilds as $category)
-                                                @if ((isset($category['category_stores_count']))  && ($category['category_stores_count'] > 0))
+                                                @if (isset($category['category_stores_count'])  && $category['category_stores_count'] > 0)
                                                     <?php $variant = '1'; ?>
                                                     <li class="popularListing__listItem">
                                                         <?php //include('../components/Cards/Style4/index.php'); ?>
@@ -69,9 +67,8 @@
                             </div>
 
                             <div class="popularListing__content">
-                                <ul class="popularListing__list" onmousedown="mouseDownHandler(this, event)" onmouseup="mouseUpHandler(this)" ontouchend="mouseUpHandler(this)" ontouchstart="mouseDownHandler(this, event)">
-                              
-                                    @if ((isset($popularStores)) && (!empty($popularStores))) 
+                                <ul class="popularListing__list" onmousedown="mouseDownHandler(this, event)" onmouseup="mouseUpHandler(this)" ontouchend="mouseUpHandler(this)" ontouchstart="mouseDownHandler(this, event)">                            
+                                    @if (isset($popularStores) && !empty($popularStores)) 
                                         @foreach ($popularStores as $store)
                                             @if ($category['category_stores_count'] > 0)
                                                 <?php $variant = '2'; ?>

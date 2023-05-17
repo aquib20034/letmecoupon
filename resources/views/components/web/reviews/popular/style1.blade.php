@@ -1,5 +1,10 @@
+@php
+    $reviews_popular = isset($web_settings['reviews_popular'])?unserialize($web_settings['reviews_popular']):[];
+@endphp
+
+@if(isset($reviews_popular['status']) && $reviews_popular['status'] == 'on')
 <div>
-    <h2 class="heading-1">{{ trans('sentence.popular_reviews') }}</h2>
+    <h2 class="heading-1 primary">{{ trans('sentence.popular_reviews') }}</h2>
 </div>
 
 @if( isset($popular_reviews) && !empty($popular_reviews) )
@@ -16,4 +21,5 @@
     <div>
         <h4>{{ trans('sentence.reviews_not_found') }}</h4>
     </div>
+@endif
 @endif

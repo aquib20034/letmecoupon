@@ -41,6 +41,15 @@
                                     <div class="popularListing__gridCta onlyMobile">
                                         <a href="{{ config('app.app_path') }}/category" class="btn-1" aria-label="View All">View All</a>
                                     </div>
+
+                                    @if (request()->has('view_all'))
+                                        <!-- do something -->
+                                    @else
+                                        <div class="popularListing__gridCta">
+                                            <a href="{{ config('app.app_path') }}/category?view_all=true" class="btn-1" aria-label="View All">View All</a>
+                                        </div>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>

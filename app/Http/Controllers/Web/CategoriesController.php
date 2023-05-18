@@ -30,23 +30,51 @@ class CategoriesController extends Controller
 
             $data['eligibleCategories'] = 0;
 
-            $data['catsWithChilds'] = Cache::remember(
-                "CategoryListingPage__CategoryList__{$siteid}",
-                21600,
-                function () use ($siteid) {
-                    return Category::select(
-                        'id',
-                        'title',
-                        'category_image'
-                    )
-                        ->CustomWhereBasedData($siteid)
-                        ->whereNull('parent_id')
-                        ->with('children')
-                        ->withCount('categoryStores')
-                        ->get()
-                        ->toArray();
-                }
-            );
+            Cache::forget("CategoryListingPage__CategoryList__{$siteid}");
+            if (request()->has('view_all')) {
+                // dd("if");
+                $data['catsWithChilds'] = Cache::remember(
+                    "CategoryListingPage__CategoryList__{$siteid}",
+                    21600,
+                    function () use ($siteid) {
+                        return Category::select(
+                            'id',
+                            'title',
+                            'category_image'
+                        )
+                            ->CustomWhereBasedData($siteid)
+                            ->whereNull('parent_id')
+                            ->with('children')
+                            ->withCount('categoryStores')
+                            ->get()
+                            ->toArray();
+                    }
+                );
+
+            }else{
+                // dd("else");
+                $data['catsWithChilds'] = Cache::remember(
+                    "CategoryListingPage__CategoryList__{$siteid}",
+                    21600,
+                    function () use ($siteid) {
+                        return Category::select(
+                            'id',
+                            'title',
+                            'category_image'
+                        )
+                            ->CustomWhereBasedData($siteid)
+                            ->whereNull('parent_id')
+                            ->with('children')
+                            ->withCount('categoryStores')
+                            ->take(12)
+                            ->get()
+                            ->toArray();
+                    }
+                );
+
+            }
+
+            
 
             foreach ($data['catsWithChilds'] as $category) :
                 if ($category['category_stores_count']) $data['eligibleCategories']++;
